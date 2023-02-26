@@ -22,7 +22,7 @@ const NewsView = () => {
       .finally(() => setIsLoading(false))
   }, [])
 
-  
+
 
 
 
@@ -54,7 +54,7 @@ const NewsView = () => {
                     {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
                   </Text>
                   <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                    {item.categoty}
+                    {item.category}
                   </Text>
                 </View>
               </TouchableOpacity>

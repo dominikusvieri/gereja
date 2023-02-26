@@ -1,6 +1,6 @@
 import { View, Text, Image, TextInput, StyleSheet, Button, TouchableOpacity } from 'react-native'
 import React from 'react'
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 const LoginScreen = () => {
     const navigation = useNavigation()
@@ -10,16 +10,16 @@ const LoginScreen = () => {
                 <TextInput
                     placeholder='Enter Email'
                     style={styles.input}
-                    // value={email}
-                    // onChangeText={(text) => setEmail(text)}
+                // value={email}
+                // onChangeText={(text) => setEmail(text)}
                 />
 
                 <TextInput
                     placeholder='Enter Password'
                     secureTextEntry={true}
                     style={styles.input}
-                    // value={password}
-                    // onChangeText={(text) => setPassword(text)}
+                // value={password}
+                // onChangeText={(text) => setPassword(text)}
                 />
 
                 <Button title='Login' onPress={() => navigation.navigate('BottomNavigation')} />
@@ -33,6 +33,18 @@ const LoginScreen = () => {
                             Register
                         </Text>
                     </TouchableOpacity>
+
+                </View>
+                <View style={styles.registerStyle}>
+                    <Text>
+                        Forget password ? 
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('forgetPass')}>
+                        <Text style={styles.link}>
+                            Click here
+                        </Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
         </View>
