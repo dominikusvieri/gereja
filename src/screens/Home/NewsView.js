@@ -15,17 +15,13 @@ const NewsView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch('https://fakestoreapi.com/products')
-      .then(response => response.json())
-      .then(json => setNewsData(json))
+    axios.get('https://fakestoreapi.com/products')
+      .then(response => response.data)
+      .then(res => setNewsData(res))
       .catch(error => console.error(error))
-      .finally(() => setIsLoading(false))
+      .finally(() => setIsLoading(false)) 
+      
   }, [])
-
-
-
-
-
 
   return (
     <ScrollView style={styles.main}>
@@ -45,6 +41,7 @@ const NewsView = () => {
                 onPress={() => navigation.navigate('DetailNews', { param: item })}
                 style={{ flexDirection: 'row', marginBottom: 5, padding: 5, marginTop: 10 }}
               >
+                
                 <Image
                   source={{ uri: item.image }}
                   style={{ width: 50, height: 50 }}

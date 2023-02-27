@@ -15,12 +15,20 @@ const EventView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch('https://fakestoreapi.com/products')
-      .then(response => response.json())
-      .then(json => setNewsData(json))
+    axios.get('https://fakestoreapi.com/products')
+      .then(response => response.data)
+      .then(res => setNewsData(res))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
   }, [])
+
+  const renderLoader = () => {
+    return (
+      <View className="items-center justify-center">
+        <ActivityIndicator size="large" color="#0885F8" />
+      </View>
+    )
+  }
 
 
   return (
@@ -41,6 +49,7 @@ const EventView = () => {
                 onPress={() => navigation.navigate('DetailEvent', { param: item })}
                 style={{ flexDirection: 'row', marginBottom: 5, padding: 5, marginTop: 10 }}
               >
+
                 <Image
                   source={{ uri: item.image }}
                   style={{ width: 50, height: 50 }}
@@ -66,6 +75,7 @@ const EventView = () => {
                 />
               );
             }}
+            ListFooterComponent={renderLoader}
           />
 
       }
