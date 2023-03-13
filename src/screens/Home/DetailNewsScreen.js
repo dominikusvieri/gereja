@@ -16,6 +16,7 @@ const DetailNewsScreen = ({ route }) => {
                 <Text style={{ textAlign: 'center', fontWeight: 'bold', marginVertical: 10 }}>
                     {data?.title}
                 </Text>
+                
                 <Text style={{ textAlign: 'justify', marginTop:10  }}>
                     {data?.description}
                     jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj

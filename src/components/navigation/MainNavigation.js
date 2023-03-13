@@ -15,10 +15,10 @@ const MainNavigation = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
                 <Stack.Screen name='login' component={LoginScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='register' component={RegisterScreen} options={{ title: 'Register' }} />
                 <Stack.Screen name='forgetPass' component={ForgetMain} options={{ title: 'Forget Password' }}/>
-                <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
                 <Stack.Screen name='DetailNews' component={DetailNewsScreen} options={{ title: 'Berita Terkini' }} />
                 <Stack.Screen name='DetailEvent' component={DetailEventScreen} options={{ title: 'Event Terkini' }} />
             </Stack.Navigator>

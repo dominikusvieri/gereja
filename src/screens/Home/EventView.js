@@ -32,7 +32,7 @@ const EventView = () => {
 
 
   return (
-    <ScrollView style={styles.main}>
+    <View style={styles.main}>
       <Text style={styles.sectionHeader}>
         Event Terkini Gereja
       </Text>
@@ -59,7 +59,7 @@ const EventView = () => {
                     {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
                   </Text>
                   <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                    {item.category}
+                    {item.category} / tanggal
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -80,7 +80,7 @@ const EventView = () => {
 
       }
 
-    </ScrollView>
+    </View>
   )
 }
 

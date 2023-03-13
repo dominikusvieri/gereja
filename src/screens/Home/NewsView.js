@@ -24,7 +24,7 @@ const NewsView = () => {
   }, [])
 
   return (
-    <ScrollView style={styles.main}>
+    <View style={styles.main}>
       <Text style={styles.sectionHeader}>
         Kabar Terkini Gereja
       </Text>
@@ -51,7 +51,7 @@ const NewsView = () => {
                     {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
                   </Text>
                   <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                    {item.category}
+                    {item.category} / tanggal
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -71,7 +71,7 @@ const NewsView = () => {
 
       }
 
-    </ScrollView>
+    </View>
   )
 }
 
