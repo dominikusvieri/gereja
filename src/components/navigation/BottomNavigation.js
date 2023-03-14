@@ -23,11 +23,11 @@ const BottomNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             const iconSource = focused ?
-              require('../../../assets/HomeActive.svg') :
-              require('../../../assets/HomeInactive.svg');
+              require('../../../assets/HomeActive.png') :
+              require('../../../assets/HomeInactive.png');
             return (
               <View>
-                <Image style={{ width: 24, height: 20, resizeMode: 'stretch' }} source={iconSource} />
+                <Image style={{ width: 24, height: 20, resizeMode: 'contain' }} source={iconSource} />
               </View>
             )
           }
@@ -40,11 +40,11 @@ const BottomNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             const iconSource = focused ?
-              require('../../../assets/CommunityActive.svg') :
-              require('../../../assets/CommunityInactive.svg');
+              require('../../../assets/CommunityActive.png') :
+              require('../../../assets/CommunityInactive.png');
             return (
               <View>
-                <Image style={{ width: 24, height: 20, resizeMode: 'stretch' }} source={iconSource} />
+                <Image style={{ width: 24, height: 20, resizeMode: 'contain' }} source={iconSource} />
               </View>
             )
           }
@@ -57,11 +57,11 @@ const BottomNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             const iconSource = focused ?
-              require('../../../assets/MinistryActive.svg') :
-              require('../../../assets/MinistryInactive.svg');
+              require('../../../assets/MinistryActive.png') :
+              require('../../../assets/MinistryInactive.png');
             return (
               <View>
-                <Image style={{ width: 24, height: 20, resizeMode: 'stretch' }} source={iconSource} />
+                <Image style={{ width: 24, height: 20, resizeMode: 'contain' }} source={iconSource} />
               </View>
             )
           }
@@ -74,11 +74,11 @@ const BottomNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             const iconSource = focused ?
-              require('../../../assets/MediaActive.svg') :
-              require('../../../assets/MediaInactive.svg');
+              require('../../../assets/MediaActive.png') :
+              require('../../../assets/MediaInactive.png');
             return (
               <View>
-                <Image style={{ width: 24, height: 20, resizeMode: 'stretch' }} source={iconSource} />
+                <Image style={{ width: 24, height: 20, resizeMode: 'contain' }} source={iconSource} />
               </View>
             )
           }
@@ -91,11 +91,11 @@ const BottomNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             const iconSource = focused ?
-              require('../../../assets/ProfileActive.svg') :
-              require('../../../assets/ProfileInactive.svg');
+              require('../../../assets/ProfileActive.png') :
+              require('../../../assets/ProfileInactive.png');
             return (
               <View>
-                <Image style={{ width: 24, height: 20, resizeMode: 'stretch' }} source={iconSource} />
+                <Image style={{ width: 24, height: 20, resizeMode: 'contain' }} source={iconSource} />
               </View>
             )
           }
