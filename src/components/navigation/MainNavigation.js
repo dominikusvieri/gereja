@@ -8,6 +8,7 @@ import BottomNavigation from './BottomNavigation'
 import DetailNewsScreen from '../../screens/Home/DetailNewsScreen'
 import DetailEventScreen from '../../screens/Home/DetailEventScreen'
 import ForgetMain from '../../screens/ForgetPass/ForgetMain'
+import DetailCommunity from '../../screens/Community/DetailCommunity'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,6 +22,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='forgetPass' component={ForgetMain} options={{ title: 'Forget Password' }}/>
                 <Stack.Screen name='DetailNews' component={DetailNewsScreen} options={{ title: 'Berita Terkini' }} />
                 <Stack.Screen name='DetailEvent' component={DetailEventScreen} options={{ title: 'Event Terkini' }} />
+                <Stack.Screen name='DetailComm' component={DetailCommunity} options={{ title: 'Komunitas Gereja' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

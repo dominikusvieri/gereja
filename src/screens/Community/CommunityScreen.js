@@ -48,7 +48,8 @@ const CommunityScreen = () => {
                     <CardCommunityContainer
                       key={i}
                       imageSrc={data.image}
-                      title="Komunity"
+                      title={data.title}
+                      data={data}
                     />
                   ))}
                 </>) :
