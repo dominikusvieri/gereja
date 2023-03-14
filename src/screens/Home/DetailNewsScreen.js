@@ -19,9 +19,6 @@ const DetailNewsScreen = ({ route }) => {
                 
                 <Text style={{ textAlign: 'justify', marginTop:10  }}>
                     {data?.description}
-                    jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-                        sss
-                    jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
                 </Text>
             </ScrollView>
         </SafeAreaView>
