@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontWeight: '600',
-    fontSize: 16
+    fontSize: 16,
+    marginBottom: 10
   },
   itemCard: {
     marginTop: 10,

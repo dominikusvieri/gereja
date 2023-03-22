@@ -1,7 +1,9 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 const MinistryScreen = () => {
+  const navigation = useNavigation()
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerStyle}>
@@ -13,6 +15,62 @@ const MinistryScreen = () => {
             Gereja Isa Almasih Jemaat Purwodadi
           </Text>
         </View>
+      </View>
+      <View
+        style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap:'wrap', justifyContent:'space-between' }}
+      >
+
+        <TouchableOpacity
+          
+          onPress={() => navigation.navigate('PernikahanDetail')}
+        >
+          <Image
+            source={require('../../../assets/icon.png')}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+          />
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Pernikahan
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+         
+          onPress={() => navigation.navigate('PernikahanDetail')}
+        >
+          <Image
+            source={require('../../../assets/icon.png')}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+          />
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Pernikahan
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          
+          onPress={() => navigation.navigate('PernikahanDetail')}
+        >
+          <Image
+            source={require('../../../assets/icon.png')}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+          />
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Pernikahan
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          
+          onPress={() => navigation.navigate('PernikahanDetail')}
+        >
+          <Image
+            source={require('../../../assets/icon.png')}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+          />
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Pernikahan
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
