@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, SafeAreaView, TextInput, Button } from 'react-native'
+import { View, Text, ScrollView, SafeAreaView, TextInput, Button, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -11,7 +11,7 @@ const PernikahanDetail = () => {
     const [selectedKPK, setSelectedKPK] = useState(null);
     const [babtis, setBabtis] = useState('')
     const [pernahPelayanan, setPernahPelayanan] = useState('')
-    
+
     const navigation = useNavigation()
 
     useEffect(() => {
@@ -29,6 +29,9 @@ const PernikahanDetail = () => {
     return (
         <SafeAreaView style={{ backgroundColor: '#fff', flex: 1, marginBottom: 20 }}>
             <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
+                <Text style={{ fontWeight: '500', fontSize: 18 }}>
+                    Mempelai Pria
+                </Text>
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
                     Nama
                 </Text>
@@ -41,7 +44,7 @@ const PernikahanDetail = () => {
                     Tempat, Tanggal Lahir
                 </Text>
                 <TextInput
-                    placeholder='Masukkan Nama'
+                    placeholder='Contoh: Jakarta, 10-01-1999'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
 
                 />
@@ -50,7 +53,7 @@ const PernikahanDetail = () => {
                     Alamat
                 </Text>
                 <TextInput
-                    placeholder='Masukkan Nama'
+                    placeholder='Masukkan Alamat'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
                 />
 
@@ -72,7 +75,7 @@ const PernikahanDetail = () => {
                     Pekerjaan
                 </Text>
                 <TextInput
-                    placeholder='Masukkan Nama'
+                    placeholder='Masukkan Pekerjaan'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
                 />
 
@@ -87,37 +90,37 @@ const PernikahanDetail = () => {
                 {
                     babtis == '' ? (
                         <></>
-                    ):
-                    babtis == 'belum' ?
-                        (<>
-                            <View>
-                                <Text style={{ color: 'red' }}>*Silahkan dibabtis terlebih dahulu</Text>
-                            </View>
-                        </>) : (<>
-                            <View>
-                                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                    Nomor Induk Jemaat
-                                </Text>
-                                <TextInput
-                                    placeholder='Masukkan Nama'
-                                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
-                                />
+                    ) :
+                        babtis == 'belum' ?
+                            (<>
+                                <View>
+                                    <Text style={{ color: 'red' }}>*Silahkan dibabtis terlebih dahulu</Text>
+                                </View>
+                            </>) : (<>
+                                <View>
+                                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                        Nomor Induk Jemaat
+                                    </Text>
+                                    <TextInput
+                                        placeholder='Masukkan Nomor Induk Jemaat'
+                                        style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                                    />
 
-                                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                    KPK Wilayah
-                                </Text>
-                                <Picker
-                                    style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
-                                    selectedValue={selectedKPK}
-                                    onValueChange={(itemValue, itemIndex) =>
-                                        setSelectedKPK(itemValue)
-                                    }>
-                                    {nationalities.map(nationality => (
-                                        <Picker.Item key={nationality} label={nationality} value={nationality} />
-                                    ))}
-                                </Picker>
-                            </View>
-                        </>)
+                                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                        KPK Wilayah
+                                    </Text>
+                                    <Picker
+                                        style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
+                                        selectedValue={selectedKPK}
+                                        onValueChange={(itemValue, itemIndex) =>
+                                            setSelectedKPK(itemValue)
+                                        }>
+                                        {nationalities.map(nationality => (
+                                            <Picker.Item key={nationality} label={nationality} value={nationality} />
+                                        ))}
+                                    </Picker>
+                                </View>
+                            </>)
                 }
 
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -150,7 +153,9 @@ const PernikahanDetail = () => {
                         </>
                     )
                 }
-                <Button title='Submit' color={'#0885F8'}  onPress={() => navigation.navigate('BottomNavigation')} />
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('BottomNavigation')} >
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
+                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     )
