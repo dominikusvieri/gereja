@@ -15,6 +15,8 @@ import PenyerahanAnak from '../../screens/Ministry/PenyerahanAnak/PenyerahanAnak
 import DataPribadi from '../../screens/Ministry/PenyerahanAnak/DataPribadi'
 import AbsensiBabtisan from '../../screens/Ministry/AbsensiBabtisan'
 import AbsensiPranikah from '../../screens/Ministry/AbsensiPranikah'
+import AccountRegister from '../../screens/Register/Steps/AccountRegister'
+import BiodataRegister from '../../screens/Register/Steps/BiodataRegister'
 
 const Stack = createNativeStackNavigator()
 
@@ -25,7 +27,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
                 <Stack.Screen name='login' component={LoginScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='register' component={RegisterScreen} options={{ title: 'Register' }} />
-                <Stack.Screen name='forgetPass' component={ForgetMain} options={{ title: 'Forget Password' }}/>
+                <Stack.Screen name='forgetPass' component={ForgetMain} options={{ title: 'Forget Password' }} />
                 <Stack.Screen name='DetailNews' component={DetailNewsScreen} options={{ title: 'Berita Terkini' }} />
                 <Stack.Screen name='DetailEvent' component={DetailEventScreen} options={{ title: 'Event Terkini' }} />
                 <Stack.Screen name='DetailComm' component={DetailCommunity} options={{ title: 'Komunitas Gereja' }} />

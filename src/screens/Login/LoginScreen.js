@@ -26,7 +26,7 @@ const LoginScreen = () => {
 
                 <View style={styles.registerStyle}>
                     <Text>
-                        Dont have an account?
+                        {'Dont have an account? '}
                     </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('register')}>
                         <Text style={styles.link}>
@@ -37,7 +37,7 @@ const LoginScreen = () => {
                 </View>
                 <View style={styles.registerStyle}>
                     <Text>
-                        Forget password ? 
+                        {'Forgot password? '}
                     </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('forgetPass')}>
                         <Text style={styles.link}>
