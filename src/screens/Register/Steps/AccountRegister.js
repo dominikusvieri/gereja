@@ -16,34 +16,44 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
     const [isInputValid, setIsInputValid] = useState(false)
 
     useEffect(() => {
-        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        const inputDebounce = setTimeout(() => {
+            const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+            if (emailRegex.test(data.email) || !data.email) {
+                setIsEmailError(false)
+            }
+            else {
+                setIsEmailError(true)
+            }
+        }, 500);
 
-        if (emailRegex.test(data.email) || !data.email) {
-            setIsEmailError(false)
-        }
-        else {
-            setIsEmailError(true)
-        }
+        return () => clearTimeout(inputDebounce);
     }, [data.email])
 
     useEffect(() => {
-        const passwordRegex = /^(?=.*\d).{6,}$/;
+        const inputDebounce = setTimeout(() => {
+            const passwordRegex = /^(?=.*\d).{6,}$/;
+            if (passwordRegex.test(data.password) || !data.password) {
+                setIsPasswordError(false)
+            }
+            else {
+                setIsPasswordError(true)
+            }
+        }, 500);
 
-        if (passwordRegex.test(data.password) || !data.password) {
-            setIsPasswordError(false)
-        }
-        else {
-            setIsPasswordError(true)
-        }
+        return () => clearTimeout(inputDebounce);
     }, [data.password])
 
     useEffect(() => {
-        if ((data.password === data.retypePassword) || !data.retypePassword) {
-            setIsRetypePasswordError(false)
-        }
-        else {
-            setIsRetypePasswordError(true)
-        }
+        const inputDebounce = setTimeout(() => {
+            if ((data.password === data.retypePassword) || !data.retypePassword) {
+                setIsRetypePasswordError(false)
+            }
+            else {
+                setIsRetypePasswordError(true)
+            }
+        }, 500);
+
+        return () => clearTimeout(inputDebounce);
     }, [data.retypePassword])
 
     function validateInput() {
@@ -115,7 +125,6 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
             <TouchableOpacity
                 style={styles.nextButton}
                 onPress={validateInput}
-                disabled={isEmailError || isPasswordError || isRetypePasswordError}
             >
                 <Text style={styles.nextText}>Selanjutnya</Text>
             </TouchableOpacity>
