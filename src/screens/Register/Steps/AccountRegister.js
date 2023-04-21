@@ -8,8 +8,6 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
     const [isRetypePasswordError, setIsRetypePasswordError] = useState(true)
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
 
-    console.log(data);
-
     useEffect(() => {
         if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
             setIsNextButtonDisabled(false)

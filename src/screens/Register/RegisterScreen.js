@@ -32,11 +32,20 @@ const RegisterScreen = () => {
         setStep((n) => n - 1)
     }
 
-    function handleInputChange(e, name) {
-        setRegistrationData({
-            ...registrationData,
-            [name]: e
-        })
+    const handleInputChange = (e, name) => {
+        if (name === "nik" || name === "noKk" || name === "telepon") {
+            const onlyNumber = e.replace(/[^0-9]/g, '');
+            setRegistrationData({
+                ...registrationData,
+                [name]: onlyNumber
+            })
+        }
+        else {
+            setRegistrationData({
+                ...registrationData,
+                [name]: e
+            })
+        }
     }
 
     function renderPageByStep() {

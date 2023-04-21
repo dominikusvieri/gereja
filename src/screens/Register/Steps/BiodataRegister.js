@@ -46,6 +46,7 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                 <TextInput
                     placeholder='Telepon'
                     style={styles.input}
+                    keyboardType="numeric"
                     value={data.telepon}
                     onChangeText={(e) => handleInputChange(e, 'telepon')}
                 />
