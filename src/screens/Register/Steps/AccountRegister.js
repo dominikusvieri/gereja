@@ -3,49 +3,44 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function AccountRegister({ nextPage, data, handleInputChange }) {
-    const navigation = useNavigation()
+    const [isEmailError, setIsEmailError] = useState(true)
+    const [isPasswordError, setIsPasswordError] = useState(true)
+    const [isRetypePasswordError, setIsRetypePasswordError] = useState(true)
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
-    const [isEmailError, setIsEmailError] = useState(null)
-    const [isPasswordError, setIsPasswordError] = useState(null)
-    const [isRetypePasswordError, setIsRetypePasswordError] = useState(null)
-    const [inputValidation, setInputValidation] = useState({
-        email: false,
-        password: false,
-        retypePassword: false
-    })
-    const [isInputValid, setIsInputValid] = useState(false)
+
+    console.log(data);
+
+    useEffect(() => {
+        if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
+            setIsNextButtonDisabled(false)
+        }
+        else {
+            setIsNextButtonDisabled(true)
+        }
+    }, [isEmailError, isPasswordError, isRetypePasswordError])
 
     useEffect(() => {
         const inputDebounce = setTimeout(() => {
+            // Email validation
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-            if (emailRegex.test(data.email) || !data.email) {
+            if (emailRegex.test(data.email) && data.email) {
                 setIsEmailError(false)
             }
             else {
                 setIsEmailError(true)
             }
-        }, 500);
 
-        return () => clearTimeout(inputDebounce);
-    }, [data.email])
-
-    useEffect(() => {
-        const inputDebounce = setTimeout(() => {
+            // Password validation
             const passwordRegex = /^(?=.*\d).{6,}$/;
-            if (passwordRegex.test(data.password) || !data.password) {
+            if (passwordRegex.test(data.password) && data.password) {
                 setIsPasswordError(false)
             }
             else {
                 setIsPasswordError(true)
             }
-        }, 500);
 
-        return () => clearTimeout(inputDebounce);
-    }, [data.password])
-
-    useEffect(() => {
-        const inputDebounce = setTimeout(() => {
-            if ((data.password === data.retypePassword) || !data.retypePassword) {
+            // Retype password validation
+            if ((data.password === data.retypePassword) && data.retypePassword) {
                 setIsRetypePasswordError(false)
             }
             else {
@@ -54,25 +49,11 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
         }, 500);
 
         return () => clearTimeout(inputDebounce);
-    }, [data.retypePassword])
+    }, [data])
 
     function validateInput() {
-        if (/(.+)@(.+){2,}\.(.+){2,}/.test(data.email)) {
-            setIsEmailError(() => false)
-        } else {
-            setIsEmailError(() => true)
-        }
-
-        if (data.password) {
-            setIsPasswordError(() => false)
-        } else {
-            setIsPasswordError(() => true)
-        }
-
-        if (data.retypePassword && (data.retypePassword === data.password)) {
-            setIsRetypePasswordError(() => false)
-        } else {
-            setIsRetypePasswordError(() => true)
+        if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
+            nextPage()
         }
     }
 
@@ -87,12 +68,12 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
 
             <TextInput
                 placeholder='Email'
-                style={[!isEmailError ? styles.input : styles.inputError, { marginBottom: isEmailError ? 4 : 12 }]}
+                style={[!isEmailError || !data.email ? styles.input : styles.inputError, { marginBottom: isEmailError && data.email ? 4 : 12 }]}
                 value={data.email}
                 onChangeText={(e) => handleInputChange(e, 'email')}
                 autoCapitalize="none"
             />
-            {isEmailError &&
+            {isEmailError && data.email &&
                 <Text style={styles.emailValidInfo}>
                     Email tidak valid
                 </Text>
@@ -100,11 +81,11 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
 
             <TextInput
                 placeholder='Password'
-                style={[!isPasswordError ? styles.input : styles.inputError, { marginBottom: isPasswordError ? 4 : 12 }]}
+                style={[!isPasswordError || !data.password ? styles.input : styles.inputError, { marginBottom: isPasswordError && data.password ? 4 : 12 }]}
                 secureTextEntry
                 onChangeText={(e) => handleInputChange(e, 'password')}
             />
-            {isPasswordError &&
+            {isPasswordError && data.password &&
                 <Text style={styles.emailValidInfo}>
                     Minimal terdiri dari 6 karakter dan 1 angka
                 </Text>
@@ -112,19 +93,20 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
 
             <TextInput
                 placeholder='Ulangi password'
-                style={[!isRetypePasswordError ? styles.input : styles.inputError, { marginBottom: isRetypePasswordError ? 4 : 12 }]}
+                style={[!isRetypePasswordError || !data.retypePassword ? styles.input : styles.inputError, { marginBottom: isRetypePasswordError && data.retypePassword ? 4 : 12 }]}
                 secureTextEntry
                 onChangeText={(e) => handleInputChange(e, 'retypePassword')}
             />
-            {isRetypePasswordError &&
+            {isRetypePasswordError && data.retypePassword &&
                 <Text style={styles.emailValidInfo}>
                     Password tidak sama
                 </Text>
             }
 
             <TouchableOpacity
-                style={styles.nextButton}
+                style={!isNextButtonDisabled ? styles.nextButton : styles.nextButtonDisabled}
                 onPress={validateInput}
+                disabled={isNextButtonDisabled}
             >
                 <Text style={styles.nextText}>Selanjutnya</Text>
             </TouchableOpacity>
