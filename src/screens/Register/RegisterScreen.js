@@ -1,5 +1,5 @@
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
+import React, { useContext, useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import AccountRegister from './Steps/AccountRegister'
 import BiodataRegister from './Steps/BiodataRegister'
@@ -23,6 +23,34 @@ const RegisterScreen = () => {
             telepon: null
         }
     )
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [countries, setCountries] = useState([]);
+
+    const getCountries = async () => {
+        try {
+            const response = await fetch('https://restcountries.com/v3.1/all');
+            const json = await response.json();
+            setCountries(json);
+            const cleanedCountries = []
+            json.map((country) => {
+                cleanedCountries.push({
+                    label: country.name.common,
+                    value: country.cca3
+                })
+            })
+            setCountries(cleanedCountries);
+            console.log("kepanggil")
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getCountries();
+    }, []);
 
     function nextPage() {
         setStep((n) => n + 1)
@@ -49,22 +77,32 @@ const RegisterScreen = () => {
     }
 
     function renderPageByStep() {
-        switch (step) {
-            case 0:
-                return (
-                    <AccountRegister
+        if (isLoading) {
+            return (
+                <ActivityIndicator size="large" />
+            )
+        }
+        else {
+            switch (step) {
+                case 0:
+                    return (
+                        <AccountRegister
+                            nextPage={nextPage}
+                            data={registrationData}
+                            handleInputChange={handleInputChange}
+                        />
+                    )
+                case 1:
+                    return <BiodataRegister
                         nextPage={nextPage}
+                        prevPage={prevPage}
                         data={registrationData}
                         handleInputChange={handleInputChange}
+                        countries={countries}
+                        isLoading={isLoading}
+                        setLoading={setIsLoading}
                     />
-                )
-            case 1:
-                return <BiodataRegister
-                    nextPage={nextPage}
-                    prevPage={prevPage}
-                    data={registrationData}
-                    handleInputChange={handleInputChange}
-                />
+            }
         }
     }
 
