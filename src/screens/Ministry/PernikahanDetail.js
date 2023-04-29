@@ -110,7 +110,7 @@ const PernikahanDetail = () => {
                                         KPK Wilayah
                                     </Text>
                                     <Picker
-                                        style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
+                                        style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000', marginBottom: 20 }}
                                         selectedValue={selectedKPK}
                                         onValueChange={(itemValue, itemIndex) =>
                                             setSelectedKPK(itemValue)
@@ -123,36 +123,6 @@ const PernikahanDetail = () => {
                             </>)
                 }
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Pernah Aktif dalam Pelayanan ?
-                </Text>
-                <RadioButton.Group onValueChange={value => setPernahPelayanan(value)} value={pernahPelayanan}>
-                    <RadioButton.Item label='Iya' value='iya' />
-                    <RadioButton.Item label='Tidak' value='tidak' />
-                </RadioButton.Group>
-                {
-                    pernahPelayanan == 'iya' ? (
-                        <>
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Pelayanan yang pernah diikuti
-                            </Text>
-                            <Picker
-                                style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000', marginBottom: 20 }}
-                                selectedValue={selectedKPK}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setSelectedKPK(itemValue)
-                                }>
-                                {nationalities.map(nationality => (
-                                    <Picker.Item key={nationality} label={nationality} value={nationality} />
-                                ))}
-                            </Picker>
-                        </>
-                    ) : (
-                        <>
-
-                        </>
-                    )
-                }
                 <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('BottomNavigation')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
                 </TouchableOpacity>

@@ -10,6 +10,7 @@ import DetailEventScreen from '../../screens/Home/DetailEventScreen'
 import ForgetMain from '../../screens/ForgetPass/ForgetMain'
 import DetailCommunity from '../../screens/Community/DetailCommunity'
 import PernikahanDetail from '../../screens/Ministry/PernikahanDetail'
+import PembabtisanDetail from '../../screens/Ministry/PembabtisanDetail'
 
 const Stack = createNativeStackNavigator()
 
@@ -25,6 +26,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='DetailEvent' component={DetailEventScreen} options={{ title: 'Event Terkini' }} />
                 <Stack.Screen name='DetailComm' component={DetailCommunity} options={{ title: 'Komunitas Gereja' }} />
                 <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} />
+                <Stack.Screen name='PembabtisanDetail' component={PembabtisanDetail} options={{ title: 'Pembabtisan' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
