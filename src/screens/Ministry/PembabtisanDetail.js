@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, View, Image, ScrollView, TextInput } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 
 const PembabtisanDetail = () => {
@@ -84,6 +84,31 @@ const PembabtisanDetail = () => {
             <Text style={{ color: '#fff', textAlign: 'center' }}>Change document</Text>
           </TouchableOpacity>
         )}
+
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Nama
+                </Text>
+                <TextInput
+                    placeholder='Masukkan Nama'
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                />
+
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Tempat, Tanggal Lahir
+                </Text>
+                <TextInput
+                    placeholder='Contoh: Jakarta, 10-01-1999'
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+
+                />
+
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Alamat
+                </Text>
+                <TextInput
+                    placeholder='Masukkan Alamat'
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                />
       </ScrollView>
     </View>
   );

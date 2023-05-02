@@ -10,7 +10,6 @@ const PernikahanDetail = () => {
     const [selectedNationality, setSelectedNationality] = useState(null);
     const [selectedKPK, setSelectedKPK] = useState(null);
     const [babtis, setBabtis] = useState('')
-    const [pernahPelayanan, setPernahPelayanan] = useState('')
 
     const navigation = useNavigation()
 
