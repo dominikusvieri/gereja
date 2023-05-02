@@ -26,9 +26,9 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 80, height: 80, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 11, textAlign: 'center', maxWidth: 70 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
             Pernikahan
           </Text>
         </TouchableOpacity>
@@ -39,10 +39,10 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 80, height: 80, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 11, textAlign: 'center', maxWidth: 70 }}>
-            Pembabtisan
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Babtis
           </Text>
         </TouchableOpacity>
 
