@@ -36,7 +36,7 @@ const PernikahanDetail = () => {
                 </Text>
                 <TextInput
                     placeholder='Masukkan Nama'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                 />
 
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -44,7 +44,7 @@ const PernikahanDetail = () => {
                 </Text>
                 <TextInput
                     placeholder='Contoh: Jakarta, 10-01-1999'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
 
                 />
 
@@ -53,7 +53,7 @@ const PernikahanDetail = () => {
                 </Text>
                 <TextInput
                     placeholder='Masukkan Alamat'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                 />
 
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -75,7 +75,7 @@ const PernikahanDetail = () => {
                 </Text>
                 <TextInput
                     placeholder='Masukkan Pekerjaan'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                 />
 
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -102,7 +102,7 @@ const PernikahanDetail = () => {
                                     </Text>
                                     <TextInput
                                         placeholder='Masukkan Nomor Induk Jemaat'
-                                        style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+                                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                                     />
 
                                     <Text style={{ marginBottom: 5, marginTop: 10 }}>

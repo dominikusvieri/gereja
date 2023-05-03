@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity, View, Image, ScrollView, TextInput } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
+import { Picker } from '@react-native-picker/picker' 
 
 const PembabtisanDetail = () => {
   const [fotoKTP, setFotoKTP] = useState(null);
@@ -10,7 +11,10 @@ const PembabtisanDetail = () => {
   const [fotoBerwarna, setFotoBerwarna] = useState(null);
   const [fotoBerwarnaPreview, setFotoBerwarnaPreview] = useState(null);
   const [fileTypeFotoBerwarna, setFileTypeFotoBerwarna] = useState(null);
-  
+
+  const [pendidikan, setPendidikan] = useState('Tidak Sekolah')
+
+  const [statusPerkawinan, setStatusPerkawinan] = useState(null)
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -44,7 +48,7 @@ const PembabtisanDetail = () => {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', marginBottom: 20 }}>
+    <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <Text style={{ fontWeight: '500', fontSize: 18 }}>
           Form Pembabtisan
@@ -86,29 +90,86 @@ const PembabtisanDetail = () => {
         )}
 
         <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Nama
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Nama'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
-                />
+          Nama
+        </Text>
+        <TextInput
+          placeholder='Masukkan Nama'
+          style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+        />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Tempat, Tanggal Lahir
-                </Text>
-                <TextInput
-                    placeholder='Contoh: Jakarta, 10-01-1999'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Tempat, Tanggal Lahir
+        </Text>
+        <TextInput
+          placeholder='Contoh: Jakarta, 10-01-1999'
+          style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
 
-                />
+        />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Alamat
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Alamat'
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 5 }}
-                />
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Alamat
+        </Text>
+        <TextInput
+          placeholder='Masukkan Alamat'
+          style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+        />
+
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Pendidikan Terakhir
+        </Text>
+        <Picker
+          style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
+          selectedValue={pendidikan}
+          onValueChange={(itemValue, itemIndex) => setPendidikan(itemValue)}
+        >
+          <Picker.Item label='Tidak Sekolah' value='Tidak Sekolah' />
+          <Picker.Item label='TK' value='TK' />
+          <Picker.Item label='SD' value='SD' />
+          <Picker.Item label='SMP' value='SMP' />
+          <Picker.Item label='SMA/Sederajat' value='SMA/Sederajat' />
+          <Picker.Item label='Diploma' value='Diploma' />
+          <Picker.Item label='Sarjana' value='Sarjana' />
+          <Picker.Item label='Pasca Sarjana' value='Pasca Sarjana' />
+          <Picker.Item label='Doktoral' value='Doktoral' />
+        </Picker>
+
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Status Perkawinan
+        </Text>
+        <Picker
+          style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
+          selectedValue={statusPerkawinan}
+          onValueChange={(itemValue, itemIndex) => setStatusPerkawinan(itemValue)}
+        >
+          <Picker.Item label='Belum Menikah' value='Belum Menikah' />
+          <Picker.Item label='Menikah' value='Menikah' />
+          <Picker.Item label='Janda' value='Janda' />
+          <Picker.Item label='Duda' value='Duda' />
+        </Picker>
+
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Nama Ayah / Wali
+        </Text>
+        <TextInput
+          placeholder='Masukkan Nama Ayah / Wali'
+          style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+        />
+
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Nama Ibu / Wali
+        </Text>
+        <TextInput
+          placeholder='Masukkan Nama Ibu / Wali'
+          style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+        />
+
+        <Text style={{ marginBottom: 5, marginTop: 10 }}>
+          Alamat Orang Tua / Wali
+        </Text>
+        <TextInput
+          placeholder='Masukkan Alamat Orang Tua / Wali'
+          style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+        />
       </ScrollView>
     </View>
   );
