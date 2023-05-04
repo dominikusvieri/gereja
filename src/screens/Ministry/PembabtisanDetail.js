@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Text, TouchableOpacity, View, Image, ScrollView, TextInput } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import { Picker } from '@react-native-picker/picker' 
+import { Picker } from '@react-native-picker/picker'
+import SignatureCanvas from 'react-native-signature-canvas';
+
 
 const PembabtisanDetail = () => {
   const [fotoKTP, setFotoKTP] = useState(null);
@@ -15,6 +17,17 @@ const PembabtisanDetail = () => {
   const [pendidikan, setPendidikan] = useState('Tidak Sekolah')
 
   const [statusPerkawinan, setStatusPerkawinan] = useState(null)
+
+  const signatureRef = useRef(null);
+
+  const handleClear = () => {
+    signatureRef.current.clearSignature();
+  };
+
+  const handleSave = () => {
+    const signature = signatureRef.current.getSignature();
+  };
+
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -170,6 +183,26 @@ const PembabtisanDetail = () => {
           placeholder='Masukkan Alamat Orang Tua / Wali'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
         />
+
+        <Text style={{ marginBottom: 5, marginTop: 10, textAlign: 'justify' }}>
+          Dengan ini saya bertanggung jawab dengan data yang saya masukkan untuk mengikuti babtisan air
+        </Text>
+
+        <SignatureCanvas
+          ref={signatureRef}
+          style={{ flex: 1 }}
+          strokeColor="#000"
+          strokeWidth={3}
+        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginBottom: 16 }}>
+          <TouchableOpacity onPress={handleClear}>
+            <Text style={{ fontSize: 18 }}>Clear</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleSave}>
+            <Text style={{ fontSize: 18 }}>Save</Text>
+          </TouchableOpacity>
+        </View>
+
       </ScrollView>
     </View>
   );
