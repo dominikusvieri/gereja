@@ -11,6 +11,8 @@ import ForgetMain from '../../screens/ForgetPass/ForgetMain'
 import DetailCommunity from '../../screens/Community/DetailCommunity'
 import PernikahanDetail from '../../screens/Ministry/PernikahanDetail'
 import PembabtisanDetail from '../../screens/Ministry/PembabtisanDetail'
+import PenyerahanAnak from '../../screens/Ministry/PenyerahanAnak/PenyerahanAnak'
+import DataPribadi from '../../screens/Ministry/PenyerahanAnak/DataPribadi'
 
 const Stack = createNativeStackNavigator()
 
@@ -27,6 +29,8 @@ const MainNavigation = () => {
                 <Stack.Screen name='DetailComm' component={DetailCommunity} options={{ title: 'Komunitas Gereja' }} />
                 <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PembabtisanDetail' component={PembabtisanDetail} options={{ title: 'Pembabtisan' }} />
+                <Stack.Screen name='PenyerahanAnak' component={PenyerahanAnak} options={{ title: 'Penyerahan Anak' }} />
+                <Stack.Screen name='DataPribadi' component={DataPribadi} options={{ title: 'Data Pribadi' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Text, TouchableOpacity, View, Image, ScrollView, TextInput } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker'
-import SignatureCanvas from 'react-native-signature-canvas';
+import { useNavigation } from '@react-navigation/native'
 
 
 const PembabtisanDetail = () => {
@@ -18,16 +18,8 @@ const PembabtisanDetail = () => {
 
   const [statusPerkawinan, setStatusPerkawinan] = useState(null)
 
-  const signatureRef = useRef(null);
 
-  const handleClear = () => {
-    signatureRef.current.clearSignature();
-  };
-
-  const handleSave = () => {
-    const signature = signatureRef.current.getSignature();
-  };
-
+  const navigation = useNavigation()
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -187,22 +179,9 @@ const PembabtisanDetail = () => {
         <Text style={{ marginBottom: 5, marginTop: 10, textAlign: 'justify' }}>
           Dengan ini saya bertanggung jawab dengan data yang saya masukkan untuk mengikuti babtisan air
         </Text>
-
-        <SignatureCanvas
-          ref={signatureRef}
-          style={{ flex: 1 }}
-          strokeColor="#000"
-          strokeWidth={3}
-        />
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginBottom: 16 }}>
-          <TouchableOpacity onPress={handleClear}>
-            <Text style={{ fontSize: 18 }}>Clear</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleSave}>
-            <Text style={{ fontSize: 18 }}>Save</Text>
-          </TouchableOpacity>
-        </View>
-
+        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('BottomNavigation')} >
+          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

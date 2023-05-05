@@ -19,9 +19,7 @@ const MinistryScreen = () => {
       <View
         style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap:'wrap', justifyContent:'space-between' }}
       >
-
-        <TouchableOpacity
-          
+        <TouchableOpacity     
           onPress={() => navigation.navigate('PernikahanDetail')}
         >
           <Image
@@ -33,8 +31,7 @@ const MinistryScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-         
+        <TouchableOpacity 
           onPress={() => navigation.navigate('PembabtisanDetail')}
         >
           <Image
@@ -46,29 +43,15 @@ const MinistryScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          
-          onPress={() => navigation.navigate('PernikahanDetail')}
+        <TouchableOpacity 
+          onPress={() => navigation.navigate('PenyerahanAnak')}
         >
           <Image
             source={require('../../../assets/icon.png')}
             style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
           <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
-            Pernikahan
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          
-          onPress={() => navigation.navigate('PernikahanDetail')}
-        >
-          <Image
-            source={require('../../../assets/icon.png')}
-            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
-            Pernikahan
+            Penyerahan Anak
           </Text>
         </TouchableOpacity>
       </View>
