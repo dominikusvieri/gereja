@@ -17,9 +17,9 @@ const MinistryScreen = () => {
         </View>
       </View>
       <View
-        style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap:'wrap', justifyContent:'space-between' }}
+        style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}
       >
-        <TouchableOpacity     
+        <TouchableOpacity
           onPress={() => navigation.navigate('PernikahanDetail')}
         >
           <Image
@@ -31,7 +31,7 @@ const MinistryScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => navigation.navigate('PembabtisanDetail')}
         >
           <Image
@@ -43,7 +43,7 @@ const MinistryScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => navigation.navigate('PenyerahanAnak')}
         >
           <Image
@@ -54,6 +54,31 @@ const MinistryScreen = () => {
             Penyerahan Anak
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AbsensiBabtisan')}
+        >
+          <Image
+            source={require('../../../assets/icon.png')}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+          />
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Absensi Babtisan
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AbsensiPraNikah')}
+        >
+          <Image
+            source={require('../../../assets/icon.png')}
+            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+          />
+          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+            Absensi Pra Nikah
+          </Text>
+        </TouchableOpacity>
+        
       </View>
     </SafeAreaView>
   )

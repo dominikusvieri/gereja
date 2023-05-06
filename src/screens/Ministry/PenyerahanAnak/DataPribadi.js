@@ -1,10 +1,12 @@
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import DataPribadiForm from '../../../components/Ministry/PenyerahanAnak/DataPribadiForm'
 
 const DataPribadi = ({ route }) => {
     const jumlahAnak = route.params.param
-    console.log(jumlahAnak)
+    
+    const [jumlahInput, setJumlahInput] = useState([jumlahAnak])
+    console.log(jumlahInput)
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
@@ -13,7 +15,12 @@ const DataPribadi = ({ route }) => {
                     Form Data Diri Anak
                 </Text>
 
-                <DataPribadiForm key={jumlahAnak}/>
+                {
+                    jumlahInput.map((input, index)=>{
+                        <DataPribadiForm key={index}/>
+                    })
+                }
+                
 
                 {/* <View key={ jumlahAnak}>
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
