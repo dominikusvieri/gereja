@@ -6,7 +6,29 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 export default function BiodataRegister({ nextPage, prevPage, data, handleInputChange, isLoading, setLoading, countries }) {
     const [wargaNegaraOpen, setWargaNegaraOpen] = useState(false);
-    const [wargaNegara, setWargaNegara] = useState(data?.wargaNegara || "IDN");
+    const [wargaNegara, setWargaNegara] = useState(data?.wargaNegara);
+    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
+    const [dropdownLoading, setDropdownLoading] = useState(false);
+
+    useEffect(() => {
+        const inputDebounce = setTimeout(() => {
+            // All fields validation
+            if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
+                setIsNextButtonDisabled(false)
+            }
+            else {
+                setIsNextButtonDisabled(true)
+            }
+        }, 500);
+
+        return () => clearTimeout(inputDebounce);
+    }, [data])
+
+    function validateInput() {
+        if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
+            nextPage()
+        }
+    }
 
     return (
         <React.Fragment>
@@ -27,6 +49,7 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                 <TextInput
                     placeholder='Nomor KK'
                     style={styles.input}
+                    keyboardType="numeric"
                     value={data.noKk}
                     onChangeText={(e) => handleInputChange(e, 'noKk')}
                 />
@@ -44,12 +67,13 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     searchable
                     open={wargaNegaraOpen}
                     setOpen={setWargaNegaraOpen}
-                    loading={isLoading}
+                    loading={dropdownLoading}
                     setValue={setWargaNegara}
-                    onChangeValue={(e) => console.log(e)}
+                    onChangeValue={(e) => handleInputChange(e, 'wargaNegara')}
                     listMode="MODAL"
                     language="ID"
                     style={[styles.input, { backgroundColor: 'transparent', paddingHorizontal: 18 }]}
+                    placeholderStyle={{ color: 'grey' }}
                 />
                 <TextInput
                     placeholder='Alamat'
@@ -65,10 +89,11 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     onChangeText={(e) => handleInputChange(e, 'telepon')}
                 />
                 <TouchableOpacity
-                    style={styles.nextButton}
-                    onPress={() => prevPage()}
+                    style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
+                    onPress={validateInput}
+                    disabled={isNextButtonDisabled}
                 >
-                    <Text style={styles.nextText}>Sebelumnya</Text>
+                    <Text style={styles.nextText}>Selanjutnya</Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </React.Fragment>

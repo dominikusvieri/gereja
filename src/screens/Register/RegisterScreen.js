@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import AccountRegister from './Steps/AccountRegister'
 import BiodataRegister from './Steps/BiodataRegister'
+import BiodataRegister2 from './Steps/BiodataRegister2'
 
 const RegisterScreen = () => {
     const navigation = useNavigation()
@@ -20,7 +21,15 @@ const RegisterScreen = () => {
             nama: null,
             wargaNegara: null,
             alamat: null,
-            telepon: null
+            telepon: null,
+            gender: null,
+            tglLahir: null,
+            baptis: null,
+            tglBaptis: null,
+            namaBaptis: null,
+            tempatBaptis: null,
+            pekerjaan: null,
+            golonganDarah: null
         }
     )
 
@@ -40,7 +49,6 @@ const RegisterScreen = () => {
                 })
             })
             setCountries(cleanedCountries);
-            console.log("kepanggil")
         } catch (error) {
             console.error(error);
         } finally {
@@ -68,6 +76,13 @@ const RegisterScreen = () => {
                 [name]: onlyNumber
             })
         }
+        else if (name === "tempatBaptis") {
+            const finalString = e && `${e[0].toUpperCase()}${e.slice(1)}`;
+            setRegistrationData({
+                ...registrationData,
+                tempatBaptis: finalString
+            })
+        }
         else {
             setRegistrationData({
                 ...registrationData,
@@ -93,15 +108,26 @@ const RegisterScreen = () => {
                         />
                     )
                 case 1:
-                    return <BiodataRegister
-                        nextPage={nextPage}
-                        prevPage={prevPage}
-                        data={registrationData}
-                        handleInputChange={handleInputChange}
-                        countries={countries}
-                        isLoading={isLoading}
-                        setLoading={setIsLoading}
-                    />
+                    return (
+                        <BiodataRegister
+                            nextPage={nextPage}
+                            prevPage={prevPage}
+                            data={registrationData}
+                            handleInputChange={handleInputChange}
+                            countries={countries}
+                            isLoading={isLoading}
+                            setLoading={setIsLoading}
+                        />
+                    )
+                case 2:
+                    return (
+                        <BiodataRegister2
+                            nextPage={nextPage}
+                            prevPage={prevPage}
+                            data={registrationData}
+                            handleInputChange={handleInputChange}
+                        />
+                    )
             }
         }
     }
