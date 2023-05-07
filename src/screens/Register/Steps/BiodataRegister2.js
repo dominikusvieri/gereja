@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, TextInput, View, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { TextInput as LabeledInput } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import moment from "moment";
 
-export default function BiodataRegister2({ nextPage, data, handleInputChange }) {
+export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange }) {
     moment.locale(data.wargaNegara === 'IDN' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [gender, setGender] = useState(data?.gender);
@@ -23,11 +23,26 @@ export default function BiodataRegister2({ nextPage, data, handleInputChange }) 
     ]);
     const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
     const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate());
+    const [golDarah, setGolDarah] = useState(extractBloodGroup('group'));
+    const [golDarahDropdownOpen, setGolDarahDropdownOpen] = useState(false);
+    const [golDarahEnum, setGolDarahEnum] = useState([
+        { label: 'O', value: 'O' },
+        { label: 'A', value: 'A' },
+        { label: 'B', value: 'B' },
+        { label: 'AB', value: 'AB' }
+    ])
+    const [rhesus, setRhesus] = useState(extractBloodGroup('rhesus'));
+    const [rhesusDropdownOpen, setRhesusDropdownOpen] = useState(false);
+    const [rhesusEnum, setRhesusEnum] = useState([
+        { label: 'Positif (Rh+)', value: '+' },
+        { label: 'Negatif (Rh-)', value: '-' },
+        { label: 'Tidak tahu', value: '' },
+    ])
 
     useEffect(() => {
         const inputDebounce = setTimeout(() => {
             // All fields validation
-            if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis) {
+            if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah) {
                 setIsNextButtonDisabled(false)
             }
             else {
@@ -54,9 +69,48 @@ export default function BiodataRegister2({ nextPage, data, handleInputChange }) 
     }
 
     function validateInput() {
-        if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis) {
+        if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah) {
             nextPage()
         }
+    }
+
+    function extractBloodGroup(extractFor) {
+        if (data.golonganDarah) {
+            let finalStr = '';
+            const regex = /[A-Za-z]/g;
+            let matches = null;
+
+            if (extractFor === 'group') {
+                matches = data.golonganDarah.match(regex);
+            }
+            else if (extractFor === 'rhesus') {
+                matches = !data.golonganDarah.match(regex);
+            }
+
+            finalStr = matches ? matches.join('') : '';
+
+            return finalStr;
+        }
+        else {
+            return data?.golonganDarah;
+        }
+    }
+
+    const onGolDarahChange = (e, inputType) => {
+        const string = data?.golonganDarah || '';
+        const alphabetRegex = /[A-Za-z]+/;
+        const symbolRegex = /[\W_]+/;
+        let extractedGroup = string.match(alphabetRegex);
+        let extracedRhesus = string.match(symbolRegex);
+        let finalStr = '';
+
+        if (inputType === 'group') {
+            finalStr = e + (extracedRhesus ? extracedRhesus.join('') : '');
+        }
+        else if (inputType === 'rhesus') {
+            finalStr = (extractedGroup ? extractedGroup.join('') : '') + e;
+        }
+        handleInputChange(finalStr, 'golonganDarah');
     }
 
     return (
@@ -123,6 +177,7 @@ export default function BiodataRegister2({ nextPage, data, handleInputChange }) 
                 <LabeledInput
                     label='Nama Baptis'
                     style={styles.dateInput}
+                    value={data.namaBaptis}
                     mode="outlined"
                     outlineColor="black"
                     activeOutlineColor="#4281A4"
@@ -133,6 +188,7 @@ export default function BiodataRegister2({ nextPage, data, handleInputChange }) 
                 <LabeledInput
                     label='Tempat Baptis'
                     style={styles.dateInput}
+                    value={data.tempatBaptis}
                     mode="outlined"
                     outlineColor="black"
                     activeOutlineColor="#4281A4"
@@ -140,12 +196,61 @@ export default function BiodataRegister2({ nextPage, data, handleInputChange }) 
                     textColor="black"
                     onChangeText={(e) => handleInputChange(e, 'tempatBaptis')}
                 />
+                <LabeledInput
+                    label='Pekerjaan'
+                    style={styles.dateInput}
+                    value={data.pekerjaan}
+                    mode="outlined"
+                    outlineColor="black"
+                    activeOutlineColor="#4281A4"
+                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                    textColor="black"
+                    onChangeText={(e) => handleInputChange(e, 'pekerjaan')}
+                />
+                <Text style={{ marginBottom: 5, fontSize: 12 }}>Golongan Darah</Text>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, marginRight: 5 }}>
+                        <DropDownPicker
+                            placeholder='Golongan'
+                            value={golDarah}
+                            items={golDarahEnum}
+                            open={golDarahDropdownOpen}
+                            setOpen={setGolDarahDropdownOpen}
+                            setValue={setGolDarah}
+                            onChangeValue={(e) => onGolDarahChange(e, 'group')}
+                            style={[styles.input, { backgroundColor: 'transparent', paddingHorizontal: 18, marginBottom: baptisDropdownOpen ? 94 : 12 }]}
+                            placeholderStyle={{ color: 'grey' }}
+                            listMode="SCROLLVIEW"
+                        />
+                    </View>
+                    <View style={{ flex: 1, marginLeft: 5 }}>
+                        <DropDownPicker
+                            placeholder='Rhesus'
+                            value={rhesus}
+                            items={rhesusEnum}
+                            open={rhesusDropdownOpen}
+                            setOpen={setRhesusDropdownOpen}
+                            setValue={setRhesus}
+                            onChangeValue={(e) => onGolDarahChange(e, 'rhesus')}
+                            style={[styles.input, { backgroundColor: 'transparent', paddingHorizontal: 18, marginBottom: baptisDropdownOpen ? 94 : 12 }]}
+                            placeholderStyle={{ color: 'grey' }}
+                            listMode="SCROLLVIEW"
+                        />
+                    </View>
+                </View>
                 <TouchableOpacity
                     style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
                     onPress={validateInput}
                     disabled={isNextButtonDisabled}
                 >
                     <Text style={styles.nextText}>Selanjutnya</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA', marginBottom: 40 }}
+                    onPress={prevPage}
+                // disabled={isNextButtonDisabled}
+                >
+                    <Text style={styles.nextText}>Sebelumnya</Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </React.Fragment>
@@ -162,7 +267,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 14,
         textAlign: 'center',
-        marginBottom: 50
+        marginBottom: 32
     },
     input: {
         marginBottom: 12,

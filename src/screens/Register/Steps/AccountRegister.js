@@ -50,9 +50,10 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
     }, [data])
 
     function validateInput() {
-        if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
-            nextPage()
-        }
+        // if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
+        //     nextPage()
+        // }
+        nextPage()
     }
 
     return (
@@ -104,7 +105,7 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
             <TouchableOpacity
                 style={!isNextButtonDisabled ? styles.nextButton : styles.nextButtonDisabled}
                 onPress={validateInput}
-                disabled={isNextButtonDisabled}
+            // disabled={isNextButtonDisabled}
             >
                 <Text style={styles.nextText}>Selanjutnya</Text>
             </TouchableOpacity>

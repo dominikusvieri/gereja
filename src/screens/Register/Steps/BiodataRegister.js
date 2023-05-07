@@ -25,9 +25,10 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
     }, [data])
 
     function validateInput() {
-        if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
-            nextPage()
-        }
+        // if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
+        //     nextPage()
+        // }
+        nextPage()
     }
 
     return (
@@ -91,7 +92,7 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                 <TouchableOpacity
                     style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
                     onPress={validateInput}
-                    disabled={isNextButtonDisabled}
+                // disabled={isNextButtonDisabled}
                 >
                     <Text style={styles.nextText}>Selanjutnya</Text>
                 </TouchableOpacity>
