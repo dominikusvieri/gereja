@@ -55,51 +55,9 @@ const PenyerahanAnak = () => {
                     </Text>
                 </View>
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Jumlah Anak yang Diserahkan:
-                </Text>
+                
 
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                }}>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: '#0885F8',
-                            paddingHorizontal: 16,
-                            paddingVertical: 8,
-                            borderRadius: 8,
-                        }}
-                        onPress={handleDecrement}
-                    >
-                        <Text style={{
-                            color: 'white',
-                            fontWeight: 'bold',
-                            fontSize: 16,
-                        }}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={{ marginHorizontal: 10, fontSize: 20 }}>
-                        {jumlahAnak}
-                    </Text>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: '#0885F8',
-                            paddingHorizontal: 16,
-                            paddingVertical: 8,
-                            borderRadius: 8,
-                        }}
-                        onPress={handleIncrement}
-                    >
-                        <Text style={{
-                            color: 'white',
-                            fontWeight: 'bold',
-                            fontSize: 16,
-                        }}>+</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi',{param: jumlahAnak})} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
                 </TouchableOpacity>
             </ScrollView>
