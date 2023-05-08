@@ -7,10 +7,12 @@ import DropDownPicker from "react-native-dropdown-picker";
 export default function BiodataRegister({ nextPage, prevPage, data, handleInputChange, isLoading, setLoading, countries }) {
     const [wargaNegaraOpen, setWargaNegaraOpen] = useState(false);
     const [wargaNegara, setWargaNegara] = useState(data?.wargaNegara);
-    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
+    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
+    const [isValidating, setIsValidating] = useState(false);
     const [dropdownLoading, setDropdownLoading] = useState(false);
 
     useEffect(() => {
+        setIsValidating(true);
         const inputDebounce = setTimeout(() => {
             // All fields validation
             if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
@@ -19,16 +21,17 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
             else {
                 setIsNextButtonDisabled(true)
             }
+            setIsValidating(false);
         }, 500);
 
         return () => clearTimeout(inputDebounce);
     }, [data])
 
     function validateInput() {
-        // if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
-        //     nextPage()
-        // }
-        nextPage()
+        if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
+            nextPage()
+        }
+        // nextPage()
     }
 
     return (
@@ -68,7 +71,6 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     searchable
                     open={wargaNegaraOpen}
                     setOpen={setWargaNegaraOpen}
-                    loading={dropdownLoading}
                     setValue={setWargaNegara}
                     onChangeValue={(e) => handleInputChange(e, 'wargaNegara')}
                     listMode="MODAL"
@@ -90,11 +92,21 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     onChangeText={(e) => handleInputChange(e, 'telepon')}
                 />
                 <TouchableOpacity
-                    style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
+                    style={!isNextButtonDisabled && !isValidating ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
                     onPress={validateInput}
-                // disabled={isNextButtonDisabled}
+                    disabled={isValidating || isNextButtonDisabled}
                 >
-                    <Text style={styles.nextText}>Selanjutnya</Text>
+                    {isValidating ?
+                        <ActivityIndicator size="small" color="white" />
+                        :
+                        <Text style={styles.nextText}>Selanjutnya</Text>
+                    }
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ ...styles.nextButton, borderWidth: 1, borderColor: '#C8C8C8', backgroundColor: 'transparent', marginBottom: 40 }}
+                    onPress={prevPage}
+                >
+                    <Text style={{ ...styles.nextText, color: '#707070' }}>Sebelumnya</Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </React.Fragment>

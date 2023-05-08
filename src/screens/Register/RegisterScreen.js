@@ -38,16 +38,32 @@ const RegisterScreen = () => {
 
     const getCountries = async () => {
         try {
-            const response = await fetch('https://restcountries.com/v3.1/all');
-            const json = await response.json();
-            setCountries(json);
+            const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca3,');
+            const countries = await response.json();
             const cleanedCountries = []
-            json.map((country) => {
-                cleanedCountries.push({
-                    label: country.name.common,
-                    value: country.cca3
+            if (countries) {
+                countries.map((country) => {
+                    cleanedCountries.push({
+                        label: country.name.common,
+                        value: country.cca3
+                    })
                 })
-            })
+            }
+
+            //Sort by country name
+            cleanedCountries.sort((a, b) => {
+                const countryA = a.label.toUpperCase();
+                const countryB = b.label.toUpperCase();
+
+                if (countryA < countryB) {
+                    return -1;
+                }
+                if (countryA > countryB) {
+                    return 1;
+                }
+                return 0;
+            });
+
             setCountries(cleanedCountries);
         } catch (error) {
             console.error(error);

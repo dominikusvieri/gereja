@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { TextInput as LabeledInput } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -9,6 +9,7 @@ import moment from "moment";
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange }) {
     moment.locale(data.wargaNegara === 'IDN' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
+    const [isValidating, setIsValidating] = useState(false);
     const [gender, setGender] = useState(data?.gender);
     const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
     const [genderEnum, setGenderEnum] = useState([
@@ -40,14 +41,16 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
     ])
 
     useEffect(() => {
+        setIsValidating(true);
         const inputDebounce = setTimeout(() => {
             // All fields validation
-            if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah) {
+            if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah && golDarah) {
                 setIsNextButtonDisabled(false)
             }
             else {
                 setIsNextButtonDisabled(true)
             }
+            setIsValidating(false);
         }, 500);
 
         return () => clearTimeout(inputDebounce);
@@ -69,7 +72,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
     }
 
     function validateInput() {
-        if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah) {
+        if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah && golDarah) {
             nextPage()
         }
     }
@@ -77,14 +80,15 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
     function extractBloodGroup(extractFor) {
         if (data.golonganDarah) {
             let finalStr = '';
-            const regex = /[A-Za-z]/g;
+            const alphabetRegex = /[A-Za-z]/g;
+            const symbolRegex = /[\W_]+/;
             let matches = null;
 
             if (extractFor === 'group') {
-                matches = data.golonganDarah.match(regex);
+                matches = data.golonganDarah.match(alphabetRegex);
             }
             else if (extractFor === 'rhesus') {
-                matches = !data.golonganDarah.match(regex);
+                matches = data.golonganDarah.match(symbolRegex);
             }
 
             finalStr = matches ? matches.join('') : '';
@@ -239,18 +243,21 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
+                    style={!isNextButtonDisabled && !isValidating ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
                     onPress={validateInput}
-                    disabled={isNextButtonDisabled}
+                    disabled={isValidating || isNextButtonDisabled}
                 >
-                    <Text style={styles.nextText}>Selanjutnya</Text>
+                    {isValidating ?
+                        <ActivityIndicator size="small" color="white" />
+                        :
+                        <Text style={styles.nextText}>Selanjutnya</Text>
+                    }
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={!isNextButtonDisabled ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA', marginBottom: 40 }}
+                    style={{ ...styles.nextButton, borderWidth: 1, borderColor: '#C8C8C8', backgroundColor: 'transparent', marginBottom: 40 }}
                     onPress={prevPage}
-                // disabled={isNextButtonDisabled}
                 >
-                    <Text style={styles.nextText}>Sebelumnya</Text>
+                    <Text style={{ ...styles.nextText, color: '#707070' }}>Sebelumnya</Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
         </React.Fragment>

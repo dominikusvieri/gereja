@@ -1,12 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { TextInput, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 
 export default function AccountRegister({ nextPage, data, handleInputChange }) {
     const [isEmailError, setIsEmailError] = useState(true)
     const [isPasswordError, setIsPasswordError] = useState(true)
     const [isRetypePasswordError, setIsRetypePasswordError] = useState(true)
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
+    const [isValidating, setIsValidating] = useState(false)
 
     useEffect(() => {
         if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
@@ -18,6 +18,7 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
     }, [isEmailError, isPasswordError, isRetypePasswordError])
 
     useEffect(() => {
+        setIsValidating(true);
         const inputDebounce = setTimeout(() => {
             // Email validation
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -44,6 +45,7 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
             else {
                 setIsRetypePasswordError(true)
             }
+            setIsValidating(false);
         }, 500);
 
         return () => clearTimeout(inputDebounce);
@@ -103,11 +105,15 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
             }
 
             <TouchableOpacity
-                style={!isNextButtonDisabled ? styles.nextButton : styles.nextButtonDisabled}
+                style={!isNextButtonDisabled && !isValidating ? styles.nextButton : styles.nextButtonDisabled}
                 onPress={validateInput}
-            // disabled={isNextButtonDisabled}
+                disabled={isNextButtonDisabled || isValidating}
             >
-                <Text style={styles.nextText}>Selanjutnya</Text>
+                {isValidating ?
+                    <ActivityIndicator size="small" color="white" />
+                    :
+                    <Text style={styles.nextText}>Selanjutnya</Text>
+                }
             </TouchableOpacity>
         </React.Fragment>
     )
