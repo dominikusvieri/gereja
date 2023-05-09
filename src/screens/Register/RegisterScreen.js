@@ -37,32 +37,34 @@ const RegisterScreen = () => {
     const [countries, setCountries] = useState([]);
 
     const getCountries = async () => {
+        setIsLoading(true);
         try {
-            const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca3,');
+            const response = await fetch('http://192.168.1.5:3001/api/countries'); //in development mode, change url to your android emulator ip address
             const countries = await response.json();
             const cleanedCountries = []
             if (countries) {
                 countries.map((country) => {
                     cleanedCountries.push({
-                        label: country.name.common,
-                        value: country.cca3
+                        id: country.id,
+                        label: country.name,
+                        value: country.iso2
                     })
                 })
             }
 
-            //Sort by country name
-            cleanedCountries.sort((a, b) => {
-                const countryA = a.label.toUpperCase();
-                const countryB = b.label.toUpperCase();
+            // Sort by country name
+            // cleanedCountries.sort((a, b) => {
+            //     const countryA = a.label.toUpperCase();
+            //     const countryB = b.label.toUpperCase();
 
-                if (countryA < countryB) {
-                    return -1;
-                }
-                if (countryA > countryB) {
-                    return 1;
-                }
-                return 0;
-            });
+            //     if (countryA < countryB) {
+            //         return -1;
+            //     }
+            //     if (countryA > countryB) {
+            //         return 1;
+            //     }
+            //     return 0;
+            // });
 
             setCountries(cleanedCountries);
         } catch (error) {

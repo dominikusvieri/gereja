@@ -15,8 +15,6 @@ import PenyerahanAnak from '../../screens/Ministry/PenyerahanAnak/PenyerahanAnak
 import DataPribadi from '../../screens/Ministry/PenyerahanAnak/DataPribadi'
 import AbsensiBabtisan from '../../screens/Ministry/AbsensiBabtisan'
 import AbsensiPranikah from '../../screens/Ministry/AbsensiPranikah'
-import AccountRegister from '../../screens/Register/Steps/AccountRegister'
-import BiodataRegister from '../../screens/Register/Steps/BiodataRegister'
 
 const Stack = createNativeStackNavigator()
 

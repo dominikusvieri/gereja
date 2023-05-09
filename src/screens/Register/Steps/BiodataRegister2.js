@@ -5,9 +5,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import moment from "moment";
+import 'moment/locale/id';
 
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange }) {
-    moment.locale(data.wargaNegara === 'IDN' ? 'id' : 'en');
+    moment.locale(data.wargaNegara === 'ID' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [isValidating, setIsValidating] = useState(false);
     const [gender, setGender] = useState(data?.gender);
