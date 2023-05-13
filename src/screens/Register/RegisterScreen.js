@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import AccountRegister from './Steps/AccountRegister'
 import BiodataRegister from './Steps/BiodataRegister'
 import BiodataRegister2 from './Steps/BiodataRegister2'
+import StatusRegister from './Steps/StatusRegister'
 
 const RegisterScreen = () => {
     const navigation = useNavigation()
@@ -35,11 +36,12 @@ const RegisterScreen = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [countries, setCountries] = useState([]);
+    const [submitStatus, setSubmitStatus] = useState(false);
 
     const getCountries = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://192.168.1.5:3001/api/countries'); //in development mode, change url to your android emulator ip address
+            const response = await fetch('http://192.168.43.42:3001/api/countries'); //in development mode, change url to your android emulator ip address
             const countries = await response.json();
             const cleanedCountries = []
             if (countries) {
@@ -94,13 +96,6 @@ const RegisterScreen = () => {
                 [name]: onlyNumber
             })
         }
-        else if (name === "tempatBaptis") {
-            const finalString = e && `${e[0].toUpperCase()}${e.slice(1)}`;
-            setRegistrationData({
-                ...registrationData,
-                tempatBaptis: finalString
-            })
-        }
         else {
             setRegistrationData({
                 ...registrationData,
@@ -144,6 +139,13 @@ const RegisterScreen = () => {
                             prevPage={prevPage}
                             data={registrationData}
                             handleInputChange={handleInputChange}
+                            setSubmitStatus={setSubmitStatus}
+                        />
+                    )
+                case 3:
+                    return (
+                        <StatusRegister
+                            submitStatus={submitStatus}
                         />
                     )
             }
@@ -153,30 +155,6 @@ const RegisterScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
-                {/* <TextInput
-                    placeholder='Enter Name'
-                    style={styles.input}
-                    value={name}
-                    onChangeText={(text) => setName(text)}
-                />
-
-                <TextInput
-                    placeholder='Enter Email'
-                    style={styles.input}
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                />
-
-                <TextInput
-                    placeholder='Enter Password'
-                    secureTextEntry={true}
-                    style={styles.input}
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                />
-
-                <Button title='Register' /> */}
-
                 {renderPageByStep()}
             </View>
         </View>

@@ -6,8 +6,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import moment from "moment";
 import 'moment/locale/id';
+import axios from "axios";
+import * as Network from 'expo-network';
 
-export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange }) {
+export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange, setSubmitStatus }) {
     moment.locale(data.wargaNegara === 'ID' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [isValidating, setIsValidating] = useState(false);
@@ -45,7 +47,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
         setIsValidating(true);
         const inputDebounce = setTimeout(() => {
             // All fields validation
-            if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah && golDarah) {
+            if (data.gender && data.tglLahir && (data.baptis !== null) && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah) {
                 setIsNextButtonDisabled(false)
             }
             else {
@@ -72,9 +74,25 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
         })
     }
 
-    function validateInput() {
-        if (data.gender && data.tglLahir && data.baptis && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah && golDarah) {
-            nextPage()
+    function handleSubmit() {
+        const deviceIpAddress = async () => {
+            const ip = await Network.getIpAddressAsync();
+            return ip;
+        }
+        console.log("device ip", deviceIpAddress)
+
+        if (data.gender && data.tglLahir && (data.baptis !== null) && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah && golDarah) {
+            axios.post('http://192.168.43.42:3001/jemaat/register', data)
+                .then(function (response) {
+                    console.log("Registration success");
+                    setSubmitStatus(true);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    setSubmitStatus(false);
+                }).finally(function () {
+                    nextPage();
+                });
         }
     }
 
@@ -245,13 +263,13 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 </View>
                 <TouchableOpacity
                     style={!isNextButtonDisabled && !isValidating ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
-                    onPress={validateInput}
+                    onPress={handleSubmit}
                     disabled={isValidating || isNextButtonDisabled}
                 >
                     {isValidating ?
                         <ActivityIndicator size="small" color="white" />
                         :
-                        <Text style={styles.nextText}>Selanjutnya</Text>
+                        <Text style={styles.nextText}>Daftar</Text>
                     }
                 </TouchableOpacity>
                 <TouchableOpacity
