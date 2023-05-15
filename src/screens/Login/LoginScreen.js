@@ -1,28 +1,93 @@
-import { View, Text, Image, TextInput, StyleSheet, Button, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, Image, TextInput, StyleSheet, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
 const LoginScreen = () => {
     const navigation = useNavigation()
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [loginStatus, setLoginStatus] = useState('')
+    const [isValidating, setIsValidating] = useState(false)
+    const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false)
+
+    useEffect(() => {
+        setIsValidating(true)
+        const inputDebounce = setTimeout(() => {
+            if (email && password) {
+                setIsLoginButtonDisabled(false)
+            }
+            else {
+                setIsLoginButtonDisabled(true)
+            }
+            setIsValidating(false)
+        }, 500)
+
+        return () => clearTimeout(inputDebounce)
+    }, [email, password])
+
+    function newAbortSignal(timeoutMs) {
+        const abortController = new AbortController();
+        setTimeout(() => abortController.abort(), timeoutMs || 0);
+
+        return abortController.signal;
+    }
+
+    function handleLogin() {
+        setIsValidating(true)
+        if (email && password) {
+            setLoginStatus("Email dan password terisi")
+            const controller = new AbortController()
+            axios.post(`http://192.168.1.5:3001/jemaat/login`, {
+                email: email,
+                password: password
+            }, { timeout: 10000 })
+                .then(function (response) {
+                    setLoginStatus(response.data?.status)
+                })
+                .catch(function (error) {
+                    setLoginStatus("Login gagal: " + error)
+                })
+                .finally(function (error) {
+                    setIsValidating(false)
+                })
+        }
+        else {
+            setLoginStatus("Email atau password kosong")
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <TextInput
                     placeholder='Enter Email'
                     style={styles.input}
-                // value={email}
-                // onChangeText={(text) => setEmail(text)}
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
                 />
 
                 <TextInput
                     placeholder='Enter Password'
                     secureTextEntry={true}
                     style={styles.input}
-                // value={password}
-                // onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
                 />
 
-                <Button title='Login' onPress={() => navigation.navigate('BottomNavigation')} />
+                {/* <Button title='Login' onPress={() => navigation.navigate('BottomNavigation')} /> */}
+                <TouchableOpacity
+                    onPress={handleLogin}
+                    style={!isLoginButtonDisabled && !isValidating ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
+                    disabled={isValidating || isLoginButtonDisabled}
+                >
+                    {isValidating ?
+                        <ActivityIndicator size="small" color="white" />
+                        :
+                        <Text style={styles.nextText}>Login</Text>
+                    }
+                </TouchableOpacity>
 
                 <View style={styles.registerStyle}>
                     <Text>
@@ -44,7 +109,6 @@ const LoginScreen = () => {
                             Click here
                         </Text>
                     </TouchableOpacity>
-
                 </View>
             </View>
         </View>
@@ -74,6 +138,19 @@ const styles = StyleSheet.create({
     registerStyle: {
         flexDirection: 'row',
         marginTop: 20
+    },
+    nextButton: {
+        height: 48,
+        backgroundColor: '#4281A4',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
+    },
+    nextText: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold'
     }
 })
 
