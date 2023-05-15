@@ -1,16 +1,12 @@
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
-import React, { useContext, useState, useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { View, StyleSheet, ActivityIndicator, Image, StatusBar } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import AccountRegister from './Steps/AccountRegister'
 import BiodataRegister from './Steps/BiodataRegister'
 import BiodataRegister2 from './Steps/BiodataRegister2'
 import StatusRegister from './Steps/StatusRegister'
+import axios from "axios";
 
 const RegisterScreen = () => {
-    const navigation = useNavigation()
-    const [email, setEmail] = useState(null)
-    const [password, setPassword] = useState(null)
-    const [name, setName] = useState(null)
     const [step, setStep] = useState(0)
     const [registrationData, setRegistrationData] = useState(
         {
@@ -19,9 +15,11 @@ const RegisterScreen = () => {
             retypePassword: null,
             nik: null,
             noKk: null,
+            noJemaat: null,
             nama: null,
             wargaNegara: null,
             alamat: null,
+            kodeTelepon: "+62",
             telepon: null,
             gender: null,
             tglLahir: null,
@@ -36,48 +34,75 @@ const RegisterScreen = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [countries, setCountries] = useState([]);
+    const [countriesIdd, setCountriesIdd] = useState([]);
     const [submitStatus, setSubmitStatus] = useState(false);
 
     const getCountries = async () => {
         setIsLoading(true);
-        try {
-            const response = await fetch('http://192.168.43.42:3001/api/countries'); //in development mode, change url to your android emulator ip address
-            const countries = await response.json();
-            const cleanedCountries = []
-            if (countries) {
-                countries.map((country) => {
-                    cleanedCountries.push({
-                        id: country.id,
-                        label: country.name,
-                        value: country.iso2
+
+        axios.get(`http://192.168.1.5:3001/api/countries`)
+            .then(function (response) {
+                const countries = response.data;
+                const cleanedCountries = []
+                if (countries) {
+                    countries.map((country) => {
+                        cleanedCountries.push({
+                            id: country.id,
+                            label: country.name,
+                            value: country.iso2
+                        })
                     })
-                })
-            }
+                }
 
-            // Sort by country name
-            // cleanedCountries.sort((a, b) => {
-            //     const countryA = a.label.toUpperCase();
-            //     const countryB = b.label.toUpperCase();
+                setCountries(cleanedCountries);
+            })
+            .catch(function (error) {
+                console.log("Error getting country list", error);
+            })
+            .finally(function () {
+                setIsLoading(false);
+            })
+    }
 
-            //     if (countryA < countryB) {
-            //         return -1;
-            //     }
-            //     if (countryA > countryB) {
-            //         return 1;
-            //     }
-            //     return 0;
-            // });
+    const getCountriesIdd = async () => {
+        setIsLoading(true);
 
-            setCountries(cleanedCountries);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
+        axios.get('https://restcountries.com/v3.1/all?fields=name,idd,flags')
+            .then(function (response) {
+                const countriesIdd = response.data;
+                const cleanedCountriesIdd = []
+                if (countriesIdd) {
+                    countriesIdd.map((countryIdd, index) => {
+                        if (countryIdd.idd.suffixes.length > 1) {
+                            cleanedCountriesIdd.push({
+                                id: index,
+                                label: countryIdd.idd.root,
+                                value: countryIdd.idd.root,
+                            })
+                        }
+                        else if (countryIdd.idd.root) {
+                            cleanedCountriesIdd.push({
+                                id: index,
+                                label: countryIdd.idd.root + countryIdd.idd.suffixes[0],
+                                value: countryIdd.idd.root + countryIdd.idd.suffixes[0],
+                            })
+                        }
+                    })
+                }
+
+                setCountriesIdd(cleanedCountriesIdd);
+            })
+            .catch(function (error) {
+                console.log("Error getting country idd list", error);
+            })
+            .finally(function () {
+                setIsLoading(false);
+            })
     }
 
     useEffect(() => {
         getCountries();
+        getCountriesIdd();
     }, []);
 
     function nextPage() {
@@ -89,13 +114,20 @@ const RegisterScreen = () => {
     }
 
     const handleInputChange = (e, name) => {
-        if (name === "nik" || name === "noKk" || name === "telepon") {
+        if (name === "nik" || name === "noKk" || name === "noJemaat" || name === "telepon") {
             const onlyNumber = e.replace(/[^0-9]/g, '');
             setRegistrationData({
                 ...registrationData,
                 [name]: onlyNumber
             })
         }
+        // else if (name === "telepon") {
+        //     const phoneRegex = e.replace(/[^0-9+]/g, '');
+        //     setRegistrationData({
+        //         ...registrationData,
+        //         [name]: phoneRegex
+        //     })
+        // }
         else {
             setRegistrationData({
                 ...registrationData,
@@ -128,6 +160,7 @@ const RegisterScreen = () => {
                             data={registrationData}
                             handleInputChange={handleInputChange}
                             countries={countries}
+                            countriesIdd={countriesIdd}
                             isLoading={isLoading}
                             setLoading={setIsLoading}
                         />
@@ -165,7 +198,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop: StatusBar.currentHeight
     },
     wrapper: {
         width: '80%'
@@ -184,6 +218,9 @@ const styles = StyleSheet.create({
     registerStyle: {
         flexDirection: 'row',
         marginTop: 20
+    },
+    iconContainerStyle: {
+        marginRight: 10
     }
 })
 

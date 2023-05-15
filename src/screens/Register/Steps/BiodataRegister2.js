@@ -43,11 +43,27 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
         { label: 'Tidak tahu', value: '' },
     ])
 
+    const dataBaptisValidation = () => {
+        let validation = false
+        if (data.baptis) {
+            if (data.tglBaptis && data.namaBaptis && data.tempatBaptis) {
+                validation = true
+            }
+            else {
+                validation = false
+            }
+        }
+        else {
+            validation = true
+        }
+        return validation
+    }
+
     useEffect(() => {
         setIsValidating(true);
         const inputDebounce = setTimeout(() => {
             // All fields validation
-            if (data.gender && data.tglLahir && (data.baptis !== null) && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah) {
+            if (data.gender && data.tglLahir && (data.baptis !== null) && dataBaptisValidation() && data.pekerjaan) {
                 setIsNextButtonDisabled(false)
             }
             else {
@@ -75,14 +91,13 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
     }
 
     function handleSubmit() {
-        const deviceIpAddress = async () => {
-            const ip = await Network.getIpAddressAsync();
-            return ip;
-        }
-        console.log("device ip", deviceIpAddress)
-
-        if (data.gender && data.tglLahir && (data.baptis !== null) && data.tglBaptis && data.namaBaptis && data.tempatBaptis && data.pekerjaan && data.golonganDarah && golDarah) {
-            axios.post('http://192.168.43.42:3001/jemaat/register', data)
+        setIsValidating(true)
+        if (data.gender && data.tglLahir && (data.baptis !== null) && dataBaptisValidation() && data.pekerjaan) {
+            const cleanedData = {
+                ...data,
+                telp: data.kodeTelepon + ' ' + data.telepon
+            }
+            axios.post(`http://192.168.1.5:3001/jemaat/register`, cleanedData)
                 .then(function (response) {
                     console.log("Registration success");
                     setSubmitStatus(true);
@@ -91,6 +106,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                     console.log(error);
                     setSubmitStatus(false);
                 }).finally(function () {
+                    setIsValidating(false)
                     nextPage();
                 });
         }
@@ -183,42 +199,46 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                     placeholderStyle={{ color: 'grey' }}
                     listMode="SCROLLVIEW"
                 />
-                <TouchableOpacity onPress={() => showDatePicker('tglBaptis')}>
-                    <LabeledInput
-                        placeholder='Tanggal Baptis'
-                        label='Tanggal Baptis'
-                        style={styles.dateInput}
-                        value={data.tglBaptis && moment(data.tglBaptis).format('LL')}
-                        editable={false}
-                        mode="outlined"
-                        outlineColor="black"
-                        activeOutlineColor="black"
-                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                        textColor="black"
-                    />
-                </TouchableOpacity>
-                <LabeledInput
-                    label='Nama Baptis'
-                    style={styles.dateInput}
-                    value={data.namaBaptis}
-                    mode="outlined"
-                    outlineColor="black"
-                    activeOutlineColor="#4281A4"
-                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                    textColor="black"
-                    onChangeText={(e) => handleInputChange(e, 'namaBaptis')}
-                />
-                <LabeledInput
-                    label='Tempat Baptis'
-                    style={styles.dateInput}
-                    value={data.tempatBaptis}
-                    mode="outlined"
-                    outlineColor="black"
-                    activeOutlineColor="#4281A4"
-                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                    textColor="black"
-                    onChangeText={(e) => handleInputChange(e, 'tempatBaptis')}
-                />
+                {data.baptis &&
+                    <React.Fragment>
+                        <TouchableOpacity onPress={() => showDatePicker('tglBaptis')}>
+                            <LabeledInput
+                                placeholder='Tanggal Baptis'
+                                label='Tanggal Baptis'
+                                style={styles.dateInput}
+                                value={data.tglBaptis && moment(data.tglBaptis).format('LL')}
+                                editable={false}
+                                mode="outlined"
+                                outlineColor="black"
+                                activeOutlineColor="black"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
+                            />
+                        </TouchableOpacity>
+                        <LabeledInput
+                            label='Nama Baptis'
+                            style={styles.dateInput}
+                            value={data.namaBaptis}
+                            mode="outlined"
+                            outlineColor="black"
+                            activeOutlineColor="#4281A4"
+                            theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                            textColor="black"
+                            onChangeText={(e) => handleInputChange(e, 'namaBaptis')}
+                        />
+                        <LabeledInput
+                            label='Tempat Baptis'
+                            style={styles.dateInput}
+                            value={data.tempatBaptis}
+                            mode="outlined"
+                            outlineColor="black"
+                            activeOutlineColor="#4281A4"
+                            theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                            textColor="black"
+                            onChangeText={(e) => handleInputChange(e, 'tempatBaptis')}
+                        />
+                    </React.Fragment>
+                }
                 <LabeledInput
                     label='Pekerjaan'
                     style={styles.dateInput}

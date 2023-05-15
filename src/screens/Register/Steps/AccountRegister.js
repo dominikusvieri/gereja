@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import axios from "axios";
 
 export default function AccountRegister({ nextPage, data, handleInputChange }) {
     const [isEmailError, setIsEmailError] = useState(true)
+    const [isEmailAlreadyRegistered, setIsEmailAlreadyRegistered] = useState(false)
     const [isPasswordError, setIsPasswordError] = useState(true)
     const [isRetypePasswordError, setIsRetypePasswordError] = useState(true)
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
     const [isValidating, setIsValidating] = useState(false)
 
     useEffect(() => {
-        if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
+        if (!isEmailError && !isPasswordError && !isRetypePasswordError && !isEmailAlreadyRegistered) {
             setIsNextButtonDisabled(false)
         }
         else {
@@ -28,6 +30,14 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
             else {
                 setIsEmailError(true)
             }
+
+            axios.get(`http://192.168.1.5:3001/jemaat/account-validation`, { params: { email: data?.email || '' } })
+                .then(function (response) {
+                    setIsEmailAlreadyRegistered(!response.data.isAvailable)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
 
             // Password validation
             const passwordRegex = /^(?=.*\d).{6,}$/;
@@ -52,10 +62,10 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
     }, [data])
 
     function validateInput() {
-        // if (!isEmailError && !isPasswordError && !isRetypePasswordError) {
-        //     nextPage()
-        // }
-        nextPage()
+        if (!isEmailError && !isPasswordError && !isRetypePasswordError && !isEmailAlreadyRegistered) {
+            nextPage()
+        }
+        // nextPage()
     }
 
     return (
@@ -69,7 +79,7 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
 
             <TextInput
                 placeholder='Email'
-                style={[!isEmailError || !data.email ? styles.input : styles.inputError, { marginBottom: isEmailError && data.email ? 4 : 12 }]}
+                style={[(!isEmailError || !data.email) && !isEmailAlreadyRegistered ? styles.input : styles.inputError, { marginBottom: (isEmailError && data.email) || isEmailAlreadyRegistered ? 4 : 12 }]}
                 value={data.email}
                 onChangeText={(e) => handleInputChange(e, 'email')}
                 autoCapitalize="none"
@@ -77,6 +87,11 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
             {isEmailError && data.email &&
                 <Text style={styles.emailValidInfo}>
                     Email tidak valid
+                </Text>
+            }
+            {isEmailAlreadyRegistered &&
+                <Text style={styles.emailValidInfo}>
+                    Email sudah terdaftar
                 </Text>
             }
 

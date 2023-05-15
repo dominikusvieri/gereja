@@ -1,41 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, SafeAreaView, StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DropDownPicker from "react-native-dropdown-picker";
+import axios from "axios";
 
 
-export default function BiodataRegister({ nextPage, prevPage, data, handleInputChange, isLoading, setLoading, countries }) {
+export default function BiodataRegister({ nextPage, prevPage, data, handleInputChange, isLoading, setLoading, countries, countriesIdd }) {
     const [wargaNegaraOpen, setWargaNegaraOpen] = useState(false);
     const [wargaNegara, setWargaNegara] = useState(data?.wargaNegara);
+    const [kodeTeleponOpen, setKodeTeleponOpen] = useState(false);
+    const [kodeTelepon, setKodeTelepon] = useState(data?.kodeTelepon);
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [isValidating, setIsValidating] = useState(false);
+    const [isNikAlreadyRegistered, setIsNikAlreadyRegistered] = useState(false);
     const [dropdownLoading, setDropdownLoading] = useState(false);
 
     useEffect(() => {
+
+    }, [isNikAlreadyRegistered])
+
+    useEffect(() => {
         setIsValidating(true);
-        const inputDebounce = setTimeout(() => {
-            // All fields validation
-            if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
-                setIsNextButtonDisabled(false)
-            }
-            else {
-                setIsNextButtonDisabled(true)
-            }
-            setIsValidating(false);
+
+        const checkNikAvailability = setTimeout(() => {
+            axios.get(`http://192.168.1.5:3001/jemaat/account-validation`, { params: { nik: data?.nik || '' } })
+                .then(function (response) {
+                    setIsNikAlreadyRegistered(!response.data.isAvailable)
+                    if (data.nik && response.data.isAvailable && data.noKk & data.noJemaat && data.nama && data.wargaNegara && data.alamat && data.kodeTelepon && data.telepon) {
+                        setIsNextButtonDisabled(false)
+                    }
+                    else {
+                        setIsNextButtonDisabled(true)
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+                .finally(function () {
+                    setIsValidating(false)
+                })
         }, 500);
 
-        return () => clearTimeout(inputDebounce);
+        // const inputDebounce = setTimeout(() => {
+        //     // All fields validation
+        //     checkNikAvailability()
+        //     setIsValidating(false);
+        // }, 500);
+
+        return () => clearTimeout(checkNikAvailability);
     }, [data])
 
     function validateInput() {
-        if (data.nik && data.noKk && data.nama && data.wargaNegara && data.alamat && data.telepon) {
+        if (data.nik && !isNikAlreadyRegistered && data.noKk && data.nama && data.wargaNegara && data.alamat && data.kodeTelepon && data.telepon) {
             nextPage()
         }
         // nextPage()
     }
 
     return (
-        <React.Fragment>
+        <View>
             <KeyboardAwareScrollView>
                 <Text style={styles.title}>
                     Data Diri
@@ -45,17 +68,29 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                 </Text>
                 <TextInput
                     placeholder='NIK'
-                    style={styles.input}
+                    style={[!isNikAlreadyRegistered ? styles.input : styles.inputError, { marginBottom: isNikAlreadyRegistered ? 4 : 12 }]}
                     keyboardType="numeric"
                     value={data.nik}
                     onChangeText={(e) => handleInputChange(e, 'nik')}
                 />
+                {isNikAlreadyRegistered &&
+                    <Text style={styles.nikValidation}>
+                        NIK sudah terdaftar
+                    </Text>
+                }
                 <TextInput
                     placeholder='Nomor KK'
                     style={styles.input}
                     keyboardType="numeric"
                     value={data.noKk}
                     onChangeText={(e) => handleInputChange(e, 'noKk')}
+                />
+                <TextInput
+                    placeholder='Nomor Jemaaat'
+                    style={styles.input}
+                    keyboardType="numeric"
+                    value={data.noJemaat}
+                    onChangeText={(e) => handleInputChange(e, 'noJemaat')}
                 />
                 <TextInput
                     placeholder='Nama'
@@ -84,13 +119,35 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     value={data.alamat}
                     onChangeText={(e) => handleInputChange(e, 'alamat')}
                 />
-                <TextInput
-                    placeholder='Telepon'
-                    style={styles.input}
-                    keyboardType="numeric"
-                    value={data.telepon}
-                    onChangeText={(e) => handleInputChange(e, 'telepon')}
-                />
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 2, marginRight: 5 }}>
+                        <DropDownPicker
+                            placeholder=''
+                            searchPlaceholder="Kode telepon..."
+                            value={kodeTelepon}
+                            items={countriesIdd}
+                            searchable
+                            open={kodeTeleponOpen}
+                            setOpen={setKodeTeleponOpen}
+                            setValue={setKodeTelepon}
+                            onChangeValue={(e) => handleInputChange(e, 'kodeTelepon')}
+                            listMode="MODAL"
+                            language="ID"
+                            itemKey="id"
+                            style={[styles.input, { backgroundColor: 'transparent', paddingHorizontal: 18 }]}
+                            placeholderStyle={{ color: 'grey' }}
+                        />
+                    </View>
+                    <View style={{ flex: 4, marginLeft: 5 }}>
+                        <TextInput
+                            placeholder='Telepon'
+                            style={styles.input}
+                            keyboardType="phone-pad"
+                            value={data.telepon}
+                            onChangeText={(e) => handleInputChange(e, 'telepon')}
+                        />
+                    </View>
+                </View>
                 <TouchableOpacity
                     style={!isNextButtonDisabled && !isValidating ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
                     onPress={validateInput}
@@ -109,7 +166,7 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     <Text style={{ ...styles.nextText, color: '#707070' }}>Sebelumnya</Text>
                 </TouchableOpacity>
             </KeyboardAwareScrollView>
-        </React.Fragment>
+        </View>
     )
 }
 
@@ -126,6 +183,14 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         borderWidth: 1,
         borderColor: 'black',
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        paddingVertical: 10
+    },
+    inputError: {
+        marginBottom: 12,
+        borderWidth: 1,
+        borderColor: 'red',
         borderRadius: 5,
         paddingHorizontal: 20,
         paddingVertical: 10
@@ -153,5 +218,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 15,
         fontWeight: 'bold'
+    },
+    nikValidation: {
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 12
     }
 })
