@@ -7,8 +7,8 @@ import StatusRegister from './Steps/StatusRegister'
 import axios from "axios";
 import { LOCAL_DEVICE_IP } from '@env'
 
-const RegisterScreen = () => {
-    const [step, setStep] = useState(0)
+const RegisterScreen = ({ route }) => {
+    const [step, setStep] = useState(route?.params?.stepInto ? route.params.stepInto : 0)
     const [registrationData, setRegistrationData] = useState(
         {
             email: null,
@@ -23,6 +23,7 @@ const RegisterScreen = () => {
             kodeTelepon: "+62",
             telepon: null,
             gender: null,
+            tempatLahir: null,
             tglLahir: null,
             baptis: null,
             tglBaptis: null,

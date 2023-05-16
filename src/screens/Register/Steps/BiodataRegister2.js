@@ -7,7 +7,6 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import moment from "moment";
 import 'moment/locale/id';
 import axios from "axios";
-import * as Network from 'expo-network';
 import { LOCAL_DEVICE_IP } from '@env'
 
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange, setSubmitStatus }) {
@@ -64,7 +63,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
         setIsValidating(true);
         const inputDebounce = setTimeout(() => {
             // All fields validation
-            if (data.gender && data.tglLahir && (data.baptis !== null) && dataBaptisValidation() && data.pekerjaan) {
+            if (data.gender && data.tempatLahir && data.tglLahir && (data.baptis !== null) && dataBaptisValidation() && data.pekerjaan) {
                 setIsNextButtonDisabled(false)
             }
             else {
@@ -93,7 +92,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
 
     function handleSubmit() {
         setIsValidating(true)
-        if (data.gender && data.tglLahir && (data.baptis !== null) && dataBaptisValidation() && data.pekerjaan) {
+        if (data.gender && data.tempatLahir && data.tglLahir && (data.baptis !== null) && dataBaptisValidation() && data.pekerjaan) {
             const cleanedData = {
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
@@ -173,6 +172,17 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                     style={[styles.input, { backgroundColor: 'transparent', paddingHorizontal: 18, marginBottom: genderDropdownOpen ? 94 : 12 }]}
                     placeholderStyle={{ color: 'grey' }}
                     listMode="SCROLLVIEW"
+                />
+                <LabeledInput
+                    label='Tempat Lahir'
+                    style={styles.dateInput}
+                    value={data.tempatLahir}
+                    mode="outlined"
+                    outlineColor="black"
+                    activeOutlineColor="#4281A4"
+                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                    textColor="black"
+                    onChangeText={(e) => handleInputChange(e, 'tempatLahir')}
                 />
                 <TouchableOpacity onPress={() => showDatePicker('tglLahir')}>
                     <LabeledInput
