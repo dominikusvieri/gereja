@@ -6,8 +6,11 @@ import { RadioButton } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { LOCAL_DEVICE_IP } from '@env'
 import * as SecureStore from 'expo-secure-store'
+import moment from 'moment';
+import 'moment/locale/id'
 
 const PernikahanDetail = () => {
+    moment.locale('id')
     const [nationalities, setNationalities] = useState([]);
     const [selectedNationality, setSelectedNationality] = useState(null);
     const [selectedKPK, setSelectedKPK] = useState(null);
@@ -119,8 +122,8 @@ const PernikahanDetail = () => {
                 </Text>
                 <TextInput
                     value={pernikahanData.mempelaiPria.tempatLahir ?
-                        `${pernikahanData.mempelaiPria.tempatLahir}, ${pernikahanData.mempelaiPria.tglLahir}`
-                        : pernikahanData.mempelaiPria.tglLahir
+                        `${pernikahanData.mempelaiPria.tempatLahir}, ${moment(pernikahanData.mempelaiPria.tglLahir).format('LL')}`
+                        : moment(pernikahanData.mempelaiPria.tglLahir).format('LL')
                     }
                     placeholder='Contoh: Jakarta, 10-01-1999'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
