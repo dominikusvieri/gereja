@@ -4,12 +4,37 @@ import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { RadioButton } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import { LOCAL_DEVICE_IP } from '@env'
+import * as SecureStore from 'expo-secure-store'
 
 const PernikahanDetail = () => {
     const [nationalities, setNationalities] = useState([]);
     const [selectedNationality, setSelectedNationality] = useState(null);
     const [selectedKPK, setSelectedKPK] = useState(null);
     const [babtis, setBabtis] = useState('')
+    const [pernikahanData, setPernikahanData] = useState({
+        mempelaiPria: {
+            noJemaat: '',
+            nama: '',
+            tempatLahir: '',
+            tglLahir: '',
+            alamat: '',
+            wargaNegara: '',
+            pekerjaan: '',
+            baptis: ''
+        },
+        mempelaiWanita: {
+            noJemaat: '',
+            nama: '',
+            tempatLahir: '',
+            tglLahir: '',
+            alamat: '',
+            wargaNegara: '',
+            pekerjaan: '',
+            baptis: ''
+        }
+    })
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation()
 
@@ -24,6 +49,54 @@ const PernikahanDetail = () => {
             });
     }, []);
 
+    const getProfileData = async () => {
+        let storedAccessToken = await SecureStore.getItemAsync('accessToken')
+        const header = {
+            headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+        }
+
+        if (header) {
+            setIsLoading(true)
+            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+                .then(function (response) {
+                    const data = response.data[0]
+                    const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
+                    setPernikahanData({
+                        ...pernikahanData,
+                        [genderMempelai]: {
+                            noJemaat: data.noJemaat,
+                            nama: data.nama,
+                            tempatLahir: data.tempatLahir,
+                            tglLahir: data.tglLahir,
+                            alamat: data.alamat,
+                            wargaNegara: data.wargaNegara,
+                            pekerjaan: data.pekerjaan,
+                            baptis: data.baptis
+                        }
+                    })
+                })
+                .catch(function (error) {
+                    console.log("Error: ", error)
+                })
+                .finally(function () {
+                    setIsLoading(false)
+                })
+        }
+    }
+
+    useEffect(() => {
+        getProfileData()
+    }, [])
+
+    function handleInputChange(e, mempelaiGender, field) {
+        setPernikahanData({
+            ...pernikahanData,
+            [mempelaiGender]: {
+                ...pernikahanData[mempelaiGender],
+                [field]: e
+            }
+        })
+    }
 
     return (
         <SafeAreaView style={{ backgroundColor: '#fff', flex: 1, marginBottom: 20 }}>
@@ -35,6 +108,8 @@ const PernikahanDetail = () => {
                     Nama
                 </Text>
                 <TextInput
+                    value={pernikahanData.mempelaiPria.nama}
+                    onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'nama')}
                     placeholder='Masukkan Nama'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                 />
@@ -43,6 +118,10 @@ const PernikahanDetail = () => {
                     Tempat, Tanggal Lahir
                 </Text>
                 <TextInput
+                    value={pernikahanData.mempelaiPria.tempatLahir ?
+                        `${pernikahanData.mempelaiPria.tempatLahir}, ${pernikahanData.mempelaiPria.tglLahir}`
+                        : pernikahanData.mempelaiPria.tglLahir
+                    }
                     placeholder='Contoh: Jakarta, 10-01-1999'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
 
@@ -52,6 +131,8 @@ const PernikahanDetail = () => {
                     Alamat
                 </Text>
                 <TextInput
+                    value={pernikahanData.mempelaiPria.alamat}
+                    onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'alamat')}
                     placeholder='Masukkan Alamat'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                 />
@@ -74,6 +155,8 @@ const PernikahanDetail = () => {
                     Pekerjaan
                 </Text>
                 <TextInput
+                    value={pernikahanData.mempelaiPria.pekerjaan}
+                    onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'pekerjaan')}
                     placeholder='Masukkan Pekerjaan'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                 />
@@ -81,16 +164,20 @@ const PernikahanDetail = () => {
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
                     Sudah Babtis?
                 </Text>
-                <RadioButton.Group onValueChange={value => setBabtis(value)} value={babtis}>
-                    <RadioButton.Item label='Sudah' value='sudah' />
-                    <RadioButton.Item label='Belum' value='belum' />
+                <RadioButton.Group
+                    // onValueChange={value => setPernikahanData({ ...pernikahanData, mempelaiPria: { ...pernikahanData.mempelaiPria, baptis: value } })}
+                    onValueChange={(e) => handleInputChange(e, 'mempelaiPria', 'baptis')}
+                    value={pernikahanData.mempelaiPria.baptis}
+                >
+                    <RadioButton.Item label='Sudah' value={true} />
+                    <RadioButton.Item label='Belum' value={false} />
                 </RadioButton.Group>
 
                 {
-                    babtis == '' ? (
+                    pernikahanData.mempelaiPria.baptis === '' ? (
                         <></>
                     ) :
-                        babtis == 'belum' ?
+                        !pernikahanData.mempelaiPria.baptis ?
                             (<>
                                 <View>
                                     <Text style={{ color: 'red' }}>*Silahkan dibabtis terlebih dahulu</Text>
@@ -101,6 +188,8 @@ const PernikahanDetail = () => {
                                         Nomor Induk Jemaat
                                     </Text>
                                     <TextInput
+                                        value={pernikahanData.mempelaiPria.noJemaat}
+                                        onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'noJemaat')}
                                         placeholder='Masukkan Nomor Induk Jemaat'
                                         style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
                                     />
