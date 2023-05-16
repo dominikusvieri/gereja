@@ -1,9 +1,46 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import { useIsFocused } from '@react-navigation/native'
+import * as SecureStore from 'expo-secure-store'
+import axios from 'axios'
 
-const ProfileScreen = () => {
-  const navigation = useNavigation()
+const ProfileScreen = ({ route, navigation }) => {
+  const [authorized, setAuthorized] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [user, setUser] = useState({
+    name: '',
+    email: ''
+  })
+
+  console.log("authorized", authorized)
+
+  const getProfileData = async () => {
+    let storedAccessToken = await SecureStore.getItemAsync('accessToken')
+    const header = {
+      headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+    }
+
+    if (header) {
+      setIsLoading(true)
+      axios.get(`http://192.168.1.5:3001/jemaat`, header)
+        .then(function (response) {
+          setUser({ ...user, name: response.data[0].nama, email: response.data[0].email })
+          response.data[0] && setAuthorized(true)
+        })
+        .catch(function (error) {
+          console.log("Error: ", error)
+          setAuthorized(false)
+        })
+        .finally(function () {
+          setIsLoading(false)
+        })
+    }
+  }
+
+  useEffect(() => {
+    getProfileData()
+  }, [useIsFocused()])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerStyle}>
@@ -19,7 +56,12 @@ const ProfileScreen = () => {
 
       <View style={styles.content}>
         <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} style={styles.image} />
-        <Text style={styles.desc}>{'Please log in to continue\n to the awesommess'}</Text>
+        <Text style={styles.desc}>
+          {authorized ?
+            `${user.name}\n${user.email}`
+            :
+            'Please log in to continue\n to the awesommess'}
+        </Text>
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={[styles.button, styles.facebook]}>

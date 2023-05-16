@@ -15,6 +15,7 @@ import PenyerahanAnak from '../../screens/Ministry/PenyerahanAnak/PenyerahanAnak
 import DataPribadi from '../../screens/Ministry/PenyerahanAnak/DataPribadi'
 import AbsensiBabtisan from '../../screens/Ministry/AbsensiBabtisan'
 import AbsensiPranikah from '../../screens/Ministry/AbsensiPranikah'
+import ProfileScreen from '../../screens/Profile/ProfileScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -23,6 +24,7 @@ const MainNavigation = () => {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
+                <Stack.Screen name="profile" component={ProfileScreen} />
                 <Stack.Screen name='login' component={LoginScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='register' component={RegisterScreen} options={{ title: 'Register', headerShown: false }} />
                 <Stack.Screen name='forgetPass' component={ForgetMain} options={{ title: 'Forget Password' }} />

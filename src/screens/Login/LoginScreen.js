@@ -2,6 +2,7 @@ import { View, Text, Image, TextInput, StyleSheet, Button, TouchableOpacity, Act
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
+import * as SecureStore from 'expo-secure-store';
 
 const LoginScreen = () => {
     const navigation = useNavigation()
@@ -45,6 +46,10 @@ const LoginScreen = () => {
             }, { timeout: 10000 })
                 .then(function (response) {
                     setLoginStatus(response.data?.status)
+                    if (response.data.accessToken) {
+                        SecureStore.setItemAsync("accessToken", response.data.accessToken)
+                        navigation.navigate('Profile', { authorized: true })
+                    }
                 })
                 .catch(function (error) {
                     setLoginStatus("Login gagal: " + error)

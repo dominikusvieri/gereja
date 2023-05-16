@@ -35,7 +35,8 @@
     "react-native-signature-capture": "^0.4.12",
     "react-native-tab-view": "^3.5.0",
     "react-native-web": "^0.18.12",
-    "react-select-country-list": "^2.2.3"
+    "react-select-country-list": "^2.2.3",
+    "expo-secure-store": "~12.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
