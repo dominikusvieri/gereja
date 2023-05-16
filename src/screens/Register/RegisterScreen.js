@@ -5,6 +5,7 @@ import BiodataRegister from './Steps/BiodataRegister'
 import BiodataRegister2 from './Steps/BiodataRegister2'
 import StatusRegister from './Steps/StatusRegister'
 import axios from "axios";
+import { LOCAL_DEVICE_IP } from '@env'
 
 const RegisterScreen = () => {
     const [step, setStep] = useState(0)
@@ -40,7 +41,7 @@ const RegisterScreen = () => {
     const getCountries = async () => {
         setIsLoading(true);
 
-        axios.get(`http://192.168.1.5:3001/api/countries`)
+        axios.get(`http://${LOCAL_DEVICE_IP}/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []

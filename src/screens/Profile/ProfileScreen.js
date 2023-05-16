@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import * as SecureStore from 'expo-secure-store'
 import axios from 'axios'
+import { LOCAL_DEVICE_IP } from '@env'
 
 const ProfileScreen = ({ route, navigation }) => {
   const [authorized, setAuthorized] = useState(false)
@@ -12,8 +13,6 @@ const ProfileScreen = ({ route, navigation }) => {
     email: ''
   })
 
-  console.log("authorized", authorized)
-
   const getProfileData = async () => {
     let storedAccessToken = await SecureStore.getItemAsync('accessToken')
     const header = {
@@ -22,7 +21,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`http://192.168.1.5:3001/jemaat`, header)
+      axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
         .then(function (response) {
           setUser({ ...user, name: response.data[0].nama, email: response.data[0].email })
           response.data[0] && setAuthorized(true)

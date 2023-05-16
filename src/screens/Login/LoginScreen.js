@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
+import { LOCAL_DEVICE_IP } from '@env'
 
 const LoginScreen = () => {
     const navigation = useNavigation()
@@ -40,7 +41,7 @@ const LoginScreen = () => {
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            axios.post(`http://192.168.1.5:3001/jemaat/login`, {
+            axios.post(`http://${LOCAL_DEVICE_IP}/jemaat/login`, {
                 email: email,
                 password: password
             }, { timeout: 10000 })
