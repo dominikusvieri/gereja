@@ -94,59 +94,67 @@ const DataPribadi = () => {
                 <Text style={{ fontWeight: '500', fontSize: 18 }}>
                     Form Data Diri Orang Tua / Wali
                 </Text>
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Nama Ayah
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Nama Ayah'
-                    editable={asuhan == 'orang tua' ? true : false}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Nama Ibu
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Nama Ibu'
-                    editable={asuhan == 'orang tua' ? true : false}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
+                {
+                    asuhan == 'orang tua' ?
+                        <>
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Nama Ayah
+                            </Text>
+                            <TextInput
+                                placeholder='Masukkan Nama Ayah'
+                                editable={asuhan == 'orang tua' ? true : false}
+                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Nama Wali
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Wali'
-                    editable={asuhan == 'wali' ? true : false}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Nama Ibu
+                            </Text>
+                            <TextInput
+                                placeholder='Masukkan Nama Ibu'
+                                editable={asuhan == 'orang tua' ? true : false}
+                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Babtisan Ayah di Gereja
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Nama Ibu'
-                    editable={asuhan == 'orang tua' ? true : false}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Babtisan Ayah di Gereja
+                            </Text>
+                            <TextInput
+                                placeholder='Masukkan Nama Ibu'
+                                editable={asuhan == 'orang tua' ? true : false}
+                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Babtisan Ibu di Gereja
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Nama Ibu'
-                    editable={asuhan == 'orang tua' ? true : false}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Babtisan Ibu di Gereja
+                            </Text>
+                            <TextInput
+                                placeholder='Masukkan Nama Ibu'
+                                editable={asuhan == 'orang tua' ? true : false}
+                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            />
+                        </> :
+                        <>
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Nama Wali
+                            </Text>
+                            <TextInput
+                                placeholder='Masukkan Wali'
+                                editable={asuhan == 'wali' ? true : false}
+                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            />
 
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Babtisan Wali di Gereja
-                </Text>
-                <TextInput
-                    placeholder='Masukkan Nama Ibu'
-                    editable={asuhan == 'wali' ? true : false}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Babtisan Wali di Gereja
+                            </Text>
+                            <TextInput
+                                placeholder='Masukkan Nama Ibu'
+                                editable={asuhan == 'wali' ? true : false}
+                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            />
+                        </>
+                }
+
                 <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
                 </TouchableOpacity>
