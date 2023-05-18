@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, SafeAreaView, TextInput, Button, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, SafeAreaView, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -6,12 +6,17 @@ import { RadioButton } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { LOCAL_DEVICE_IP } from '@env'
 import * as SecureStore from 'expo-secure-store'
-import moment from 'moment';
 import 'moment/locale/id'
+import moment from 'moment';
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import { TextInput as LabeledInput } from "react-native-paper";
 
-const PernikahanDetail = () => {
+
+const PernikahanDetail2 = () => {
     moment.locale('id')
     const [nationalities, setNationalities] = useState([]);
+    const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
+    const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate());
     const [selectedNationality, setSelectedNationality] = useState(null);
     const [selectedKPK, setSelectedKPK] = useState(null);
     const [babtis, setBabtis] = useState('')
@@ -101,11 +106,26 @@ const PernikahanDetail = () => {
         })
     }
 
+    const onTanggalLahirChange = (event, selectedDate) => (dateType) => {
+        setTanggalLahir(selectedDate);
+        handleInputChange(selectedDate, dateType);
+    }
+
+    const showDatePicker = (dateType) => {
+        DateTimePickerAndroid.open({
+            value: dateType === 'tglLahir' ? tanggalLahir : tanggalBaptis,
+            onChange: (event, selectedDate) => onTanggalLahirChange(event, selectedDate)(dateType),
+            mode: 'date',
+            is24Hour: true,
+            maximumDate: moment().toDate()
+        })
+    }
+
     return (
         <SafeAreaView style={{ backgroundColor: '#fff', flex: 1, marginBottom: 20 }}>
             <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
                 <Text style={{ fontWeight: '500', fontSize: 18 }}>
-                    Mempelai Pria
+                    Mempelai Wanita
                 </Text>
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
                     Nama
@@ -118,17 +138,32 @@ const PernikahanDetail = () => {
                 />
 
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Tempat, Tanggal Lahir
+                    Tempat Lahir
                 </Text>
                 <TextInput
                     value={pernikahanData.mempelaiPria.tempatLahir ?
                         `${pernikahanData.mempelaiPria.tempatLahir}, ${moment(pernikahanData.mempelaiPria.tglLahir).format('LL')}`
                         : moment(pernikahanData.mempelaiPria.tglLahir).format('LL')
                     }
-                    placeholder='Contoh: Jakarta, 10-01-1999'
+                    placeholder='Contoh: Jakarta'
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
 
                 />
+
+                <TouchableOpacity style={{marginTop:15}} onPress={() => showDatePicker('tglLahir')}>
+                    <LabeledInput
+                        placeholder='Tanggal Lahir'
+                        label='Tanggal Lahir'
+                        style={styles.dateInput}
+                        value={tanggalLahir && moment(tanggalLahir).format('LL')}
+                        editable={false}
+                        mode="outlined"
+                        outlineColor="black"
+                        activeOutlineColor="black"
+                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                        textColor="black"
+                    />
+                </TouchableOpacity>
 
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
                     Alamat
@@ -222,4 +257,46 @@ const PernikahanDetail = () => {
     )
 }
 
-export default PernikahanDetail
+const styles = StyleSheet.create({
+    title: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: '#4281A4'
+    },
+    description: {
+        fontSize: 14,
+        textAlign: 'center',
+        marginBottom: 32
+    },
+    input: {
+        marginBottom: 12,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        color: 'black'
+    },
+    dateInput: {
+        marginBottom: 12,
+        backgroundColor: '#f2f2f2',
+        fontSize: 14,
+        paddingHorizontal: 4
+    },
+    nextButton: {
+        height: 48,
+        backgroundColor: '#4281A4',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
+    },
+    nextText: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold'
+    }
+})
+
+export default PernikahanDetail2
