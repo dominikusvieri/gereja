@@ -24,9 +24,9 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center',  }}>
             Pernikahan
           </Text>
         </TouchableOpacity>
@@ -36,9 +36,9 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center',  }}>
             Babtis
           </Text>
         </TouchableOpacity>
@@ -48,9 +48,9 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
             Penyerahan Anak
           </Text>
         </TouchableOpacity>
@@ -60,9 +60,9 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
             Absensi Babtisan
           </Text>
         </TouchableOpacity>
@@ -72,9 +72,9 @@ const MinistryScreen = () => {
         >
           <Image
             source={require('../../../assets/icon.png')}
-            style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
           />
-          <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
             Absensi Pra Nikah
           </Text>
         </TouchableOpacity>
