@@ -10,7 +10,7 @@ import DetailEventScreen from '../../screens/Home/DetailEventScreen'
 import ForgetMain from '../../screens/ForgetPass/ForgetMain'
 import DetailCommunity from '../../screens/Community/DetailCommunity'
 import PernikahanDetail from '../../screens/Ministry/Pernikahan/PernikahanDetail'
-import PembabtisanDetail from '../../screens/Ministry/PembabtisanDetail'
+import PembabtisanDetail from '../../screens/Ministry/Pembabtisan/PembabtisanDetail'
 import PenyerahanAnak from '../../screens/Ministry/PenyerahanAnak/PenyerahanAnak'
 import DataPribadi from '../../screens/Ministry/PenyerahanAnak/DataPribadi'
 import AbsensiBabtisan from '../../screens/Ministry/AbsensiBabtisan'
@@ -19,6 +19,7 @@ import ProfileScreen from '../../screens/Profile/ProfileScreen'
 import PernikahanDetail2 from '../../screens/Ministry/Pernikahan/PernikahanDetail2'
 import TandaTanganPria from '../../screens/Ministry/Pernikahan/TandaTanganPria'
 import TandaTanganWanita from '../../screens/Ministry/Pernikahan/TandaTanganWanita'
+import TandaTanganPembabtisan from '../../screens/Ministry/Pembabtisan/TandaTanganPembabtisan'
 
 const Stack = createNativeStackNavigator()
 
@@ -37,6 +38,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PernikahanDetailWanita' component={PernikahanDetail2} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PembabtisanDetail' component={PembabtisanDetail} options={{ title: 'Pembabtisan' }} />
+                <Stack.Screen name='TTDPembabtisan' component={TandaTanganPembabtisan} options={{ title: 'Pembabtisan' }} />
                 <Stack.Screen name='PenyerahanAnak' component={PenyerahanAnak} options={{ title: 'Penyerahan Anak' }} />
                 <Stack.Screen name='DataPribadi' component={DataPribadi} options={{ title: 'Data Pribadi' }} />
                 <Stack.Screen name='AbsensiBabtisan' component={AbsensiBabtisan} options={{ title: 'Absensi Babtisan' }} />

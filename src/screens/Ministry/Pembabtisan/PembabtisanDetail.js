@@ -212,7 +212,7 @@ const PembabtisanDetail = () => {
         <Text style={{ marginBottom: 5, marginTop: 10, textAlign: 'justify' }}>
           Dengan ini saya bertanggung jawab dengan data yang saya masukkan untuk mengikuti babtisan air
         </Text>
-        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('BottomNavigation')} >
+        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('TTDPembabtisan')} >
           <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
         </TouchableOpacity>
       </ScrollView>
