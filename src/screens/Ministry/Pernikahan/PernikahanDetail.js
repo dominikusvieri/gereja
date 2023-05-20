@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, SafeAreaView, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, createRef } from 'react'
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { RadioButton } from 'react-native-paper'
@@ -10,6 +10,7 @@ import 'moment/locale/id'
 import moment from 'moment';
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { TextInput as LabeledInput } from "react-native-paper";
+
 
 
 const PernikahanDetail = () => {
@@ -45,6 +46,8 @@ const PernikahanDetail = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation()
+
+    
 
     useEffect(() => {
         axios.get('https://restcountries.com/v2/all')
@@ -150,7 +153,7 @@ const PernikahanDetail = () => {
 
                 />
 
-                <TouchableOpacity style={{marginTop:15}} onPress={() => showDatePicker('tglLahir')}>
+                <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
                     <LabeledInput
                         placeholder='Tanggal Lahir'
                         label='Tanggal Lahir'
@@ -248,6 +251,7 @@ const PernikahanDetail = () => {
                                 </View>
                             </>)
                 }
+                
 
                 <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('PernikahanDetailWanita')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
@@ -258,6 +262,24 @@ const PernikahanDetail = () => {
 }
 
 const styles = StyleSheet.create({
+    titleStyle: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    signature: {
+        flex: 1,
+        borderColor: '#000033',
+        borderWidth: 1,
+    },
+    buttonStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 50,
+        backgroundColor: '#eeeeee',
+        margin: 10,
+    },
     title: {
         fontSize: 24,
         textAlign: 'center',
@@ -277,6 +299,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10,
         color: 'black'
+    },
+    signature: {
+        flex: 1,
+        borderColor: '#000033',
+        borderWidth: 1,
+    },
+    buttonStyle: {
+        flex: 1, justifyContent: "center", alignItems: "center", height: 50,
+        backgroundColor: "#eeeeee",
+        margin: 10
     },
     dateInput: {
         marginBottom: 12,

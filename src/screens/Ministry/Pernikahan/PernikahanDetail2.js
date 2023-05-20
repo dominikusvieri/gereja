@@ -249,7 +249,7 @@ const PernikahanDetail2 = () => {
                             </>)
                 }
 
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('BottomNavigation')} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('TTDPria')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
                 </TouchableOpacity>
             </ScrollView>

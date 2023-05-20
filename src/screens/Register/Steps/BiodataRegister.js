@@ -23,7 +23,7 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
         setIsValidating(true);
 
         const checkNikAvailability = setTimeout(() => {
-            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat/account-validation`, { params: { nik: data?.nik || '' } })
+            axios.get(`http://192.168.117.167:3001/jemaat/account-validation`, { params: { nik: data?.nik || '' } })
                 .then(function (response) {
                     setIsNikAlreadyRegistered(!response.data.isAvailable)
                     if (data.nik && response.data.isAvailable && data.noKk & data.noJemaat && data.nama && data.wargaNegara && data.alamat && data.kodeTelepon && data.telepon) {

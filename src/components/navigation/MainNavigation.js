@@ -17,6 +17,8 @@ import AbsensiBabtisan from '../../screens/Ministry/AbsensiBabtisan'
 import AbsensiPranikah from '../../screens/Ministry/AbsensiPranikah'
 import ProfileScreen from '../../screens/Profile/ProfileScreen'
 import PernikahanDetail2 from '../../screens/Ministry/Pernikahan/PernikahanDetail2'
+import TandaTanganPria from '../../screens/Ministry/Pernikahan/TandaTanganPria'
+import TandaTanganWanita from '../../screens/Ministry/Pernikahan/TandaTanganWanita'
 
 const Stack = createNativeStackNavigator()
 
@@ -39,6 +41,8 @@ const MainNavigation = () => {
                 <Stack.Screen name='DataPribadi' component={DataPribadi} options={{ title: 'Data Pribadi' }} />
                 <Stack.Screen name='AbsensiBabtisan' component={AbsensiBabtisan} options={{ title: 'Absensi Babtisan' }} />
                 <Stack.Screen name='AbsensiPraNikah' component={AbsensiPranikah} options={{ title: 'Absensi Ketekisasi Pra Nikah' }} />
+                <Stack.Screen name='TTDPria' component={TandaTanganPria} options={{ title: 'Pernikahan' }} />
+                <Stack.Screen name='TTDWanita' component={TandaTanganWanita} options={{ title: 'Pernikahan' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
