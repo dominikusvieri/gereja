@@ -8,6 +8,7 @@ import axios from "axios";
 import { LOCAL_DEVICE_IP } from '@env'
 
 const RegisterScreen = ({ route }) => {
+    const localIp = LOCAL_DEVICE_IP
     const [step, setStep] = useState(route?.params?.stepInto ? route.params.stepInto : 0)
     const [registrationData, setRegistrationData] = useState(
         {
@@ -42,7 +43,7 @@ const RegisterScreen = ({ route }) => {
     const getCountries = async () => {
         setIsLoading(true);
 
-        axios.get(`http://${LOCAL_DEVICE_IP}/api/countries`)
+        axios.get(`http://192.168.1.6:3001/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []
@@ -123,13 +124,6 @@ const RegisterScreen = ({ route }) => {
                 [name]: onlyNumber
             })
         }
-        // else if (name === "telepon") {
-        //     const phoneRegex = e.replace(/[^0-9+]/g, '');
-        //     setRegistrationData({
-        //         ...registrationData,
-        //         [name]: phoneRegex
-        //     })
-        // }
         else {
             setRegistrationData({
                 ...registrationData,

@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import { LOCAL_DEVICE_IP } from '@env'
 
 const LoginScreen = () => {
+    const localIp = LOCAL_DEVICE_IP
     const navigation = useNavigation()
 
     const [email, setEmail] = useState('')
@@ -41,7 +42,7 @@ const LoginScreen = () => {
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            axios.post(`http://${LOCAL_DEVICE_IP}/jemaat/login`, {
+            axios.post(`http://192.168.1.6:3001/jemaat/login`, {
                 email: email,
                 password: password
             }, { timeout: 10000 })
@@ -67,15 +68,23 @@ const LoginScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
+                <View style={{ marginBottom: 48 }}>
+                    <Text style={{ fontSize: 32, fontWeight: "600", color: "#4281A4" }}>
+                        Masuk, dengan akun yang terdaftar
+                    </Text>
+                </View>
                 <TextInput
-                    placeholder='Enter Email'
+                    placeholder='Masukkan email'
                     style={styles.input}
                     value={email}
+                    inputMode="email"
+                    keyboardType='email-address'
+                    autoCapitalize='none'
                     onChangeText={(text) => setEmail(text)}
                 />
 
                 <TextInput
-                    placeholder='Enter Password'
+                    placeholder='Masukkan password'
                     secureTextEntry={true}
                     style={styles.input}
                     value={password}
@@ -97,22 +106,22 @@ const LoginScreen = () => {
 
                 <View style={styles.registerStyle}>
                     <Text>
-                        {'Dont have an account? '}
+                        {'Belum punya akun? '}
                     </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('register')}>
                         <Text style={styles.link}>
-                            Register
+                            Daftar
                         </Text>
                     </TouchableOpacity>
 
                 </View>
                 <View style={styles.registerStyle}>
                     <Text>
-                        {'Forgot password? '}
+                        {'Lupa password? '}
                     </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('forgetPass')}>
                         <Text style={styles.link}>
-                            Click here
+                            Klik di sini
                         </Text>
                     </TouchableOpacity>
                 </View>

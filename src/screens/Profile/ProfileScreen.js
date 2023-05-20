@@ -6,11 +6,13 @@ import axios from 'axios'
 import { LOCAL_DEVICE_IP } from '@env'
 
 const ProfileScreen = ({ route, navigation }) => {
+  const localIp = LOCAL_DEVICE_IP
   const [authorized, setAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState({
     name: '',
-    email: ''
+    email: '',
+    role: ''
   })
 
   const getProfileData = async () => {
@@ -21,9 +23,14 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+      axios.get(`http://192.168.1.6:3001/jemaat`, header)
         .then(function (response) {
-          setUser({ ...user, name: response.data[0].nama, email: response.data[0].email })
+          setUser({
+            ...user,
+            name: response.data[0].nama,
+            email: response.data[0].email,
+            role: response.data[0].role === 'admin' ? 'Admin' : response.data[0].role === 'user' ? 'Jemaat' : ''
+          })
           response.data[0] && setAuthorized(true)
         })
         .catch(function (error) {
@@ -40,6 +47,12 @@ const ProfileScreen = ({ route, navigation }) => {
     getProfileData()
   }, [useIsFocused()])
 
+  useEffect(() => {
+    if (!authorized) {
+      navigation.navigate('login')
+    }
+  }, [authorized])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerStyle}>
@@ -55,16 +68,18 @@ const ProfileScreen = ({ route, navigation }) => {
 
       <View style={styles.content}>
         <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} style={styles.image} />
-        <Text style={styles.desc}>
+        <Text style={styles.profileNameText}>
           {authorized ?
-            `${user.name}\n${user.email}`
+            `${user.name}`
             :
             'Please log in to continue\n to the awesommess'}
         </Text>
+        <Text style={styles.emailText}>{user.email}</Text>
+        <Text style={styles.emailText}>{user.role}</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={[styles.button, styles.facebook]}>
-          <Text style={styles.buttonText}>Ganti Profile</Text>
+        <TouchableOpacity style={[styles.button, styles.facebook]} onPress={() => navigation.navigate('UbahProfil')}>
+          <Text style={styles.buttonText}>Lihat Profil</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.google]} onPress={() => navigation.navigate('login')}>
           <Text style={styles.buttonText}>Logout</Text>
@@ -106,11 +121,15 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     marginTop: 39,
   },
-  desc: {
-    fontSize: 18,
+  profileNameText: {
+    marginTop: 18,
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  emailText: {
+    fontSize: 16,
     textAlign: 'center',
-    marginTop: 30,
-    color: '#808080'
   },
   buttonsContainer: {
     flex: 2,

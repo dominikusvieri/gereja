@@ -10,6 +10,7 @@ import axios from "axios";
 import { LOCAL_DEVICE_IP } from '@env'
 
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange, setSubmitStatus }) {
+    const localIp = LOCAL_DEVICE_IP
     moment.locale(data.wargaNegara === 'ID' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [isValidating, setIsValidating] = useState(false);
@@ -97,7 +98,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
             }
-            axios.post(`http://${LOCAL_DEVICE_IP}/jemaat/register`, cleanedData)
+            axios.post(`http://192.168.1.6:3001/jemaat/register`, cleanedData)
                 .then(function (response) {
                     console.log("Registration success");
                     setSubmitStatus(true);

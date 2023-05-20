@@ -65,7 +65,7 @@ const PernikahanDetail2 = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`http://192.168.1.6:3001/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
@@ -150,7 +150,7 @@ const PernikahanDetail2 = () => {
 
                 />
 
-                <TouchableOpacity style={{marginTop:15}} onPress={() => showDatePicker('tglLahir')}>
+                <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
                     <LabeledInput
                         placeholder='Tanggal Lahir'
                         label='Tanggal Lahir'
