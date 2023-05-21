@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { TextInput as LabeledInput } from "react-native-paper";
-import { SafeAreaView, View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Divider } from '@rneui/base';
 import moment from 'moment';
 import 'moment/locale/id';
@@ -35,25 +32,6 @@ export default function UbahProfil({ navigation }) {
     })
     const [isLoading, setIsLoading] = useState(false)
 
-    const getCountryName = async () => {
-        if (userData.wargaNegara.length <= 2) {
-            setIsLoading(true)
-            axios.get(`http://192.168.1.6:3001/api/country-details`, { params: { ciso: userData.wargaNegara } })
-                .then(function (response) {
-                    setUserData({
-                        ...userData,
-                        wargaNegara: response.data.name
-                    })
-                })
-                .catch(function (error) {
-                    console.log("Error getting country name: ", error)
-                })
-                .finally(function () {
-                    setIsLoading(false)
-                })
-        }
-    }
-
     const getUserData = async () => {
         let storedAccessToken = await SecureStore.getItemAsync('accessToken')
         const header = {
@@ -65,26 +43,37 @@ export default function UbahProfil({ navigation }) {
             axios.get(`http://192.168.1.6:3001/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
-                    setUserData({
-                        ...userData,
-                        nama: data.nama,
-                        email: data.email,
-                        nik: data.nik,
-                        noKk: data.noKk,
-                        noJemaat: data.noJemaat,
-                        telepon: data.telp,
-                        wargaNegara: data.wargaNegara,
-                        alamat: data.alamat,
-                        gender: data.gender,
-                        tglLahir: data.tglLahir,
-                        tempatLahir: data.tempatLahir,
-                        pekerjaan: data.pekerjaan,
-                        golDarah: data.golDarah,
-                        statusBaptis: data.baptis,
-                        tglBaptis: data.tglBaptis,
-                        namaBaptis: data.namaBaptis,
-                        tempatBaptis: data.tempatBaptis,
-                    })
+
+                    axios.get(`http://192.168.1.6:3001/api/country-details`, { params: { ciso: data.wargaNegara } })
+                        .then(function (countryDetail) {
+                            setUserData({
+                                ...userData,
+                                nama: data.nama,
+                                email: data.email,
+                                nik: data.nik,
+                                noKk: data.noKk,
+                                noJemaat: data.noJemaat,
+                                telepon: data.telp,
+                                wargaNegara: countryDetail.data.name,
+                                alamat: data.alamat,
+                                gender: data.gender,
+                                tglLahir: data.tglLahir,
+                                tempatLahir: data.tempatLahir,
+                                pekerjaan: data.pekerjaan,
+                                golDarah: data.golDarah,
+                                statusBaptis: data.baptis,
+                                tglBaptis: data.tglBaptis,
+                                namaBaptis: data.namaBaptis,
+                                tempatBaptis: data.tempatBaptis,
+                            })
+                        })
+                        .catch(function (error) {
+                            console.log("Error getting country name: ", error)
+                        })
+                        .finally(function () {
+                            setIsLoading(false)
+                        })
+
                 })
                 .catch(function (error) {
                     console.log("Error getting user data: ", error)
@@ -98,10 +87,6 @@ export default function UbahProfil({ navigation }) {
     useEffect(() => {
         getUserData()
     }, [useIsFocused()])
-
-    useEffect(() => {
-        getCountryName()
-    }, [userData.wargaNegara])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
