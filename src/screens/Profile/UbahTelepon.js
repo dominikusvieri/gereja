@@ -4,17 +4,36 @@ import axios from 'axios'
 import DropDownPicker from 'react-native-dropdown-picker'
 import * as SecureStore from 'expo-secure-store'
 
-export default function UbahTelepon({ route }) {
-    const { telepon } = route.params
-
+export default function UbahTelepon({ navigation }) {
+    const [telepon, setTelepon] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [kodeTeleponOpen, setKodeTeleponOpen] = useState(false)
     const [kodeTelepon, setKodeTelepon] = useState('')
     const [countriesIdd, setCountriesIdd] = useState([])
-    const [outlineColor, setOutlineColor] = useState('#4281A4')
     const [isValidating, setIsValidating] = useState(false)
     const [numbers, setNumbers] = useState('')
     const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false)
+
+    const getCurrentTelepon = async () => {
+        let storedAccessToken = await SecureStore.getItemAsync('accessToken')
+        const header = {
+            headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+        }
+
+        if (header) {
+            setIsLoading(true)
+            axios.get(`http://192.168.1.6:3001/jemaat`, header)
+                .then(function (response) {
+                    setTelepon(response.data[0].telp)
+                })
+                .catch(function (error) {
+                    console.log("Error getting current phone number: ", error)
+                })
+                .finally(function () {
+                    setIsLoading(false)
+                })
+        }
+    }
 
     const getCountriesIdd = async () => {
         setIsLoading(true)
@@ -53,6 +72,7 @@ export default function UbahTelepon({ route }) {
     }
 
     useEffect(() => {
+        getCurrentTelepon()
         getCountriesIdd()
     }, [])
 
@@ -71,14 +91,6 @@ export default function UbahTelepon({ route }) {
         return () => clearTimeout(inputDebounce)
     }, [kodeTelepon, numbers])
 
-    const onFieldFocus = () => {
-        setOutlineColor('#4281A4')
-    }
-
-    const onFieldBlur = () => {
-        setOutlineColor('black')
-    }
-
     const handleSubmit = async () => {
         setIsValidating(true)
         let storedAccessToken = await SecureStore.getItemAsync('accessToken')
@@ -91,12 +103,14 @@ export default function UbahTelepon({ route }) {
 
             axios.put(`http://192.168.1.6:3001/jemaat/edit-telepon`, {
                 newNumbers: finalNumbers
-            }, header)
+            }, header, { timeout: 10000 })
                 .then(function (response) {
                     console.log(response.data)
+                    navigation.navigate("UbahTeleponStatus", { submitStatus: 'success' })
                 })
                 .catch(function (error) {
                     console.log("Error: ", error)
+                    navigation.navigate("UbahTeleponStatus", { submitStatus: 'failed' })
                 })
                 .finally(function () {
                     setIsValidating(false)
@@ -143,7 +157,7 @@ export default function UbahTelepon({ route }) {
                                         language='ID'
                                         itemKey='id'
                                         label="Nomor telepon baru"
-                                        style={{ ...styles.input, borderColor: outlineColor, borderWidth: 2, backgroundColor: 'transparent' }}
+                                        style={{ ...styles.input, borderColor: "#4281A4", borderWidth: 2, backgroundColor: 'transparent' }}
                                         placeholderStyle={{ color: 'grey' }}
                                     />
                                 </View>
@@ -151,7 +165,7 @@ export default function UbahTelepon({ route }) {
                                     <TextInput
                                         placeholder='Nomor'
                                         value={numbers}
-                                        style={{ ...styles.input, borderColor: outlineColor, borderWidth: 2, backgroundColor: 'transparent', paddingVertical: 9 }}
+                                        style={{ ...styles.input, borderColor: "#4281A4", borderWidth: 2, backgroundColor: 'transparent', paddingVertical: 9 }}
                                         keyboardType='number-pad'
                                         onChangeText={(e) => handleInputChange(e)}
                                     />

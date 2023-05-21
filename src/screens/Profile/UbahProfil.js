@@ -34,44 +34,24 @@ export default function UbahProfil({ navigation }) {
         tempatBaptis: ''
     })
     const [isLoading, setIsLoading] = useState(false)
-    const [kodeTeleponOpen, setKodeTeleponOpen] = useState(false)
-    const [kodeTelepon, setKodeTelepon] = useState('')
-    const [countriesIdd, setCountriesIdd] = useState([])
 
-    const getCountriesIdd = async () => {
-        setIsLoading(true)
-
-        axios.get('https://restcountries.com/v3.1/all?fields=name,idd,flags')
-            .then(function (response) {
-                const iddData = response.data;
-                const cleanedCountriesIdd = []
-                if (iddData) {
-                    iddData.map((countryIdd, index) => {
-                        if (countryIdd.idd.suffixes.length > 1) {
-                            cleanedCountriesIdd.push({
-                                id: index,
-                                label: countryIdd.idd.root,
-                                value: countryIdd.idd.root,
-                            })
-                        }
-                        else if (countryIdd.idd.root) {
-                            cleanedCountriesIdd.push({
-                                id: index,
-                                label: countryIdd.idd.root + countryIdd.idd.suffixes[0],
-                                value: countryIdd.idd.root + countryIdd.idd.suffixes[0],
-                            })
-                        }
+    const getCountryName = async () => {
+        if (userData.wargaNegara.length <= 2) {
+            setIsLoading(true)
+            axios.get(`http://192.168.1.6:3001/api/country-details`, { params: { ciso: userData.wargaNegara } })
+                .then(function (response) {
+                    setUserData({
+                        ...userData,
+                        wargaNegara: response.data.name
                     })
-                }
-
-                setCountriesIdd(cleanedCountriesIdd)
-            })
-            .catch(function (error) {
-                console.log("Error getting country idd list", error)
-            })
-            .finally(function () {
-                setIsLoading(false)
-            })
+                })
+                .catch(function (error) {
+                    console.log("Error getting country name: ", error)
+                })
+                .finally(function () {
+                    setIsLoading(false)
+                })
+        }
     }
 
     const getUserData = async () => {
@@ -84,25 +64,26 @@ export default function UbahProfil({ navigation }) {
             setIsLoading(true)
             axios.get(`http://192.168.1.6:3001/jemaat`, header)
                 .then(function (response) {
+                    const data = response.data[0]
                     setUserData({
                         ...userData,
-                        nama: response.data[0].nama,
-                        email: response.data[0].email,
-                        nik: response.data[0].nik,
-                        noKk: response.data[0].noKk,
-                        noJemaat: response.data[0].noJemaat,
-                        telepon: response.data[0].telp,
-                        wargaNegara: response.data[0].wargaNegara,
-                        alamat: response.data[0].alamat,
-                        gender: response.data[0].gender,
-                        tglLahir: response.data[0].tglLahir,
-                        tempatLahir: response.data[0].tempatLahir,
-                        pekerjaan: response.data[0].pekerjaan,
-                        golDarah: response.data[0].golDarah,
-                        statusBaptis: response.data[0].baptis,
-                        tglBaptis: response.data[0].tglBaptis,
-                        namaBaptis: response.data[0].namaBaptis,
-                        tempatBaptis: response.data[0].tempatBaptis,
+                        nama: data.nama,
+                        email: data.email,
+                        nik: data.nik,
+                        noKk: data.noKk,
+                        noJemaat: data.noJemaat,
+                        telepon: data.telp,
+                        wargaNegara: data.wargaNegara,
+                        alamat: data.alamat,
+                        gender: data.gender,
+                        tglLahir: data.tglLahir,
+                        tempatLahir: data.tempatLahir,
+                        pekerjaan: data.pekerjaan,
+                        golDarah: data.golDarah,
+                        statusBaptis: data.baptis,
+                        tglBaptis: data.tglBaptis,
+                        namaBaptis: data.namaBaptis,
+                        tempatBaptis: data.tempatBaptis,
                     })
                 })
                 .catch(function (error) {
@@ -116,8 +97,11 @@ export default function UbahProfil({ navigation }) {
 
     useEffect(() => {
         getUserData()
-        getCountriesIdd()
     }, [useIsFocused()])
+
+    useEffect(() => {
+        getCountryName()
+    }, [userData.wargaNegara])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -126,10 +110,10 @@ export default function UbahProfil({ navigation }) {
                     <ActivityIndicator color="#4281A4" style={{ transform: [{ scaleX: 4 }, { scaleY: 4 }] }} />
                 </View> :
                 <React.Fragment>
-                    <View style={styles.imageContainer}>
-                        <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} style={styles.image} />
-                    </View>
-                    <ScrollView style={{ margin: 24 }}>
+                    <ScrollView style={{ paddingHorizontal: 24 }}>
+                        <View style={styles.imageContainer}>
+                            <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} style={styles.image} />
+                        </View>
                         <View style={{ marginBottom: 24 }}>
                             <View style={styles.informasiContainer}>
                                 <Text style={styles.titleText}>Informasi Akun</Text>
@@ -236,81 +220,14 @@ export default function UbahProfil({ navigation }) {
                                 </React.Fragment>
                             }
                         </View>
-
-                        <TouchableOpacity
-                            style={styles.changePhoneButton}
-                            onPress={() => navigation.navigate('UbahTelepon', { telepon: userData.telepon })}
-                        >
-                            <Text style={styles.changePhoneText}>Ubah Nomor Telepon</Text>
-                        </TouchableOpacity>
-
-                        {/* <LabeledInput
-                    placeholder='Nomor Telepon'
-                    label='Nomor Telepon'
-                    value={userData.telepon}
-                    editable={false}
-                    mode='outlined'
-                    style={styles.labeledInput}
-                    outlineColor='black'
-                    activeOutlineColor='black'
-                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                    textColor="black"
-                />
-
-
-                <LabeledInput
-                    placeholder='NIK'
-                    label='NIK'
-                    value={userData.nik}
-                    mode='outlined'
-                    style={styles.labeledInput}
-                    outlineColor='black'
-                    activeOutlineColor='black'
-                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                    textColor="black"
-                />
-                <LabeledInput
-                    placeholder='No Jemaat'
-                    label='No Jemaat'
-                    value={userData.noJemaat}
-                    mode='outlined'
-                    style={styles.labeledInput}
-                    outlineColor='black'
-                    activeOutlineColor='black'
-                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                    textColor="black"
-                />
-                <Text style={{ color: 'grey', marginBottom: 6, fontSize: 13 }}>Telepon</Text>
-                <View style={{ display: 'flex', flexDirection: 'row' }}>
-                    <View style={{ flex: 2, marginRight: 5 }}>
-                        <DropDownPicker
-                            placeholder=''
-                            searchPlaceholder='Kode telepon...'
-                            value={kodeTelepon}
-                            items={countriesIdd}
-                            searchable
-                            open={kodeTeleponOpen}
-                            setOpen={setKodeTeleponOpen}
-                            setValue={setKodeTelepon}
-                            // onChangeValue={(e) => handleInputChange(e, 'kodeTelepon')}
-                            listMode="MODAL"
-                            language="ID"
-                            itemKey="id"
-                            style={[styles.input, { backgroundColor: 'transparent' }]}
-                            placeholderStyle={{ color: 'grey' }}
-                        />
-                    </View>
-                    <View style={{ flex: 4, marginLeft: 5 }}>
-                        <TextInput
-                            placeholder='Telepon'
-                            style={styles.input}
-                            keyboardType="phone-pad"
-                            value={userData.telepon}
-                            onChangeText={(e) => handleInputChange(e, 'telepon')}
-                        />
-                    </View>
-                </View> */}
                     </ScrollView>
+
+                    <TouchableOpacity
+                        style={{ ...styles.changePhoneButton, margin: 24 }}
+                        onPress={() => navigation.navigate('UbahTelepon', { telepon: userData.telepon })}
+                    >
+                        <Text style={styles.changePhoneText}>Ubah Nomor Telepon</Text>
+                    </TouchableOpacity>
                 </React.Fragment>
             }
         </SafeAreaView>
@@ -320,7 +237,8 @@ export default function UbahProfil({ navigation }) {
 const styles = StyleSheet.create({
     imageContainer: {
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 24
     },
     loadingContainer: {
         flex: 1,

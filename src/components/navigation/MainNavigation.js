@@ -22,6 +22,7 @@ import TandaTanganWanita from '../../screens/Ministry/Pernikahan/TandaTanganWani
 import TandaTanganPembabtisan from '../../screens/Ministry/Pembabtisan/TandaTanganPembabtisan'
 import UbahProfil from '../../screens/Profile/UbahProfil'
 import UbahTelepon from '../../screens/Profile/UbahTelepon'
+import UbahTeleponStatus from '../../screens/Profile/UbahTeleponStatus'
 
 const Stack = createNativeStackNavigator()
 
@@ -33,6 +34,7 @@ const MainNavigation = () => {
                 <Stack.Screen name="profile" component={ProfileScreen} />
                 <Stack.Screen name="UbahProfil" component={UbahProfil} options={{ title: 'Ubah Profil' }} />
                 <Stack.Screen name="UbahTelepon" component={UbahTelepon} options={{ title: 'Ubah Nomor Telepon' }} />
+                <Stack.Screen name="UbahTeleponStatus" component={UbahTeleponStatus} options={{ title: 'Ubah Nomor Telepon' }} />
                 <Stack.Screen name='login' component={LoginScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='register' component={RegisterScreen} options={{ title: 'Register', headerShown: false }} />
                 <Stack.Screen name='forgetPass' component={ForgetMain} options={{ title: 'Forget Password' }} />
