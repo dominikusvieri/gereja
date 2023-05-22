@@ -31,6 +31,12 @@ export default function UbahProfil({ navigation }) {
         tempatBaptis: ''
     })
     const [isLoading, setIsLoading] = useState(false)
+    const [storedAccessToken, setStoredAccessToken] = useState('')
+
+    const getAccessToken = async () => {
+        const accessToken = await SecureStore.getItemAsync('accessToken')
+        setStoredAccessToken(accessToken)
+    }
 
     const getUserData = async () => {
         let storedAccessToken = await SecureStore.getItemAsync('accessToken')
@@ -70,9 +76,6 @@ export default function UbahProfil({ navigation }) {
                         .catch(function (error) {
                             console.log("Error getting country name: ", error)
                         })
-                        .finally(function () {
-                            setIsLoading(false)
-                        })
 
                 })
                 .catch(function (error) {
@@ -85,8 +88,12 @@ export default function UbahProfil({ navigation }) {
     }
 
     useEffect(() => {
+        getAccessToken()
+    }, [])
+
+    useEffect(() => {
         getUserData()
-    }, [useIsFocused()])
+    }, [storedAccessToken])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

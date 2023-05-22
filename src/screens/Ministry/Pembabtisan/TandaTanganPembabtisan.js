@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import Signature from "react-native-signature-canvas";
+// import Signature from "react-native-signature-canvas";
 import { useNavigation } from '@react-navigation/native'
+import { useRef } from "react";
 
 const TandaTanganPembabtisan = () => {
+    const ref = useRef()
     const [signature, setSign] = useState(null);
     const navigation = useNavigation()
 
@@ -34,14 +36,15 @@ const TandaTanganPembabtisan = () => {
                     />
                 ) : null}
             </View>
-            <Signature
+            {/* <Signature
+                ref={ref}
                 onOK={handleOK}
                 onEmpty={handleEmpty}
                 descriptionText="Sign"
                 clearText="Clear"
                 confirmText="Save"
                 webStyle={style}
-            />
+            /> */}
             <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('TTDWanita')} >
                 <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
             </TouchableOpacity>

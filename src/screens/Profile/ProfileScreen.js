@@ -1,12 +1,10 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import * as SecureStore from 'expo-secure-store'
 import axios from 'axios'
-import { LOCAL_DEVICE_IP } from '@env'
 
 const ProfileScreen = ({ route, navigation }) => {
-  const localIp = LOCAL_DEVICE_IP
   const [authorized, setAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState({
@@ -34,7 +32,6 @@ const ProfileScreen = ({ route, navigation }) => {
           response.data[0] && setAuthorized(true)
         })
         .catch(function (error) {
-          console.log("Error: ", error)
           setAuthorized(false)
         })
         .finally(function () {
@@ -47,11 +44,16 @@ const ProfileScreen = ({ route, navigation }) => {
     getProfileData()
   }, [useIsFocused()])
 
-  useEffect(() => {
-    if (!authorized) {
-      navigation.navigate('login')
-    }
-  }, [authorized])
+  // useEffect(() => {
+  //   if (!authorized) {
+  //     navigation.navigate('login')
+  //   }
+  // }, [authorized])
+
+  const handleLogout = () => {
+    SecureStore.deleteItemAsync("accessToken");
+    setAuthorized(false)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -66,25 +68,54 @@ const ProfileScreen = ({ route, navigation }) => {
         </View>
       </View>
 
-      <View style={styles.content}>
-        <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} style={styles.image} />
-        <Text style={styles.profileNameText}>
-          {authorized ?
-            `${user.name}`
-            :
-            'Please log in to continue\n to the awesommess'}
-        </Text>
-        <Text style={styles.emailText}>{user.email}</Text>
-        <Text style={styles.emailText}>{user.role}</Text>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={[styles.button, styles.facebook]} onPress={() => navigation.navigate('UbahProfil')}>
-          <Text style={styles.buttonText}>Lihat Profil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.google]} onPress={() => navigation.navigate('login')}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
-      </View>
+      {isLoading ?
+        <View style={styles.content}>
+          <ActivityIndicator color="#4281A4" style={{ transform: [{ scaleX: 4 }, { scaleY: 4 }] }} />
+        </View>
+        :
+        <React.Fragment>
+          <View style={styles.content}>
+            <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} style={styles.image} />
+            {authorized ?
+              <React.Fragment>
+                <Text style={styles.profileNameText}>
+                  {user.name}
+                </Text>
+                <Text style={styles.emailText}>{user.email}</Text>
+                <Text style={styles.emailText}>{user.role}</Text>
+              </React.Fragment>
+              :
+              <React.Fragment>
+                <Text style={styles.profileNameText}>
+                  Anda belum login
+                </Text>
+              </React.Fragment>
+            }
+          </View>
+
+          <View style={styles.buttonsContainer}>
+            {authorized ?
+              <React.Fragment>
+                <TouchableOpacity style={[styles.button, styles.facebook]} onPress={() => navigation.navigate('UbahProfil')}>
+                  <Text style={styles.buttonText}>Lihat Profil</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.google]} onPress={() => handleLogout()}>
+                  <Text style={styles.buttonText}>Logout</Text>
+                </TouchableOpacity>
+              </React.Fragment>
+              :
+              <React.Fragment>
+                <TouchableOpacity style={[styles.button, styles.facebook]} onPress={() => navigation.navigate('register')}>
+                  <Text style={styles.buttonText}>Daftar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.facebook]} onPress={() => navigation.navigate('login')}>
+                  <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+              </React.Fragment>
+            }
+          </View>
+        </React.Fragment>
+      }
     </SafeAreaView>
   )
 }

@@ -7,10 +7,9 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import moment from "moment";
 import 'moment/locale/id';
 import axios from "axios";
-import { LOCAL_DEVICE_IP } from '@env'
+import * as SecureStore from 'expo-secure-store'
 
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange, setSubmitStatus }) {
-    const localIp = LOCAL_DEVICE_IP
     moment.locale(data.wargaNegara === 'ID' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [isValidating, setIsValidating] = useState(false);
@@ -100,6 +99,9 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
             }
             axios.post(`http://192.168.1.6:3001/jemaat/register`, cleanedData)
                 .then(function (response) {
+                    if (response.data.accessToken) {
+                        SecureStore.setItemAsync("accessToken", response.data.accessToken)
+                    }
                     console.log("Registration success");
                     setSubmitStatus(true);
                 })

@@ -144,6 +144,7 @@ const RegisterScreen = ({ route }) => {
                     return (
                         <AccountRegister
                             nextPage={nextPage}
+                            prevPage={prevPage}
                             data={registrationData}
                             handleInputChange={handleInputChange}
                         />

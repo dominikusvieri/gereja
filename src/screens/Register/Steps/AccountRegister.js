@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import axios from "axios";
-import { LOCAL_DEVICE_IP } from '@env'
+import { useNavigation } from "@react-navigation/native";
 
 export default function AccountRegister({ nextPage, data, handleInputChange }) {
+    const navigation = useNavigation()
+
     const [isEmailError, setIsEmailError] = useState(true)
     const [isEmailAlreadyRegistered, setIsEmailAlreadyRegistered] = useState(false)
     const [isPasswordError, setIsPasswordError] = useState(true)
@@ -130,6 +132,12 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
                     :
                     <Text style={styles.nextText}>Selanjutnya</Text>
                 }
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={{ ...styles.nextButton, borderWidth: 1, borderColor: '#C8C8C8', backgroundColor: 'transparent', marginBottom: 40 }}
+                onPress={() => navigation.goBack()}
+            >
+                <Text style={{ ...styles.nextText, color: '#707070' }}>Sebelumnya</Text>
             </TouchableOpacity>
         </React.Fragment>
     )

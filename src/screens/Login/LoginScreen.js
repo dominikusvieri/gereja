@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-import { LOCAL_DEVICE_IP } from '@env'
 
 const LoginScreen = () => {
-    const localIp = LOCAL_DEVICE_IP
     const navigation = useNavigation()
 
     const [email, setEmail] = useState('')
