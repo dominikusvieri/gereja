@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 
@@ -16,69 +16,84 @@ const MinistryScreen = () => {
           </Text>
         </View>
       </View>
-      <View
-        style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}
-      >
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PernikahanDetail')}
+      <ScrollView>
+        <View
+          style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}
         >
-          <Image
-            source={require('../../../assets/icon.png')}
-            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
-            Pernikahan
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PernikahanDetail')}
+          >
+            <Image
+              source={require('../../../assets/icon.png')}
+              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
+              Pernikahan
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PembabtisanDetail')}
-        >
-          <Image
-            source={require('../../../assets/icon.png')}
-            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
-            Babtis
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PembabtisanDetail')}
+          >
+            <Image
+              source={require('../../../assets/icon.png')}
+              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
+              Babtis
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PenyerahanAnak')}
-        >
-          <Image
-            source={require('../../../assets/icon.png')}
-            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
-            Penyerahan Anak
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PenyerahanAnak')}
+          >
+            <Image
+              source={require('../../../assets/icon.png')}
+              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
+              Penyerahan Anak
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AbsensiBabtisan')}
-        >
-          <Image
-            source={require('../../../assets/icon.png')}
-            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
-            Absensi Babtisan
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AbsensiBabtisan')}
+          >
+            <Image
+              source={require('../../../assets/icon.png')}
+              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
+              Absensi Babtisan
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AbsensiPraNikah')}
-        >
-          <Image
-            source={require('../../../assets/icon.png')}
-            style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
-            Absensi Pra Nikah
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AbsensiPraNikah')}
+          >
+            <Image
+              source={require('../../../assets/icon.png')}
+              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
+              Absensi Pra Nikah
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PendaftaranPelayanan')}
+          >
+            <Image
+              source={require('../../../assets/icon.png')}
+              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', }}>
+              Pendaftaran {"\n"} Pelayanan
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
     </SafeAreaView>
   )
 }
