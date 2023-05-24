@@ -23,7 +23,10 @@ import TandaTanganPembabtisan from '../../screens/Ministry/Pembabtisan/TandaTang
 import UbahProfil from '../../screens/Profile/UbahProfil'
 import UbahTelepon from '../../screens/Profile/UbahTelepon'
 import UbahTeleponStatus from '../../screens/Profile/UbahTeleponStatus'
-import PendaftaranPelayanan from '../../screens/Ministry/PendaftaranPelayanan/PendaftaranPelayanan'
+// import PendaftaranPelayanan from '../../screens/Ministry/PendaftaranPelayanan/PendaftaranPelayanan'
+import Pelayanan from '../../screens/Ministry/Pelayanan/Pelayanan'
+import RegistrasiPelayanan from '../../screens/Ministry/Pelayanan/RegistrasiPelayanan'
+import StatusRegisterPelayanIbadah from '../../screens/Ministry/Pelayanan/StatusRegister'
 
 const Stack = createNativeStackNavigator()
 
@@ -50,7 +53,9 @@ const MainNavigation = () => {
                 <Stack.Screen name='DataPribadi' component={DataPribadi} options={{ title: 'Data Pribadi' }} />
                 <Stack.Screen name='AbsensiBabtisan' component={AbsensiBabtisan} options={{ title: 'Absensi Babtisan' }} />
                 <Stack.Screen name='AbsensiPraNikah' component={AbsensiPranikah} options={{ title: 'Absensi Ketekisasi Pra Nikah' }} />
-                <Stack.Screen name='PendaftaranPelayanan' component={PendaftaranPelayanan} options={{ title: 'Pendaftaran Pelayanan' }} />
+                <Stack.Screen name='Pelayanan' component={Pelayanan} options={{ title: 'Pelayanan' }} />
+                <Stack.Screen name='RegistrasiPelayanan' component={RegistrasiPelayanan} options={{ title: 'Registrasi Pelayanan' }} />
+                <Stack.Screen name='StatusRegisterPelayanIbadah' component={StatusRegisterPelayanIbadah} options={{ headerShown: false }} />
                 {/* <Stack.Screen name='TTDPria' component={TandaTanganPria} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='TTDWanita' component={TandaTanganWanita} options={{ title: 'Pernikahan' }} /> */}
             </Stack.Navigator>
