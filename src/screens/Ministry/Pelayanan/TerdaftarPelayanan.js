@@ -22,10 +22,12 @@ export default function TerdaftarPelayanan({ listPelayanan }) {
                             </View>
                             <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center', backgroundColor: '#9E9E9E', borderRadius: 8 }}>
                                 <Text style={styles.cardTextStatus}>{
-                                    pelayanan.statusApproval ?
-                                        "Terdaftar"
-                                        :
+                                    pelayanan.statusApproval === 'pending' ?
                                         "Menunggu persetujuan"
+                                        : pelayanan.statusApproval === 'approved' ?
+                                            "Terdaftar"
+                                            : pelayanan.statusApproval === 'denied' &&
+                                            "Ditolak"
                                 }</Text>
                             </View>
                         </View>
@@ -67,7 +69,6 @@ const styles = StyleSheet.create({
     cardTextDesc: {
         fontSize: 14,
         color: 'white',
-        // fontWeight: '500'
     },
     cardTextStatus: {
         fontSize: 14,
