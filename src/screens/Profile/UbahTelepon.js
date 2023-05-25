@@ -22,7 +22,7 @@ export default function UbahTelepon({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://192.168.1.6:3001/jemaat`, header)
+            axios.get(`http://172.17.5.204:3001/jemaat`, header)
                 .then(function (response) {
                     setTelepon(response.data[0].telp)
                 })
@@ -101,7 +101,7 @@ export default function UbahTelepon({ navigation }) {
         if (kodeTelepon && numbers) {
             const finalNumbers = kodeTelepon + ' ' + numbers
 
-            axios.put(`http://192.168.1.6:3001/jemaat/edit-telepon`, {
+            axios.put(`http://172.17.5.204:3001/jemaat/edit-telepon`, {
                 newNumbers: finalNumbers
             }, header, { timeout: 10000 })
                 .then(function (response) {

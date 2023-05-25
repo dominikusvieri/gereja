@@ -44,12 +44,34 @@ const PernikahanDetail = () => {
         }
     })
     const [isLoading, setIsLoading] = useState(false)
+    const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true)
+    const [isValidating, setIsValidating] = useState(false)
+    const [isNamaError, setIsNamaError] = useState(true)
+    const [isTempatLahirError, setIsTempatLahirError] = useState(true)
+    const [isAlamatError, setIsAlamatError] = useState(true)
+    const [isNationalitiesError, setIsNationalitiesError] = useState(true)
+    const [isPekerjaanError, setIsPekerjaanError] = useState(true)
 
     const navigation = useNavigation()
+
+    useEffect(() => {
+        if (!isNamaError && !isTempatLahirError && !isAlamatError && !isNationalitiesError && !isPekerjaanError) {
+            setIsNextButtonDisabled(false)
+        }
+        else {
+            setIsNextButtonDisabled(true)
+        }
+    }, [isNamaError, isTempatLahirError, isAlamatError, isNationalitiesError, isPekerjaanError])
 
     
 
     useEffect(() => {
+        setIsValidating(true)
+
+        const checkInput = setTimeout(()=>{
+            //nama validation
+
+        })
         axios.get('https://restcountries.com/v2/all')
             .then(response => {
                 const nationalities = response.data.map(country => country.name);
@@ -60,6 +82,50 @@ const PernikahanDetail = () => {
             });
     }, []);
 
+    
+
+    useEffect(() => {
+        setIsValidating(true);
+        const inputDebounce = setTimeout(() => {
+            // Email validation
+            const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+            if (emailRegex.test(data.email) && data.email) {
+                setIsEmailError(false)
+            }
+            else {
+                setIsEmailError(true)
+            }
+
+            axios.get(`http://172.17.5.204:3001/jemaat/account-validation`, { params: { email: data?.email || '' } })
+                .then(function (response) {
+                    setIsEmailAlreadyRegistered(!response.data.isAvailable)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+
+            // Password validation
+            const passwordRegex = /^(?=.*\d).{6,}$/;
+            if (passwordRegex.test(data.password) && data.password) {
+                setIsPasswordError(false)
+            }
+            else {
+                setIsPasswordError(true)
+            }
+
+            // Retype password validation
+            if ((data.password === data.retypePassword) && data.retypePassword) {
+                setIsRetypePasswordError(false)
+            }
+            else {
+                setIsRetypePasswordError(true)
+            }
+            setIsValidating(false);
+        }, 500);
+
+        return () => clearTimeout(inputDebounce);
+    }, [data])
+
     const getProfileData = async () => {
         let storedAccessToken = await SecureStore.getItemAsync('accessToken')
         const header = {
@@ -68,7 +134,7 @@ const PernikahanDetail = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://192.168.1.6:3001/jemaat`, header)
+            axios.get(`http://172.17.5.204:3001/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
@@ -251,9 +317,18 @@ const PernikahanDetail = () => {
                                 </View>
                             </>)
                 }
+
+                {/* {
+                    pernikahanData.mempelaiPria.nama == null ?(
+                        setIsNextButtonDisabled(true)
+                    ):(
+                        setIsNextButtonDisabled(false)
+                    )
+                        
+                } */}
                 
 
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('PernikahanDetailWanita')} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('PernikahanDetailWanita')} disabled={isNextButtonDisabled}>
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
                 </TouchableOpacity>
             </ScrollView>

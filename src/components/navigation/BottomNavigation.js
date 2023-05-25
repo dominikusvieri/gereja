@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../../screens/Home/HomeScreen'
 import CommunityScreen from '../../screens/Community/CommunityScreen'
 import MinistryScreen from '../../screens/Ministry/MinistryScreen'
-import MediaScreen from '../../screens/Media/MediaScreen'
+import MailScreen from '../../screens/Mail/MailScreen'
 import ProfileScreen from '../../screens/Profile/ProfileScreen'
 
 const Tab = createBottomTabNavigator()
@@ -69,8 +69,8 @@ const BottomNavigation = () => {
       />
 
       <Tab.Screen
-        name='Media'
-        component={MediaScreen}
+        name='Mail'
+        component={MailScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             const iconSource = focused ?

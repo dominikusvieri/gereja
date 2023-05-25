@@ -40,7 +40,7 @@ const LoginScreen = () => {
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            axios.post(`http://192.168.1.6:3001/jemaat/login`, {
+            axios.post(`http://172.17.5.204:3001/jemaat/login`, {
                 email: email,
                 password: password
             }, { timeout: 10000 })
