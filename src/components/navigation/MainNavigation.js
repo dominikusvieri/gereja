@@ -13,8 +13,9 @@ import PernikahanDetail from '../../screens/Ministry/Pernikahan/PernikahanDetail
 import PembabtisanDetail from '../../screens/Ministry/Pembabtisan/PembabtisanDetail'
 import PenyerahanAnak from '../../screens/Ministry/PenyerahanAnak/PenyerahanAnak'
 import DataPribadi from '../../screens/Ministry/PenyerahanAnak/DataPribadi'
-import AbsensiBabtisan from '../../screens/Ministry/AbsensiBabtisan'
-import AbsensiPranikah from '../../screens/Ministry/AbsensiPranikah'
+import AbsensiBabtisan from '../../screens/Ministry/Absensi/AbsensiBabtisan'
+import AbsensiPranikah from '../../screens/Ministry/Absensi/AbsensiPranikah'
+import AbsensiMainScreen from '../../screens/Ministry/Absensi/AbsensiMainScreen'
 import ProfileScreen from '../../screens/Profile/ProfileScreen'
 import PernikahanDetail2 from '../../screens/Ministry/Pernikahan/PernikahanDetail2'
 // import TandaTanganPria from '../../screens/Ministry/Pernikahan/TandaTanganPria'
@@ -53,6 +54,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='DataPribadi' component={DataPribadi} options={{ title: 'Data Pribadi' }} />
                 <Stack.Screen name='AbsensiBabtisan' component={AbsensiBabtisan} options={{ title: 'Absensi Babtisan' }} />
                 <Stack.Screen name='AbsensiPraNikah' component={AbsensiPranikah} options={{ title: 'Absensi Ketekisasi Pra Nikah' }} />
+                <Stack.Screen name='AbsensiMain' component={AbsensiMainScreen} options={{ title: 'Absensi' }} />
                 <Stack.Screen name='Pelayanan' component={Pelayanan} options={{ title: 'Pelayanan' }} />
                 <Stack.Screen name='RegistrasiPelayanan' component={RegistrasiPelayanan} options={{ title: 'Registrasi Pelayanan' }} />
                 <Stack.Screen name='StatusRegisterPelayanIbadah' component={StatusRegisterPelayanIbadah} options={{ headerShown: false }} />
