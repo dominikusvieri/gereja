@@ -25,17 +25,18 @@ const DaftarEvent = ({ route }) => {
         setEmail(inputEmail)
     }
 
-    
+    const handleEvent = (inputEvent) => {
+        setEvent(inputEvent)
+    }
 
     const handleDaftar = () => {
-        console.log(name, nomorTelepon, email, data)
         const eventRegister = {
             name: name,
             nomor_telepon: nomorTelepon,
             email: email,
-            event: data
+            event: event
         }
-        axios.post(' https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/daftarevent', eventRegister )
+        axios.post('https://44b4-2001-448a-2020-8c4a-7488-3ff7-97f7-e2db.ngrok-free.app/daftarevent', { eventRegister })
             .then(response => {
                 // handle successful response
                 console.log(response.data);
@@ -47,51 +48,51 @@ const DaftarEvent = ({ route }) => {
             });
     }
 
-return (
-    <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
-        <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
-            <Text style={{ fontWeight: '500', fontSize: 18 }}>
-                Form Pendaftaran Event
-            </Text>
-            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Nama
-            </Text>
-            <TextInput
-                placeholder='Masukkan Nama'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                // value={name}
-                onChangeText={(e) => setName(e)}
-            />
-            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Nomor Telepon
-            </Text>
-            <TextInput
-                placeholder='Masukkan Nomor Telepon'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                // value={nomorTelepon}
-                onChangeText={(e)=> setNomorTelepon(e)}
-            />
-            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Email
-            </Text>
-            <TextInput
-                placeholder='Masukkan Email'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                // value={email}
-                onChangeText={(e)=> setEmail(e)}
-            />
-            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Event
-            </Text>
-            <Text>
-                {data}
-            </Text>
-            <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginBottom: 20, marginTop: 20 }} onPress={() => handleDaftar()} >
-                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
-            </TouchableOpacity>
+    return (
+        <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
+            <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
+                <Text style={{ fontWeight: '500', fontSize: 18 }}>
+                    Form Pendaftaran Event
+                </Text>
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Nama
+                </Text>
+                <TextInput
+                    placeholder='Masukkan Nama'
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    // value={name}
+                    onChangeText={(e) => setName(e)}
+                />
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Nomor Telepon
+                </Text>
+                <TextInput
+                    placeholder='Masukkan Nomor Telepon'
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    // value={nomorTelepon}
+                    onChangeText={(e) => setNomorTelepon(e)}
+                />
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Email
+                </Text>
+                <TextInput
+                    placeholder='Masukkan Email'
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    // value={email}
+                    onChangeText={(e) => setEmail(e)}
+                />
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Event
+                </Text>
+                <Text>
+                    {data}
+                </Text>
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginBottom: 20, marginTop: 20 }} onPress={() => handleDaftar()} >
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-    </View>
-)
+    )
 }
 
 export default DaftarEvent

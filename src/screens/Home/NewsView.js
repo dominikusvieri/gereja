@@ -15,12 +15,12 @@ const NewsView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('  https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/news')
+    axios.get('https://44b4-2001-448a-2020-8c4a-7488-3ff7-97f7-e2db.ngrok-free.app/news')
       .then(response => response.data.news)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
-      .finally(() => setIsLoading(false)) 
-      
+      .finally(() => setIsLoading(false))
+
   }, [])
 
   return (
@@ -41,7 +41,7 @@ const NewsView = () => {
                 onPress={() => navigation.navigate('DetailNews', { param: item })}
                 style={{ flexDirection: 'row', marginBottom: 5, padding: 5, marginTop: 10 }}
               >
-                
+
                 <Image
                   source={{ uri: item.image }}
                   style={{ width: 50, height: 50 }}

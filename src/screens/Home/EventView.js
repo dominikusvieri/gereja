@@ -15,7 +15,7 @@ const EventView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('  https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/event')
+    axios.get('https://44b4-2001-448a-2020-8c4a-7488-3ff7-97f7-e2db.ngrok-free.app/event')
       .then(response => response.data.event)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
