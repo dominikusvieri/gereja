@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { LOCAL_DEVICE_IP } from "@env"
+=======
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import * as SecureStore from 'expo-secure-store';
+import axios from "axios";
+import { useIsFocused } from "@react-navigation/native";
+>>>>>>> 20d01a2 (mail)
 
 const MediaScreen = () => {
   const [isAuthorized, setIsAuthorized] = useState(false)
@@ -54,7 +62,11 @@ const MediaScreen = () => {
     verifyAuth()
   }, [isAuthorized, useIsFocused()])
 
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> 20d01a2 (mail)
 
   console.log(isAuthorized)
   return (
@@ -69,6 +81,32 @@ const MediaScreen = () => {
           </Text>
         </View>
       </View>
+      {isLoading ?
+        <View style={styles.unauthorizedContainer}>
+          <ActivityIndicator color="#4281A4" style={{ transform: [{ scaleX: 4 }, { scaleY: 4 }] }} />
+        </View>
+        :
+        (isAuthorized ?
+          <View>
+            <Text>Mail</Text>
+          </View>
+          :
+          <View style={styles.unauthorizedContainer}>
+            <Text style={styles.unauthorizedTitle}>
+              Anda belum login
+            </Text>
+            <Text style={styles.unauthorizedDesc}>
+              Silahkan login untuk melanjutkan
+            </Text>
+            <TouchableOpacity
+              style={styles.unauthorizedButton}
+              onPress={() => navigation.navigate('login')}
+            >
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      }
     </SafeAreaView>
   )
 }
@@ -89,7 +127,35 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16
   },
-
+  unauthorizedContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  unauthorizedTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#4281A4'
+  },
+  unauthorizedDesc: {
+    fontSize: 16,
+    color: '#4281A4',
+    marginBottom: 12,
+  },
+  unauthorizedButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 56,
+    backgroundColor: '#4281A4',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  loginText: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    fontWeight: '500'
+  }
 })
 
 export default MediaScreen
