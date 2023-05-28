@@ -28,6 +28,7 @@ import UbahTeleponStatus from '../../screens/Profile/UbahTeleponStatus'
 import Pelayanan from '../../screens/Ministry/Pelayanan/Pelayanan'
 import RegistrasiPelayanan from '../../screens/Ministry/Pelayanan/RegistrasiPelayanan'
 import StatusRegisterPelayanIbadah from '../../screens/Ministry/Pelayanan/StatusRegister'
+import DaftarEvent from '../../screens/Home/DaftarEvent'
 
 const Stack = createNativeStackNavigator()
 
@@ -57,6 +58,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='AbsensiMain' component={AbsensiMainScreen} options={{ title: 'Absensi' }} />
                 <Stack.Screen name='Pelayanan' component={Pelayanan} options={{ title: 'Pelayanan' }} />
                 <Stack.Screen name='RegistrasiPelayanan' component={RegistrasiPelayanan} options={{ title: 'Registrasi Pelayanan' }} />
+                <Stack.Screen name='DaftarEvent' component={DaftarEvent} options={{ title: 'Daftar Event' }} />
                 <Stack.Screen name='StatusRegisterPelayanIbadah' component={StatusRegisterPelayanIbadah} options={{ headerShown: false }} />
                 {/* <Stack.Screen name='TTDPria' component={TandaTanganPria} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='TTDWanita' component={TandaTanganWanita} options={{ title: 'Pernikahan' }} /> */}

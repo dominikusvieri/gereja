@@ -15,8 +15,8 @@ const NewsView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('https://fakestoreapi.com/products')
-      .then(response => response.data)
+    axios.get('https://44b4-2001-448a-2020-8c4a-7488-3ff7-97f7-e2db.ngrok-free.app/news')
+      .then(response => response.data.news)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false)) 
@@ -51,7 +51,7 @@ const NewsView = () => {
                     {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
                   </Text>
                   <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                    {item.category} / tanggal
+                    {item.penulis} / {item.createdAt}
                   </Text>
                 </View>
               </TouchableOpacity>
