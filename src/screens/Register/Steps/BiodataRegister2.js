@@ -97,7 +97,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
             }
-            axios.post(`http://192.168.1.6:3001/jemaat/register`, cleanedData)
+            axios.post(`https://38d2-120-188-7-58.ngrok-free.app/jemaat/register`, cleanedData)
                 .then(function (response) {
                     if (response.data.accessToken) {
                         SecureStore.setItemAsync("accessToken", response.data.accessToken)
