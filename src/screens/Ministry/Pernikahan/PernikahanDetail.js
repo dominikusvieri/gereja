@@ -23,6 +23,7 @@ const PernikahanDetail = () => {
     const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate());
     const [selectedNationality, setSelectedNationality] = useState(null);
     const [selectedKPK, setSelectedKPK] = useState(null);
+    const [isFormValid, setIsFormValid] = useState(false);
     const [babtis, setBabtis] = useState('')
     const [pernikahanData, setPernikahanData] = useState({
         mempelaiPria: {

@@ -23,9 +23,82 @@ const PembabtisanDetail = () => {
 
   const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
   const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate());
+  const [nama, setNama] = useState('')
+  const [tempatLahir, setTempatLahir] = useState('')
+  const [alamat, setAlamat] = useState('')
+  const [namaAyahorWali, setNamaAyahorWali] = useState('')
+  const [namaIbuorWali, setNamaIbuorWali] = useState('')
+  const [alamatOrtuorWali, setAlamatOrtuorWali] = useState('')
+  const [isFormValid, setIsFormValid] = useState(false);
 
 
   const navigation = useNavigation()
+
+  const handleUploadKTP = (text) => {
+    setFotoKTP(text);
+    validateForm();
+  };
+
+  const handleNama = (text) => {
+    setNama(text);
+    validateForm();
+  };
+
+  const handleUploadFoto = (text) => {
+    setFotoBerwarna(text);
+    validateForm();
+  };
+
+  const handleTempatLahir = (text) => {
+    setTempatLahir(text);
+    validateForm();
+  };
+
+  const handleTanggalLahir = (text) => {
+    setTanggalLahir(text);
+    validateForm();
+  };
+
+  const handleAlamat = (text) => {
+    setAlamat(text);
+    validateForm();
+  };
+
+  const handleNamaAyahorWali = (text) => {
+    setNamaAyahorWali(text);
+    validateForm();
+  };
+
+  const handleNamaIbuorWali = (text) => {
+    setNamaIbuorWali(text);
+    validateForm();
+  };
+
+  const handleAlamatOrtuorWali = (text) => {
+    setAlamatOrtuorWali(text);
+    validateForm();
+  };
+
+
+  const validateForm = () => {
+    setIsFormValid(nama !== '' && tanggalLahir !== '' && tempatLahir !== '' && alamat !== '' && fotoKTP !== '' && fotoBerwarna !== '' && namaAyahorWali !== '' && namaIbuorWali !== '' && alamatOrtuorWali !== '');
+  };
+
+  const renderButton = () => {
+    if (isFormValid) {
+        return (
+            <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
+                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+            </TouchableOpacity>
+        );
+    }
+
+    return (
+        <TouchableOpacity style={{ backgroundColor: '#b1b1b1', padding: 15, marginTop: 50 }} disabled={true} >
+            <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+        </TouchableOpacity>
+    );
+};
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -119,6 +192,7 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Masukkan Nama'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+          onChangeText={handleNama}
         />
 
         <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -127,6 +201,7 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Contoh: Jakarta'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+          onChange={handleTempatLahir}
         />
 
         <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
@@ -141,6 +216,7 @@ const PembabtisanDetail = () => {
             activeOutlineColor="black"
             theme={{ colors: { onSurfaceVariant: 'grey' } }}
             textColor="black"
+            onChangeText={handleTanggalLahir}
           />
         </TouchableOpacity>
 
@@ -150,6 +226,7 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Masukkan Alamat'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+          onChangeText={handleAlamat}
         />
 
         <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -191,6 +268,7 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Masukkan Nama Ayah / Wali'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+          onChangeText={handleNamaAyahorWali}
         />
 
         <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -199,6 +277,7 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Masukkan Nama Ibu / Wali'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+          onChangeText={handleNamaIbuorWali}
         />
 
         <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -207,14 +286,13 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Masukkan Alamat Orang Tua / Wali'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+          onChangeText={handleAlamatOrtuorWali}
         />
 
         <Text style={{ marginBottom: 5, marginTop: 10, textAlign: 'justify' }}>
           Dengan ini saya bertanggung jawab dengan data yang saya masukkan untuk mengikuti babtisan air
         </Text>
-        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('TTDPembabtisan')} >
-          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>
-        </TouchableOpacity>
+        {renderButton()}
       </ScrollView>
     </View>
   );

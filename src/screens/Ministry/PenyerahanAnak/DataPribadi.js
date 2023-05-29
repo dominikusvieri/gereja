@@ -12,11 +12,101 @@ const DataPribadi = () => {
     const [asuhan, setAsuhan] = useState('')
     const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
     const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate());
+    const [name, setName] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [tempatLahir, setTempatLahir] = useState('');
+    const [alamat, setAlamat] = useState('');
+    const [telepon, setTelepon] = useState('');
+    const [namaWali, setNamaWali] = useState('')
+    const [baptisanWali, setBaptisanWali] = useState('');
+    const [nameAyah, setNameAyah] = useState('');
+    const [nameIbu, setNameIbu] = useState('');
+    const [baptisanAyah, setBaptisanAyah] = useState('');
+    const [baptisanIbu, setBaptisanIbu] = useState('');
 
     const onTanggalLahirChange = (event, selectedDate) => (dateType) => {
         setTanggalLahir(selectedDate);
         handleInputChange(selectedDate, dateType);
     }
+
+    const handleNameChange = (text) => {
+        setName(text);
+        validateForm()
+    };
+
+    const handleTangggalLahir = (text) => {
+        setTanggalLahir(text);
+        validateForm();
+    };
+
+    const handleTempatLahir = (text) => {
+        setTempatLahir(text);
+        validateForm();
+    };
+
+    const handleAlamat = (text) => {
+        setAlamat(text);
+        validateForm();
+    };
+
+    const handleTelepon = (text) => {
+        setTelepon(text);
+        validateForm();
+    };
+
+    const handleNamaWali = (text) => {
+        setNamaWali(text);
+        validateForm();
+    };
+
+    const handleBaptisanWali = (text) => {
+        setBaptisanWali(text);
+        validateForm();
+    };
+
+    const handleNamaAyah = (text) => {
+        setNameAyah(text);
+        validateForm();
+    };
+
+    const handleNamaIbu = (text) => {
+        setNameIbu(text);
+        validateForm();
+    };
+
+    const handleBaptisanAyah = (text) => {
+        setBaptisanAyah(text);
+        validateForm();
+    };
+
+    const handleBaptisanIbu = (text) => {
+        setBaptisanIbu(text);
+        validateForm();
+    };
+
+    const validateForm = () => {
+        if (asuhan == 'wali') {
+            setIsFormValid(name !== '' && tanggalLahir !== '' && tempatLahir !== '' && alamat !== '' && telepon !== '' && namaWali !== '' && baptisanWali !== '');
+        } else {
+            setIsFormValid(name !== '' && tanggalLahir !== '' && tempatLahir !== '' && alamat !== '' && telepon !== '' && nameAyah !== '' && nameIbu !== '' && baptisanAyah !== '' && baptisanIbu !== '');
+        }
+    };
+
+    const renderButton = () => {
+        if (isFormValid) {
+            return (
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+                </TouchableOpacity>
+            );
+        }
+
+        return (
+            <TouchableOpacity style={{ backgroundColor: '#b1b1b1', padding: 15, marginTop: 50 }} disabled={true} >
+                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+            </TouchableOpacity>
+        );
+    };
 
     const showDatePicker = (dateType) => {
         DateTimePickerAndroid.open({
@@ -29,20 +119,111 @@ const DataPribadi = () => {
     }
 
     const navigation = useNavigation()
-    const renderForms = () => {
-        let forms = [];
-        for (let i = 1; i <= formCount; i++) {
-            forms.push(
-                <View key={i.toString()}>
-                    <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>
-                        Anak ke - {i}
-                    </Text>
+    // const renderForms = () => {
+    //     let forms = [];
+    //     for (let i = 1; i <= formCount; i++) {
+    //         forms.push(
+    //             <View key={i.toString()}>
+    //                 <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>
+    //                     Anak ke - {i}
+    //                 </Text>
+    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
+    //                     Nama
+    //                 </Text>
+    //                 <TextInput
+    //                     placeholder='Masukkan Nama'
+    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+    //                 />
+
+    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
+    //                     Tempat Lahir
+    //                 </Text>
+    //                 <TextInput
+    //                     placeholder='Contoh: Jakarta'
+    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+
+    //                 />
+
+    //                 <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
+    //                     <LabeledInput
+    //                         placeholder='Tanggal Lahir'
+    //                         label='Tanggal Lahir'
+    //                         style={styles.dateInput}
+    //                         value={tanggalLahir && moment(tanggalLahir).format('LL')}
+    //                         editable={false}
+    //                         mode="outlined"
+    //                         outlineColor="black"
+    //                         activeOutlineColor="black"
+    //                         theme={{ colors: { onSurfaceVariant: 'grey' } }}
+    //                         textColor="black"
+    //                     />
+    //                 </TouchableOpacity>
+
+    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
+    //                     Alamat
+    //                 </Text>
+    //                 <TextInput
+    //                     placeholder='Masukkan Alamat'
+    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+    //                 />
+    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
+    //                     No. Telepon
+    //                 </Text>
+    //                 <TextInput
+    //                     placeholder='Masukkan Nomor Telepon'
+    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+    //                 />
+
+    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
+    //                     Dibawah Asuhan
+    //                 </Text>
+    //                 <RadioButton.Group onValueChange={value => setAsuhan(value)} value={asuhan}>
+    //                     <RadioButton.Item label='Orang Tua' value='orang tua' />
+    //                     <RadioButton.Item label='Wali' value='wali' />
+    //                 </RadioButton.Group>
+    //             </View>
+    //         );
+    //     }
+    //     return forms;
+    // };
+
+    // const handleInputChange = (text) => {
+    //     // konversi input menjadi bilangan bulat
+    //     const count = parseInt(text);
+    //     if (isNaN(count)) {
+    //         // jika input bukan angka, set jumlah form menjadi 1
+    //         setFormCount(1);
+    //     } else {
+    //         // jika input angka, set jumlah form sesuai input
+    //         setFormCount(count);
+    //     }
+    // };
+
+    return (
+        <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
+            <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
+                <Text style={{ fontWeight: '500', fontSize: 18 }}>
+                    Form Data Diri Anak
+                </Text>
+                {/* <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Jumlah Anak yang Diserahkan:
+                </Text>
+                <TextInput
+                    placeholder="Masukkan Jumlah Anak"
+                    keyboardType="numeric"
+                    onChangeText={handleInputChange}
+                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                /> */}
+                {/* {renderForms()} */}
+
+                <View>
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
                         Nama
                     </Text>
                     <TextInput
                         placeholder='Masukkan Nama'
                         style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                        onChangeText={handleNameChange}
                     />
 
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -51,7 +232,7 @@ const DataPribadi = () => {
                     <TextInput
                         placeholder='Contoh: Jakarta'
                         style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-
+                        onChangeText={handleTempatLahir}
                     />
 
                     <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
@@ -66,6 +247,7 @@ const DataPribadi = () => {
                             activeOutlineColor="black"
                             theme={{ colors: { onSurfaceVariant: 'grey' } }}
                             textColor="black"
+                            onChangeText={handleTangggalLahir}
                         />
                     </TouchableOpacity>
 
@@ -75,6 +257,7 @@ const DataPribadi = () => {
                     <TextInput
                         placeholder='Masukkan Alamat'
                         style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                        onChangeText={handleAlamat}
                     />
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
                         No. Telepon
@@ -82,6 +265,7 @@ const DataPribadi = () => {
                     <TextInput
                         placeholder='Masukkan Nomor Telepon'
                         style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                        onChangeText={handleTelepon}
                     />
 
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -92,39 +276,6 @@ const DataPribadi = () => {
                         <RadioButton.Item label='Wali' value='wali' />
                     </RadioButton.Group>
                 </View>
-            );
-        }
-        return forms;
-    };
-
-    const handleInputChange = (text) => {
-        // konversi input menjadi bilangan bulat
-        const count = parseInt(text);
-        if (isNaN(count)) {
-            // jika input bukan angka, set jumlah form menjadi 1
-            setFormCount(1);
-        } else {
-            // jika input angka, set jumlah form sesuai input
-            setFormCount(count);
-        }
-    };
-
-    return (
-        <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
-            <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
-                <Text style={{ fontWeight: '500', fontSize: 18 }}>
-                    Form Data Diri Anak
-                </Text>
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Jumlah Anak yang Diserahkan:
-                </Text>
-                <TextInput
-                    placeholder="Masukkan Jumlah Anak"
-                    keyboardType="numeric"
-                    onChangeText={handleInputChange}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                />
-                {renderForms()}
 
                 <Text style={{ fontWeight: '500', fontSize: 18 }}>
                     Form Data Diri Orang Tua / Wali
@@ -140,6 +291,7 @@ const DataPribadi = () => {
                                 placeholder='Masukkan Nama Ayah'
                                 editable={asuhan == 'orang tua' ? true : false}
                                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                                onChangeText={handleNamaAyah}
                             />
 
                             <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -149,6 +301,7 @@ const DataPribadi = () => {
                                 placeholder='Masukkan Nama Ibu'
                                 editable={asuhan == 'orang tua' ? true : false}
                                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                                onChangeText={handleNamaIbu}
                             />
 
                             <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -158,6 +311,7 @@ const DataPribadi = () => {
                                 placeholder='Masukkan Nama Ibu'
                                 editable={asuhan == 'orang tua' ? true : false}
                                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                                onChangeText={handleBaptisanAyah}
                             />
 
                             <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -167,6 +321,7 @@ const DataPribadi = () => {
                                 placeholder='Masukkan Nama Ibu'
                                 editable={asuhan == 'orang tua' ? true : false}
                                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                                onChangeText={handleBaptisanIbu}
                             />
                         </> :
                         <>
@@ -177,6 +332,7 @@ const DataPribadi = () => {
                                 placeholder='Masukkan Wali'
                                 editable={asuhan == 'wali' ? true : false}
                                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                                onChangeText={handleNamaWali}
                             />
 
                             <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -186,13 +342,13 @@ const DataPribadi = () => {
                                 placeholder='Masukkan Nama Ibu'
                                 editable={asuhan == 'wali' ? true : false}
                                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                                onChangeText={handleBaptisanWali}
                             />
                         </>
                 }
+                {renderButton()}
 
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
-                </TouchableOpacity>
+
             </ScrollView>
         </View>
     )
