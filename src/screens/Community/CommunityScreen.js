@@ -12,7 +12,7 @@ const CommunityScreen = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('  https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/komunitas')
+    axios.get(' https://5e3d-110-35-80-202.ngrok-free.app/komunitas')
       .then(response => response.data.community)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
