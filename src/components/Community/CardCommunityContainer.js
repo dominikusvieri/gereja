@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'rea
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 
-const CardCommunityContainer = ({ imageSrc, title, data }) => {
+const CardCommunityContainer = ({ imageSrc, ketua, data }) => {
     const navigation = useNavigation()
     return (
         <ScrollView>
@@ -11,11 +11,11 @@ const CardCommunityContainer = ({ imageSrc, title, data }) => {
                 onPress={() => navigation.navigate('DetailComm', { param: data })}
             >
                 <Image
-                    source={{ uri: imageSrc }}
+                    source={require('../../../assets/icon.png')}
                     style={{ width: 70, height: 70, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
                 />
                 <Text style={{ fontWeight: 'bold', fontSize: 12, textAlign: 'center', maxWidth: 70 }}>
-                    {title.length > 20 ? `${title.slice(0, 20)}..` : title}
+                    {ketua.length > 20 ? `${ketua.slice(0, 20)}..` : ketua}
                 </Text>
             </TouchableOpacity>
         </ScrollView>

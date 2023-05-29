@@ -1,22 +1,25 @@
-import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import CardCommunityContainer from '../../components/Community/CardCommunityContainer'
 
 const CommunityScreen = () => {
-  const [commData, setCommData] = useState([])
+  const [newsData, setNewsData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const navigation = useNavigation()
 
+
   useEffect(() => {
     setIsLoading(true)
-    axios.get('https://fakestoreapi.com/products')
-      .then(response => response.data)
-      .then(res => setCommData(res))
+    axios.get(' https://5e3d-110-35-80-202.ngrok-free.app/komunitas')
+      .then(response => response.data.community)
+      .then(res => setNewsData(res))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
+
   }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerStyle}>
@@ -32,42 +35,56 @@ const CommunityScreen = () => {
 
       <View style={styles.main}>
         <Text style={styles.sectionHeader}>
-          Komunitas Gereja
+          Kabar Terkini Gereja
         </Text>
-      </View>
-      {
-        isLoading ?
-          <View className="items-center justify-center">
-            <ActivityIndicator size="large" color="#0885F8" />
-          </View> :
-          <ScrollView>
-            <View style={{ paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap' }}>
-              {commData.length > 0 ? (
-                <>
-                  {commData.map((data, i) => (
-                    <CardCommunityContainer
-                      key={i}
-                      imageSrc={data.image}
-                      title={data.title}
-                      data={data}
-                    />
-                  ))}
-                </>) :
-                (<>
-                  <View className="w-full h-[600px] items-center space-y-4 justify-center">
+        {
+          isLoading ?
+            <View className="items-center justify-center">
+              <ActivityIndicator size="large" color="#0885F8" />
+            </View> :
+            <FlatList
+              data={newsData}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('DetailComm', { param: item })}
+                  style={{ flexDirection: 'row', marginBottom: 5, padding: 5, marginTop: 10 }}
+                >
 
-                    <Text>
-                      Opps.. No Data Found
+                  <Image
+                    source={require('../../../assets/icon.png')}
+                    style={{ width: 50, height: 50 }}
+                  />
+                  <View style={{ marginLeft: 5 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                      {item.ketua.length > 20 ? `${item.ketua.slice(0, 20)}..` : item.ketua}
+                    </Text>
+                    <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
+                      {item.alamat} / {item.komsel_date}
                     </Text>
                   </View>
-                </>)
-              }
-            </View>
-          </ScrollView>
-      }
+                </TouchableOpacity>
+              )}
+              ItemSeparatorComponent={() => {
+                return (
+                  <View
+                    style={{
+                      height: 1,
+                      width: "100%",
+                      backgroundColor: "#000",
+                    }}
+                  />
+                );
+              }}
+            />
 
+        }
+
+      </View>
     </SafeAreaView>
+
   )
+
 }
 
 const styles = StyleSheet.create({

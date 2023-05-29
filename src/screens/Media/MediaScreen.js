@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { useIsFocused } from '@react-navigation/native'
-import { LOCAL_DEVICE_IP } from "@env"
-=======
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
->>>>>>> 20d01a2 (mail)
+import { LOCAL_DEVICE_IP } from "@env"
 
 const MediaScreen = () => {
   const [isAuthorized, setIsAuthorized] = useState(false)
@@ -62,13 +56,6 @@ const MediaScreen = () => {
     verifyAuth()
   }, [isAuthorized, useIsFocused()])
 
-<<<<<<< HEAD
-
-=======
-
->>>>>>> 20d01a2 (mail)
-
-  console.log(isAuthorized)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerStyle}>
