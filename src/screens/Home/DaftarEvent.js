@@ -25,18 +25,17 @@ const DaftarEvent = ({ route }) => {
         setEmail(inputEmail)
     }
 
-    const handleEvent = (inputEvent) => {
-        setEvent(inputEvent)
-    }
+    
 
     const handleDaftar = () => {
+        console.log(name, nomorTelepon, email, data)
         const eventRegister = {
             name: name,
             nomor_telepon: nomorTelepon,
             email: email,
-            event: event
+            event: data
         }
-        axios.post('https://44b4-2001-448a-2020-8c4a-7488-3ff7-97f7-e2db.ngrok-free.app/daftarevent', { eventRegister })
+        axios.post('https://5e3d-110-35-80-202.ngrok-free.app/daftarevent', eventRegister )
             .then(response => {
                 // handle successful response
                 console.log(response.data);
@@ -60,6 +59,8 @@ return (
             <TextInput
                 placeholder='Masukkan Nama'
                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                // value={name}
+                onChangeText={(e) => setName(e)}
             />
             <Text style={{ marginBottom: 5, marginTop: 10 }}>
                 Nomor Telepon
@@ -67,6 +68,8 @@ return (
             <TextInput
                 placeholder='Masukkan Nomor Telepon'
                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                // value={nomorTelepon}
+                onChangeText={(e)=> setNomorTelepon(e)}
             />
             <Text style={{ marginBottom: 5, marginTop: 10 }}>
                 Email
@@ -74,6 +77,8 @@ return (
             <TextInput
                 placeholder='Masukkan Email'
                 style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                // value={email}
+                onChangeText={(e)=> setEmail(e)}
             />
             <Text style={{ marginBottom: 5, marginTop: 10 }}>
                 Event
