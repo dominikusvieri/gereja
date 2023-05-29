@@ -40,8 +40,6 @@ const PembabtisanDetail = () => {
     validateForm();
   };
 
-  console.log(fotoBerwarna, fotoKTP)
-
   const handleNama = (text) => {
     setNama(text);
     validateForm();
