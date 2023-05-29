@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import moment from 'moment';
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { TextInput as LabeledInput } from "react-native-paper";
+import axios from 'axios';
 
 
 const DataPribadi = () => {
@@ -95,7 +96,7 @@ const DataPribadi = () => {
     const renderButton = () => {
         if (isFormValid) {
             return (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={handleDaftar()} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
                 </TouchableOpacity>
             );
@@ -107,6 +108,33 @@ const DataPribadi = () => {
             </TouchableOpacity>
         );
     };
+
+    const handleDaftar = () => {
+        console.log(name, tempatLahir, tanggalLahir, alamat, telepon, nameAyah, nameIbu, baptisanAyah, baptisanIbu,namaWali, baptisanWali)
+        const penyerahanRegister = {
+            nama:name,
+            tempat_lahir:tempatLahir,
+            tanggal_lahir:tanggalLahir,
+            alamat:alamat,
+            no_telepon:telepon,
+            nama_ayah:nameAyah,
+            nama_ibu:nameIbu,
+            baptisan_ayah:baptisanAyah,
+            baptisan_ibu:baptisanIbu,
+            nama_wali:namaWali,
+            baptisan_wali:baptisanWali
+        }
+        axios.post(' https://0c94-2001-448a-2020-8c4a-5cfb-2199-ac6e-123d.ngrok-free.app/penyerahananak', penyerahanRegister)
+            .then(response => {
+                // handle successful response
+                console.log(response.data);
+                navigation.navigate('BottomNavigation')
+            })
+            .catch(error => {
+                // handle error
+                console.error(error);
+            });
+    }
 
     const showDatePicker = (dateType) => {
         DateTimePickerAndroid.open({

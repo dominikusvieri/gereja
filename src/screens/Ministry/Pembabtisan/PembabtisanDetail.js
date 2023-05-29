@@ -86,19 +86,19 @@ const PembabtisanDetail = () => {
 
   const renderButton = () => {
     if (isFormValid) {
-        return (
-            <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
-                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
-            </TouchableOpacity>
-        );
+      return (
+        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
+          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+        </TouchableOpacity>
+      );
     }
 
     return (
-        <TouchableOpacity style={{ backgroundColor: '#b1b1b1', padding: 15, marginTop: 50 }} disabled={true} >
-            <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={{ backgroundColor: '#b1b1b1', padding: 15, marginTop: 50 }} disabled={true} >
+        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+      </TouchableOpacity>
     );
-};
+  };
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});

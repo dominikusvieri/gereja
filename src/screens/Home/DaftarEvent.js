@@ -35,7 +35,7 @@ const DaftarEvent = ({ route }) => {
             email: email,
             event: data
         }
-        axios.post('https://5e3d-110-35-80-202.ngrok-free.app/daftarevent', eventRegister )
+        axios.post(' https://0c94-2001-448a-2020-8c4a-5cfb-2199-ac6e-123d.ngrok-free.app/daftarevent', eventRegister )
             .then(response => {
                 // handle successful response
                 console.log(response.data);
