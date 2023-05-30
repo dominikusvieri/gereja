@@ -12,13 +12,7 @@ export default function TerdaftarPelayanan({ listPelayanan }) {
             <ScrollView style={{ marginBottom: 32 }}>
                 {daftarPelayanan.map((pelayanan, i) => {
                     return (
-                        <View key={i}
-                            style={{
-                                ...styles.cardContainer,
-                                backgroundColor: pelayanan.statusApproval === 'pending' ?
-                                    '#525252' : pelayanan.statusApproval === 'approved' ?
-                                        '#059669' : '#f43f5e'
-                            }}>
+                        <View key={i} style={styles.cardContainer}>
                             <View style={{ flex: 3 }}>
                                 <Text style={styles.cardTextDesc}>Kode pelayanan:</Text>
                                 <Text style={styles.cardTextTitle}>{pelayanan.kodePelayanan}</Text>
@@ -26,13 +20,7 @@ export default function TerdaftarPelayanan({ listPelayanan }) {
                                 <Text style={styles.cardTextDesc}>Jenis Pelayanan:</Text>
                                 <Text style={styles.cardTextTitle}>{pelayanan.JenisPelayanan.namaPelayanan}</Text>
                             </View>
-                            <View style={{
-                                flex: 2, justifyContent: 'center', alignItems: 'center',
-                                backgroundColor: pelayanan.statusApproval === 'pending' ? '#737373'
-                                    : pelayanan.statusApproval === 'denied' ? '#fb7185'
-                                        : '#10b981',
-                                borderRadius: 8
-                            }}>
+                            <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center', backgroundColor: '#9E9E9E', borderRadius: 8 }}>
                                 <Text style={styles.cardTextStatus}>{
                                     pelayanan.statusApproval === 'pending' ?
                                         "Menunggu persetujuan"
@@ -66,7 +54,7 @@ const styles = StyleSheet.create({
         marginBottom: 24
     },
     cardContainer: {
-        backgroundColor: '#525252',
+        backgroundColor: '#707070',
         marginBottom: 16,
         borderRadius: 8,
         padding: 12,
