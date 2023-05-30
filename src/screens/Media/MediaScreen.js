@@ -2,6 +2,59 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
 
 const MediaScreen = () => {
+  const [isAuthorized, setIsAuthorized] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
+  const [listPelayanan, setListPelayanan] = useState([])
+
+  const verifyAuth = async () => {
+    setIsLoading(true)
+    const accessToken = await SecureStore.getItemAsync('accessToken').finally(function () {
+      setIsLoading(false)
+    })
+    if (accessToken) {
+      setIsAuthorized(true)
+    }
+    else {
+      setIsAuthorized(false)
+    }
+    console.log(accessToken)
+  }
+
+  const verifyTerdaftarPelayanan = async () => {
+    setIsLoading(true)
+    const accessToken = await SecureStore.getItemAsync('accessToken')
+    const header = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+
+    axios.get(`http://192.168.1.4:3001/pelayanan/verify`, header)
+      .then(function (response) {
+        if (response.data.length > 0) {
+          setIsTerdaftarPelayanan(true)
+          setListPelayanan(response.data)
+        }
+        else {
+          setIsTerdaftarPelayanan(false)
+          setListPelayanan([])
+        }
+
+      })
+      .catch(function (error) {
+        console.log("Error verifying pelayanan: ", error)
+      })
+      .finally(function () {
+        setIsLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    verifyAuth()
+  }, [isAuthorized, useIsFocused()])
+
+
+
+  console.log(isAuthorized)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerStyle}>

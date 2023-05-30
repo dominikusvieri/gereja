@@ -46,11 +46,11 @@ export default function UbahProfil({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://192.168.1.6:3001/jemaat`, header)
+            axios.get(`http://192.168.1.4:3001/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
 
-                    axios.get(`http://192.168.1.6:3001/api/country-details`, { params: { ciso: data.wargaNegara } })
+                    axios.get(`http://192.168.1.4:3001/api/country-details`, { params: { ciso: data.wargaNegara } })
                         .then(function (countryDetail) {
                             setUserData({
                                 ...userData,

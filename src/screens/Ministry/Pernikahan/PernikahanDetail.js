@@ -47,7 +47,7 @@ const PernikahanDetail = () => {
 
     const navigation = useNavigation()
 
-    
+
 
     useEffect(() => {
         axios.get('https://restcountries.com/v2/all')
@@ -68,7 +68,7 @@ const PernikahanDetail = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://192.168.1.6:3001/jemaat`, header)
+            axios.get(`http://192.168.1.4:3001/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
@@ -251,7 +251,7 @@ const PernikahanDetail = () => {
                                 </View>
                             </>)
                 }
-                
+
 
                 <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15 }} onPress={() => navigation.navigate('PernikahanDetailWanita')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SUBMIT</Text>

@@ -31,7 +31,7 @@ export default function Pelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`http://192.168.1.6:3001/pelayanan/verify`, header)
+        axios.get(`http://192.168.1.4:3001/pelayanan/verify`, header)
             .then(function (response) {
                 if (response.data.length > 0) {
                     setIsTerdaftarPelayanan(true)

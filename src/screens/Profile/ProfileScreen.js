@@ -21,7 +21,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`http://192.168.1.6:3001/jemaat`, header)
+      axios.get(`http://192.168.1.4:3001/jemaat`, header)
         .then(function (response) {
           setUser({
             ...user,
