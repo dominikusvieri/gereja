@@ -96,7 +96,7 @@ const DataPribadi = () => {
     const renderButton = () => {
         if (isFormValid) {
             return (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={handleDaftar()} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => handleDaftar()} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
                 </TouchableOpacity>
             );
@@ -110,21 +110,21 @@ const DataPribadi = () => {
     };
 
     const handleDaftar = () => {
-        console.log(name, tempatLahir, tanggalLahir, alamat, telepon, nameAyah, nameIbu, baptisanAyah, baptisanIbu,namaWali, baptisanWali)
+        console.log(name, tempatLahir, tanggalLahir, alamat, telepon, nameAyah, nameIbu, baptisanAyah, baptisanIbu, namaWali, baptisanWali)
         const penyerahanRegister = {
-            nama:name,
-            tempat_lahir:tempatLahir,
-            tanggal_lahir:tanggalLahir,
-            alamat:alamat,
-            no_telepon:telepon,
-            nama_ayah:nameAyah,
-            nama_ibu:nameIbu,
-            baptisan_ayah:baptisanAyah,
-            baptisan_ibu:baptisanIbu,
-            nama_wali:namaWali,
-            baptisan_wali:baptisanWali
+            nama: name,
+            tempat_lahir: tempatLahir,
+            tanggal_lahir: tanggalLahir,
+            alamat: alamat,
+            no_telepon: telepon,
+            nama_ayah: nameAyah,
+            nama_ibu: nameIbu,
+            baptisan_ayah: baptisanAyah,
+            baptisan_ibu: baptisanIbu,
+            nama_wali: namaWali,
+            baptisan_wali: baptisanWali
         }
-        axios.post(' https://0c94-2001-448a-2020-8c4a-5cfb-2199-ac6e-123d.ngrok-free.app/penyerahananak', penyerahanRegister)
+        axios.post(' https://5469-103-10-66-1.ngrok-free.app/penyerahananak', penyerahanRegister)
             .then(response => {
                 // handle successful response
                 console.log(response.data);
