@@ -15,7 +15,7 @@ const NewsView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('  https://5469-103-10-66-1.ngrok-free.app/news')
+    axios.get('  https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/news')
       .then(response => response.data.news)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))

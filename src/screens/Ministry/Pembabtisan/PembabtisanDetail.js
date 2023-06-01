@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import moment from 'moment';
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { TextInput as LabeledInput } from "react-native-paper";
+import axios from 'axios';
 
 
 const PembabtisanDetail = () => {
@@ -38,6 +39,8 @@ const PembabtisanDetail = () => {
     setFotoKTP(text);
     validateForm();
   };
+
+  console.log(fotoBerwarna, fotoKTP)
 
   const handleNama = (text) => {
     setNama(text);
@@ -81,13 +84,13 @@ const PembabtisanDetail = () => {
 
 
   const validateForm = () => {
-    setIsFormValid(nama !== '' && tanggalLahir !== '' && tempatLahir !== '' && alamat !== '' && fotoKTP !== '' && fotoBerwarna !== '' && namaAyahorWali !== '' && namaIbuorWali !== '' && alamatOrtuorWali !== '');
+    setIsFormValid(nama !== '' && tanggalLahir !== '' && tempatLahir !== '' && alamat !== '' && fotoKTP !== '' && fotoBerwarna !== '' && namaAyahorWali !== '' && namaIbuorWali !== '' && alamatOrtuorWali !== '' && pendidikan !== '' && statusPerkawinan !== '');
   };
 
   const renderButton = () => {
     if (isFormValid) {
       return (
-        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
+        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => handleDaftar()} >
           <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
         </TouchableOpacity>
       );
@@ -99,6 +102,33 @@ const PembabtisanDetail = () => {
       </TouchableOpacity>
     );
   };
+
+  const handleDaftar = () => {
+
+    const baptisanRegister = {
+      foto_ktp: fotoKTP,
+      foto_pribadi: fotoBerwarna,
+      nama: nama,
+      tempat_lahir: tempatLahir,
+      tanggal_lahir: tanggalLahir,
+      alamat: alamat,
+      pendidikan: pendidikan,
+      status_perkawinan: statusPerkawinan,
+      nama_ayah_or_wali: namaAyahorWali,
+      nama_ibu_or_wali: namaIbuorWali,
+      alamat_ortu_or_wali: alamatOrtuorWali
+    }
+    axios.post(' https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/baptisan', baptisanRegister)
+      .then(response => {
+        // handle successful response
+        console.log(response.data);
+        navigation.navigate('BottomNavigation')
+      })
+      .catch(error => {
+        // handle error
+        console.error(error);
+      });
+  }
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -156,7 +186,14 @@ const PembabtisanDetail = () => {
         {ktpPreview && (
           <Image source={{ uri: ktpPreview }} style={{ width: 100, height: 100 }} />
         )}
-        {fotoKTP && <Text>{fotoKTP}</Text>}
+        {fotoKTP &&
+          <TextInput
+            value={fotoKTP}
+            style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+            onChangeText={handleUploadKTP}
+            editable={false}
+          />
+        }
         {!ktpPreview && (
           <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 10 }} onPress={pickDocumentKTP}>
             <Text style={{ color: '#fff', textAlign: 'center' }}>Select a document</Text>
@@ -174,7 +211,14 @@ const PembabtisanDetail = () => {
         {fotoBerwarnaPreview && (
           <Image source={{ uri: fotoBerwarnaPreview }} style={{ width: 100, height: 100 }} />
         )}
-        {fotoBerwarna && <Text>{fotoBerwarna}</Text>}
+        {fotoBerwarna &&
+          <TextInput
+            value={fotoBerwarna}
+            style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+            onChangeText={handleUploadFoto}
+            editable={false}
+          />
+        }
         {!fotoBerwarnaPreview && (
           <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 10 }} onPress={pickDocumentFotoBerwarna}>
             <Text style={{ color: '#fff', textAlign: 'center' }}>Select a document</Text>
@@ -201,7 +245,7 @@ const PembabtisanDetail = () => {
         <TextInput
           placeholder='Contoh: Jakarta'
           style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-          onChange={handleTempatLahir}
+          onChangeText={handleTempatLahir}
         />
 
         <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>

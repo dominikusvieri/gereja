@@ -124,7 +124,7 @@ const DataPribadi = () => {
             nama_wali: namaWali,
             baptisan_wali: baptisanWali
         }
-        axios.post(' https://5469-103-10-66-1.ngrok-free.app/penyerahananak', penyerahanRegister)
+        axios.post(' https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/penyerahananak', penyerahanRegister)
             .then(response => {
                 // handle successful response
                 console.log(response.data);
