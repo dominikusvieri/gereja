@@ -65,7 +65,7 @@ const PernikahanDetail2 = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'

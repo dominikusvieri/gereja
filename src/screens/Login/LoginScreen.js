@@ -45,7 +45,7 @@ const LoginScreen = () => {
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            const apiUrl = `http://${LOCAL_DEVICE_IP}/jemaat/login`
+            const apiUrl = `${LOCAL_DEVICE_IP}/jemaat/login`
             axios.post(apiUrl, {
                 email: email,
                 password: password

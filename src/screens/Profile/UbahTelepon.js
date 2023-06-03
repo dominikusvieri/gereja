@@ -23,7 +23,7 @@ export default function UbahTelepon({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
                 .then(function (response) {
                     setTelepon(response.data[0].telp)
                 })
@@ -102,7 +102,7 @@ export default function UbahTelepon({ navigation }) {
         if (kodeTelepon && numbers) {
             const finalNumbers = kodeTelepon + ' ' + numbers
 
-            axios.put(`http://${LOCAL_DEVICE_IP}/jemaat/edit-telepon`, {
+            axios.put(`${LOCAL_DEVICE_IP}/jemaat/edit-telepon`, {
                 newNumbers: finalNumbers
             }, header, { timeout: 10000 })
                 .then(function (response) {

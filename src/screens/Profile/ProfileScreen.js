@@ -22,7 +22,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+      axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
         .then(function (response) {
           setUser({
             ...user,

@@ -27,7 +27,7 @@ export default function RegistrasiPelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+        axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
             .then(function (response) {
                 if (response.data[0]) {
                     setDataPelayanIbadah({
@@ -36,7 +36,7 @@ export default function RegistrasiPelayanan({ navigation }) {
                         namaJemaat: response.data[0].nama
                     })
 
-                    axios.get(`http://${LOCAL_DEVICE_IP}/jenis-pelayanan`, header)
+                    axios.get(`${LOCAL_DEVICE_IP}/jenis-pelayanan`, header)
                         .then(function (response) {
                             const cleanedDataPelayanan = []
                             if (response.data) {
@@ -78,7 +78,7 @@ export default function RegistrasiPelayanan({ navigation }) {
             }
             let currentSubmitStatus = false
 
-            await axios.post(`http://${LOCAL_DEVICE_IP}/pelayanan/register`, dataPelayanIbadah, header)
+            await axios.post(`${LOCAL_DEVICE_IP}/pelayanan/register`, dataPelayanIbadah, header)
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log("Berhasil daftar pelayanan")

@@ -32,7 +32,7 @@ const MediaScreen = () => {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     }
 
-    axios.get(`http://${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
+    axios.get(`${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
       .then(function (response) {
         if (response.data.length > 0) {
           setIsTerdaftarPelayanan(true)

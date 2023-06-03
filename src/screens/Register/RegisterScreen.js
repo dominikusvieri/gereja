@@ -43,7 +43,7 @@ const RegisterScreen = ({ route }) => {
     const getCountries = async () => {
         setIsLoading(true);
 
-        axios.get(`http://${LOCAL_DEVICE_IP}/api/countries`)
+        axios.get(`${LOCAL_DEVICE_IP}/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []

@@ -98,7 +98,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
             }
-            axios.post(`http://${LOCAL_DEVICE_IP}/jemaat/register`, cleanedData)
+            axios.post(`${LOCAL_DEVICE_IP}/jemaat/register`, cleanedData)
                 .then(function (response) {
                     if (response.data.accessToken) {
                         SecureStore.setItemAsync("accessToken", response.data.accessToken)

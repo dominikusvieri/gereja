@@ -47,11 +47,11 @@ export default function UbahProfil({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
 
-                    axios.get(`http://${LOCAL_DEVICE_IP}/api/country-details`, { params: { ciso: data.wargaNegara } })
+                    axios.get(`${LOCAL_DEVICE_IP}/api/country-details`, { params: { ciso: data.wargaNegara } })
                         .then(function (countryDetail) {
                             setUserData({
                                 ...userData,

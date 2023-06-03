@@ -91,7 +91,7 @@ const PernikahanDetail = () => {
 
     const getCountryList = async () => {
         setIsLoading(true)
-        axios.get(`http://${LOCAL_DEVICE_IP}/api/countries`)
+        axios.get(`${LOCAL_DEVICE_IP}/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []
@@ -123,7 +123,7 @@ const PernikahanDetail = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
@@ -159,7 +159,7 @@ const PernikahanDetail = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://${LOCAL_DEVICE_IP}/pelayanan/get-terdaftar`, { noJemaat: selectedJemaat }, header)
+            axios.get(`${LOCAL_DEVICE_IP}/pelayanan/get-terdaftar`, { noJemaat: selectedJemaat }, header)
                 .then(function (response) {
                     if (response.data.length > 0) {
                         const filteredListPelayanan = response.data.filter((el) =>
