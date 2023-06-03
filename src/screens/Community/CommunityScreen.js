@@ -35,7 +35,7 @@ const CommunityScreen = () => {
 
       <View style={styles.main}>
         <Text style={styles.sectionHeader}>
-          Kabar Terkini Gereja
+          Daftar Komunitas Gereja
         </Text>
         {
           isLoading ?

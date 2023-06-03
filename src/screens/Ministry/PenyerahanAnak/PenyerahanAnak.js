@@ -50,7 +50,7 @@ const PenyerahanAnak = () => {
                 (isAuthorized ?
                     <View>
                         <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
-                            <Text style={{ fontWeight: '500', fontSize: 18 }}>
+                            <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4', marginBottom: 5 }}>
                                 Syarat Penyerahan Anak
                             </Text>
                             <View style={{ flexDirection: 'row' }}>
@@ -87,9 +87,11 @@ const PenyerahanAnak = () => {
                             </View>
 
 
-
-                            <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('DataPribadi')} >
-                                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+                            <TouchableOpacity
+                                style={styles.nextButton}
+                                onPress={() => navigation.navigate('DataPribadi')}
+                            >
+                                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Selanjutnya</Text>
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
@@ -159,7 +161,15 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#FFFFFF',
         fontWeight: '500'
-    }
+    },
+    nextButton: {
+        height: 48,
+        backgroundColor: '#4281A4',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
+    },
 })
 
 export default PenyerahanAnak

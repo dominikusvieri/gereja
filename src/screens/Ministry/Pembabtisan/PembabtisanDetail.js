@@ -112,15 +112,20 @@ const PembabtisanDetail = () => {
   const renderButton = () => {
     if (isFormValid) {
       return (
-        <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('BottomNavigation')} >
-          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+        <TouchableOpacity
+          style={styles.nextButton}
+          onPress={() => navigation.navigate('BottomNavigation')}
+        >
+          <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Submit</Text>
         </TouchableOpacity>
       );
     }
 
     return (
-      <TouchableOpacity style={{ backgroundColor: '#b1b1b1', padding: 15, marginTop: 50 }} disabled={true} >
-        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+      <TouchableOpacity
+        style={styles.nextButtonDisable} disabled={true}
+      >
+        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Submit</Text>
       </TouchableOpacity>
     );
   };
@@ -206,8 +211,8 @@ const PembabtisanDetail = () => {
         (isAuthorized ?
           <View>
             <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
-              <Text style={{ fontWeight: '500', fontSize: 18 }}>
-                Form Pembabtisan
+              <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
+                Form Pembaptisan
               </Text>
               <Text style={{ marginBottom: 5, marginTop: 10 }}>
                 Upload Foto KTP
@@ -216,21 +221,22 @@ const PembabtisanDetail = () => {
                 <Image source={{ uri: ktpPreview }} style={{ width: 100, height: 100 }} />
               )}
               {fotoKTP &&
-                <TextInput
-                  value={fotoKTP}
-                  style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                  onChangeText={handleUploadKTP}
-                  editable={false}
-                />
+                <Text>{fotoKTP}</Text>
               }
               {!ktpPreview && (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 10 }} onPress={pickDocumentKTP}>
-                  <Text style={{ color: '#fff', textAlign: 'center' }}>Select a document</Text>
+                <TouchableOpacity
+                  style={styles.nextButton}
+                  onPress={pickDocumentKTP}
+                >
+                  <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Select a document</Text>
                 </TouchableOpacity>
               )}
               {ktpPreview && (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 10 }} onPress={clearDocumentKTP}>
-                  <Text style={{ color: '#fff', textAlign: 'center' }}>Change document</Text>
+                <TouchableOpacity
+                  style={styles.changeButton}
+                  onPress={clearDocumentKTP}
+                >
+                  <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Change a document</Text>
                 </TouchableOpacity>
               )}
 
@@ -241,39 +247,44 @@ const PembabtisanDetail = () => {
                 <Image source={{ uri: fotoBerwarnaPreview }} style={{ width: 100, height: 100 }} />
               )}
               {fotoBerwarna &&
-                <TextInput
-                  value={fotoBerwarna}
-                  style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                  onChangeText={handleUploadFoto}
-                  editable={false}
-                />
+                <Text>{fotoBerwarna}</Text>
               }
               {!fotoBerwarnaPreview && (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 10 }} onPress={pickDocumentFotoBerwarna}>
-                  <Text style={{ color: '#fff', textAlign: 'center' }}>Select a document</Text>
+                <TouchableOpacity
+                  style={styles.nextButton}
+                  onPress={pickDocumentFotoBerwarna}
+                >
+                  <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Select a document</Text>
                 </TouchableOpacity>
               )}
               {fotoBerwarnaPreview && (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 10 }} onPress={clearDocumentFotoBerwarna}>
-                  <Text style={{ color: '#fff', textAlign: 'center' }}>Change document</Text>
+                <TouchableOpacity
+                  style={styles.changeButton}
+                  onPress={clearDocumentFotoBerwarna}
+                >
+                  <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Change a document</Text>
                 </TouchableOpacity>
               )}
 
-              <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Nama
-              </Text>
-              <TextInput
-                placeholder='Masukkan Nama'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+              <LabeledInput
+                label='Nama'
+                style={styles.dateInput}
+                mode='outlined'
+                outlineColor='black'
+                activeOutlineColor="#4281A4"
+                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                textColor="black"
                 onChangeText={handleNama}
               />
 
-              <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Tempat Lahir
-              </Text>
-              <TextInput
-                placeholder='Contoh: Jakarta'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+              <LabeledInput
+                label='Tempat Lahir'
+                style={styles.dateInput}
+                mode='outlined'
+                outlineColor='black'
+                activeOutlineColor="#4281A4"
+                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                textColor="black"
                 onChangeText={handleTempatLahir}
               />
 
@@ -293,12 +304,14 @@ const PembabtisanDetail = () => {
                 />
               </TouchableOpacity>
 
-              <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Alamat
-              </Text>
-              <TextInput
-                placeholder='Masukkan Alamat'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+              <LabeledInput
+                label='Alamat'
+                style={styles.dateInput}
+                mode='outlined'
+                outlineColor='black'
+                activeOutlineColor="#4281A4"
+                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                textColor="black"
                 onChangeText={handleAlamat}
               />
 
@@ -306,7 +319,7 @@ const PembabtisanDetail = () => {
                 Pendidikan Terakhir
               </Text>
               <Picker
-                style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
+                style={{ backgroundColor: '#4281A4', color: '#fff', borderWidth: 2, borderColor: '#000' }}
                 selectedValue={pendidikan}
                 onValueChange={(itemValue, itemIndex) => setPendidikan(itemValue)}
               >
@@ -325,7 +338,7 @@ const PembabtisanDetail = () => {
                 Status Perkawinan
               </Text>
               <Picker
-                style={{ backgroundColor: '#0885F8', color: '#fff', borderWidth: 2, borderColor: '#000' }}
+                style={{ backgroundColor: '#4281A4', color: '#fff', borderWidth: 2, borderColor: '#000' }}
                 selectedValue={statusPerkawinan}
                 onValueChange={(itemValue, itemIndex) => setStatusPerkawinan(itemValue)}
               >
@@ -335,30 +348,36 @@ const PembabtisanDetail = () => {
                 <Picker.Item label='Duda' value='Duda' />
               </Picker>
 
-              <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Nama Ayah / Wali
-              </Text>
-              <TextInput
-                placeholder='Masukkan Nama Ayah / Wali'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+              <LabeledInput
+                label='Nama Ayah / Wali'
+                style={styles.dateInput}
+                mode='outlined'
+                outlineColor='black'
+                activeOutlineColor="#4281A4"
+                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                textColor="black"
                 onChangeText={handleNamaAyahorWali}
               />
 
-              <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Nama Ibu / Wali
-              </Text>
-              <TextInput
-                placeholder='Masukkan Nama Ibu / Wali'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+              <LabeledInput
+                label='Nama Ibu / Wali'
+                style={styles.dateInput}
+                mode='outlined'
+                outlineColor='black'
+                activeOutlineColor="#4281A4"
+                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                textColor="black"
                 onChangeText={handleNamaIbuorWali}
               />
 
-              <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                Alamat Orang Tua / Wali
-              </Text>
-              <TextInput
-                placeholder='Masukkan Alamat Orang Tua / Wali'
-                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+              <LabeledInput
+                label='Alamat Orang Tua / Wali'
+                style={styles.dateInput}
+                mode='outlined'
+                outlineColor='black'
+                activeOutlineColor="#4281A4"
+                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                textColor="black"
                 onChangeText={handleAlamatOrtuorWali}
               />
 
@@ -420,6 +439,24 @@ const styles = StyleSheet.create({
   nextButton: {
     height: 48,
     backgroundColor: '#4281A4',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  changeButton: {
+    height: 48,
+    backgroundColor: '#DB4437',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  nextButtonDisable: {
+    height: 48,
+    backgroundColor: '#b1b1b1',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',

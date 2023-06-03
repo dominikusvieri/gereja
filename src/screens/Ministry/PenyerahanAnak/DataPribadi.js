@@ -96,15 +96,20 @@ const DataPribadi = () => {
     const renderButton = () => {
         if (isFormValid) {
             return (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('BottomNavigation')} >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+                <TouchableOpacity
+                    style={styles.nextButton}
+                    onPress={() => navigation.navigate('BottomNavigation')}
+                >
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Selanjutnya</Text>
                 </TouchableOpacity>
             );
         }
 
         return (
-            <TouchableOpacity style={{ backgroundColor: '#b1b1b1', padding: 15, marginTop: 50 }} disabled={true} >
-                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
+            <TouchableOpacity
+                style={styles.nextButtonDisable} disabled={true}
+            >
+                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Selanjutnya</Text>
             </TouchableOpacity>
         );
     };
@@ -155,21 +160,26 @@ const DataPribadi = () => {
                     <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>
                         Anak ke - {i}
                     </Text>
-                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                        Nama
-                    </Text>
-                    <TextInput
-                        placeholder='Masukkan Nama'
-                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    <LabeledInput
+                        label='Nama Anak'
+                        style={styles.dateInput}
+                        mode='outlined'
+                        outlineColor='black'
+                        activeOutlineColor="#4281A4"
+                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                        textColor="black"
+                        onChangeText={handleNameChange}
                     />
 
-                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                        Tempat Lahir
-                    </Text>
-                    <TextInput
-                        placeholder='Contoh: Jakarta'
-                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-
+                    <LabeledInput
+                        label='Tempat Lahir'
+                        style={styles.dateInput}
+                        mode='outlined'
+                        outlineColor='black'
+                        activeOutlineColor="#4281A4"
+                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                        textColor="black"
+                        onChangeText={handleTempatLahir}
                     />
 
                     <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
@@ -184,31 +194,32 @@ const DataPribadi = () => {
                             activeOutlineColor="black"
                             theme={{ colors: { onSurfaceVariant: 'grey' } }}
                             textColor="black"
+                            onChangeText={handleTangggalLahir}
                         />
                     </TouchableOpacity>
 
-                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                        Alamat
-                    </Text>
-                    <TextInput
-                        placeholder='Masukkan Alamat'
-                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                    />
-                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                        No. Telepon
-                    </Text>
-                    <TextInput
-                        placeholder='Masukkan Nomor Telepon'
-                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    <LabeledInput
+                        label='Alamat'
+                        style={styles.dateInput}
+                        mode='outlined'
+                        outlineColor='black'
+                        activeOutlineColor="#4281A4"
+                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                        textColor="black"
+                        onChangeText={handleAlamat}
                     />
 
-                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                        Dibawah Asuhan
-                    </Text>
-                    <RadioButton.Group onValueChange={value => setAsuhan(value)} value={asuhan}>
-                        <RadioButton.Item label='Orang Tua' value='orang tua' />
-                        <RadioButton.Item label='Wali' value='wali' />
-                    </RadioButton.Group>
+                    <LabeledInput
+                        label='Nomor Telepon'
+                        style={styles.dateInput}
+                        mode='outlined'
+                        outlineColor='black'
+                        activeOutlineColor="#4281A4"
+                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                        textColor="black"
+                        onChangeText={handleTelepon}
+                        keyboardType='phone-pad'
+                    />
                 </View>
             );
         }
@@ -230,19 +241,34 @@ const DataPribadi = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
             <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
-                <Text style={{ fontWeight: '500', fontSize: 18 }}>
+                <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                     Form Data Diri Anak
                 </Text>
                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
                     Jumlah Anak yang Diserahkan:
                 </Text>
-                <TextInput
-                    placeholder="Masukkan Jumlah Anak"
-                    keyboardType="numeric"
+                <LabeledInput
+                    label='Jumlah Anak'
+                    style={styles.dateInput}
+                    mode='outlined'
+                    outlineColor='black'
+                    activeOutlineColor="#4281A4"
+                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                    textColor="black"
                     onChangeText={handleInputChange}
-                    style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    keyboardType='numeric'
                 />
                 {renderForms()}
+
+
+
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                    Dibawah Asuhan
+                </Text>
+                <RadioButton.Group onValueChange={value => setAsuhan(value)} value={asuhan}>
+                    <RadioButton.Item label='Orang Tua' value='orang tua' />
+                    <RadioButton.Item label='Wali' value='wali' />
+                </RadioButton.Group>
 
                 {/* <View>
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
@@ -304,72 +330,77 @@ const DataPribadi = () => {
                         <RadioButton.Item label='Wali' value='wali' />
                     </RadioButton.Group>
                 </View> */}
-
-                <Text style={{ fontWeight: '500', fontSize: 18 }}>
+                <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                     Form Data Diri Orang Tua / Wali
                 </Text>
 
                 {
                     asuhan == 'orang tua' ?
                         <>
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Nama Ayah
-                            </Text>
-                            <TextInput
-                                placeholder='Masukkan Nama Ayah'
-                                editable={asuhan == 'orang tua' ? true : false}
-                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            <LabeledInput
+                                label='Nama Ayah'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
                                 onChangeText={handleNamaAyah}
                             />
 
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Nama Ibu
-                            </Text>
-                            <TextInput
-                                placeholder='Masukkan Nama Ibu'
-                                editable={asuhan == 'orang tua' ? true : false}
-                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            <LabeledInput
+                                label='Nama Ibu'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
                                 onChangeText={handleNamaIbu}
                             />
 
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Babtisan Ayah di Gereja
-                            </Text>
-                            <TextInput
-                                placeholder='Masukkan Nama Ibu'
-                                editable={asuhan == 'orang tua' ? true : false}
-                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            <LabeledInput
+                                label='Nama Baptisan Ayah'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
                                 onChangeText={handleBaptisanAyah}
                             />
 
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Babtisan Ibu di Gereja
-                            </Text>
-                            <TextInput
-                                placeholder='Masukkan Nama Ibu'
-                                editable={asuhan == 'orang tua' ? true : false}
-                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            <LabeledInput
+                                label='Nama Baptisan Ibu'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
                                 onChangeText={handleBaptisanIbu}
                             />
                         </> :
                         <>
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Nama Wali
-                            </Text>
-                            <TextInput
-                                placeholder='Masukkan Wali'
-                                editable={asuhan == 'wali' ? true : false}
-                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            <LabeledInput
+                                label='Nama Wali'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
                                 onChangeText={handleNamaWali}
                             />
 
-                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                                Babtisan Wali di Gereja
-                            </Text>
-                            <TextInput
-                                placeholder='Masukkan Nama Ibu'
-                                editable={asuhan == 'wali' ? true : false}
-                                style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                            <LabeledInput
+                                label='Nama Ayah'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
                                 onChangeText={handleBaptisanWali}
                             />
                         </>
@@ -417,11 +448,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10
     },
+    nextButtonDisable: {
+        height: 48,
+        backgroundColor: '#b1b1b1',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
+    },
     nextText: {
         color: 'white',
         fontSize: 15,
         fontWeight: 'bold'
-    }
+    },
+    dateInput: {
+        marginBottom: 12,
+        backgroundColor: 'white',
+        fontSize: 14,
+        paddingHorizontal: 4
+    },
 })
 
 export default DataPribadi

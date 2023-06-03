@@ -20,7 +20,7 @@ import ProfileScreen from '../../screens/Profile/ProfileScreen'
 import PernikahanDetail2 from '../../screens/Ministry/Pernikahan/PernikahanDetail2'
 // import TandaTanganPria from '../../screens/Ministry/Pernikahan/TandaTanganPria'
 // import TandaTanganWanita from '../../screens/Ministry/Pernikahan/TandaTanganWanita'
-import TandaTanganPembabtisan from '../../screens/Ministry/Pembabtisan/TandaTanganPembabtisan'
+// import TandaTanganPembabtisan from '../../screens/Ministry/Pembabtisan/TandaTanganPembabtisan'
 import UbahProfil from '../../screens/Profile/UbahProfil'
 import UbahTelepon from '../../screens/Profile/UbahTelepon'
 import UbahTeleponStatus from '../../screens/Profile/UbahTeleponStatus'
@@ -50,7 +50,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PernikahanDetailWanita' component={PernikahanDetail2} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PembabtisanDetail' component={PembabtisanDetail} options={{ title: 'Pembabtisan' }} />
-                <Stack.Screen name='TTDPembabtisan' component={TandaTanganPembabtisan} options={{ title: 'Pembabtisan' }} />
+                {/* <Stack.Screen name='TTDPembabtisan' component={TandaTanganPembabtisan} options={{ title: 'Pembabtisan' }} /> */}
                 <Stack.Screen name='PenyerahanAnak' component={PenyerahanAnak} options={{ title: 'Penyerahan Anak' }} />
                 <Stack.Screen name='DataPribadi' component={DataPribadi} options={{ title: 'Data Pribadi' }} />
                 <Stack.Screen name='AbsensiBabtisan' component={AbsensiBabtisan} options={{ title: 'Absensi Babtisan' }} />
