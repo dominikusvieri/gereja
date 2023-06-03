@@ -22,8 +22,11 @@ const DetailEventScreen = ({ route }) => {
                     Registration :
                 </Text>
                 <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.registration_date}
+                    2023-10-15
                 </Text>
+                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
+                    {data?.registration_date}
+                </Text> */}
                 <View
                     style={{
                         height: 1,
@@ -35,8 +38,11 @@ const DetailEventScreen = ({ route }) => {
                     Schedule :
                 </Text>
                 <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.schedule}
+                    2023-11-20
                 </Text>
+                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
+                    {data?.schedule}
+                </Text> */}
                 <View
                     style={{
                         height: 1,
@@ -48,8 +54,11 @@ const DetailEventScreen = ({ route }) => {
                     Venue :
                 </Text>
                 <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data.venue}
+                    Purwodadi
                 </Text>
+                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
+                    {data.venue}
+                </Text> */}
                 <View
                     style={{
                         height: 1,
@@ -61,7 +70,7 @@ const DetailEventScreen = ({ route }) => {
                     Description :
                 </Text>
                 <Text style={{ textAlign: 'justify', marginBottom: 5 }}>
-                    {data?.desc}
+                    {data?.description}
                 </Text>
                 <View
                     style={{
@@ -74,8 +83,11 @@ const DetailEventScreen = ({ route }) => {
                     Contact Person :
                 </Text>
                 <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.contact_person}
+                    089310100110
                 </Text>
+                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
+                    {data?.contact_person}
+                </Text> */}
                 <View
                     style={{
                         height: 1,
@@ -87,8 +99,11 @@ const DetailEventScreen = ({ route }) => {
                     Nama Contact Person :
                 </Text>
                 <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.name_of_contact_person}
+                    Adi
                 </Text>
+                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
+                    {data?.name_of_contact_person}
+                </Text> */}
                 <View
                     style={{
                         height: 1,

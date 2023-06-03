@@ -15,8 +15,8 @@ const EventView = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('  https://5469-103-10-66-1.ngrok-free.app/event')
-      .then(response => response.data.event)
+    axios.get('https://fakestoreapi.com/products')
+      .then(response => response.data)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
@@ -59,8 +59,11 @@ const EventView = () => {
                     {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
                   </Text>
                   <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                    {item.createdAt}
+                    2023-10-20
                   </Text>
+                  {/* <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
+                    {item.category}
+                  </Text> */}
                 </View>
               </TouchableOpacity>
             )}

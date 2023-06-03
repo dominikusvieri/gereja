@@ -96,7 +96,7 @@ const DataPribadi = () => {
     const renderButton = () => {
         if (isFormValid) {
             return (
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => handleDaftar()} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginTop: 50 }} onPress={() => navigation.navigate('BottomNavigation')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>SELANJUTNYA</Text>
                 </TouchableOpacity>
             );
@@ -147,85 +147,85 @@ const DataPribadi = () => {
     }
 
     const navigation = useNavigation()
-    // const renderForms = () => {
-    //     let forms = [];
-    //     for (let i = 1; i <= formCount; i++) {
-    //         forms.push(
-    //             <View key={i.toString()}>
-    //                 <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>
-    //                     Anak ke - {i}
-    //                 </Text>
-    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
-    //                     Nama
-    //                 </Text>
-    //                 <TextInput
-    //                     placeholder='Masukkan Nama'
-    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-    //                 />
+    const renderForms = () => {
+        let forms = [];
+        for (let i = 1; i <= formCount; i++) {
+            forms.push(
+                <View key={i.toString()}>
+                    <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>
+                        Anak ke - {i}
+                    </Text>
+                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                        Nama
+                    </Text>
+                    <TextInput
+                        placeholder='Masukkan Nama'
+                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    />
 
-    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
-    //                     Tempat Lahir
-    //                 </Text>
-    //                 <TextInput
-    //                     placeholder='Contoh: Jakarta'
-    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                        Tempat Lahir
+                    </Text>
+                    <TextInput
+                        placeholder='Contoh: Jakarta'
+                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
 
-    //                 />
+                    />
 
-    //                 <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
-    //                     <LabeledInput
-    //                         placeholder='Tanggal Lahir'
-    //                         label='Tanggal Lahir'
-    //                         style={styles.dateInput}
-    //                         value={tanggalLahir && moment(tanggalLahir).format('LL')}
-    //                         editable={false}
-    //                         mode="outlined"
-    //                         outlineColor="black"
-    //                         activeOutlineColor="black"
-    //                         theme={{ colors: { onSurfaceVariant: 'grey' } }}
-    //                         textColor="black"
-    //                     />
-    //                 </TouchableOpacity>
+                    <TouchableOpacity style={{ marginTop: 15 }} onPress={() => showDatePicker('tglLahir')}>
+                        <LabeledInput
+                            placeholder='Tanggal Lahir'
+                            label='Tanggal Lahir'
+                            style={styles.dateInput}
+                            value={tanggalLahir && moment(tanggalLahir).format('LL')}
+                            editable={false}
+                            mode="outlined"
+                            outlineColor="black"
+                            activeOutlineColor="black"
+                            theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                            textColor="black"
+                        />
+                    </TouchableOpacity>
 
-    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
-    //                     Alamat
-    //                 </Text>
-    //                 <TextInput
-    //                     placeholder='Masukkan Alamat'
-    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-    //                 />
-    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
-    //                     No. Telepon
-    //                 </Text>
-    //                 <TextInput
-    //                     placeholder='Masukkan Nomor Telepon'
-    //                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-    //                 />
+                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                        Alamat
+                    </Text>
+                    <TextInput
+                        placeholder='Masukkan Alamat'
+                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    />
+                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                        No. Telepon
+                    </Text>
+                    <TextInput
+                        placeholder='Masukkan Nomor Telepon'
+                        style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
+                    />
 
-    //                 <Text style={{ marginBottom: 5, marginTop: 10 }}>
-    //                     Dibawah Asuhan
-    //                 </Text>
-    //                 <RadioButton.Group onValueChange={value => setAsuhan(value)} value={asuhan}>
-    //                     <RadioButton.Item label='Orang Tua' value='orang tua' />
-    //                     <RadioButton.Item label='Wali' value='wali' />
-    //                 </RadioButton.Group>
-    //             </View>
-    //         );
-    //     }
-    //     return forms;
-    // };
+                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                        Dibawah Asuhan
+                    </Text>
+                    <RadioButton.Group onValueChange={value => setAsuhan(value)} value={asuhan}>
+                        <RadioButton.Item label='Orang Tua' value='orang tua' />
+                        <RadioButton.Item label='Wali' value='wali' />
+                    </RadioButton.Group>
+                </View>
+            );
+        }
+        return forms;
+    };
 
-    // const handleInputChange = (text) => {
-    //     // konversi input menjadi bilangan bulat
-    //     const count = parseInt(text);
-    //     if (isNaN(count)) {
-    //         // jika input bukan angka, set jumlah form menjadi 1
-    //         setFormCount(1);
-    //     } else {
-    //         // jika input angka, set jumlah form sesuai input
-    //         setFormCount(count);
-    //     }
-    // };
+    const handleInputChange = (text) => {
+        // konversi input menjadi bilangan bulat
+        const count = parseInt(text);
+        if (isNaN(count)) {
+            // jika input bukan angka, set jumlah form menjadi 1
+            setFormCount(1);
+        } else {
+            // jika input angka, set jumlah form sesuai input
+            setFormCount(count);
+        }
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
@@ -233,7 +233,7 @@ const DataPribadi = () => {
                 <Text style={{ fontWeight: '500', fontSize: 18 }}>
                     Form Data Diri Anak
                 </Text>
-                {/* <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                <Text style={{ marginBottom: 5, marginTop: 10 }}>
                     Jumlah Anak yang Diserahkan:
                 </Text>
                 <TextInput
@@ -241,10 +241,10 @@ const DataPribadi = () => {
                     keyboardType="numeric"
                     onChangeText={handleInputChange}
                     style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                /> */}
-                {/* {renderForms()} */}
+                />
+                {renderForms()}
 
-                <View>
+                {/* <View>
                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
                         Nama
                     </Text>
@@ -303,7 +303,7 @@ const DataPribadi = () => {
                         <RadioButton.Item label='Orang Tua' value='orang tua' />
                         <RadioButton.Item label='Wali' value='wali' />
                     </RadioButton.Group>
-                </View>
+                </View> */}
 
                 <Text style={{ fontWeight: '500', fontSize: 18 }}>
                     Form Data Diri Orang Tua / Wali

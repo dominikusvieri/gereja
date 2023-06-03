@@ -19,7 +19,7 @@ const DetailNewsScreen = ({ route }) => {
                 </Text>
                 
                 <Text style={{ textAlign: 'justify', marginTop:10  }}>
-                    {data?.desc}
+                    {data?.description}
                 </Text>
             </ScrollView>
         </SafeAreaView>

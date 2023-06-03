@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused,useNavigation } from "@react-navigation/native";
 import { LOCAL_DEVICE_IP } from "@env"
+
 
 const MediaScreen = () => {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
   const [listPelayanan, setListPelayanan] = useState([])
+
+  const navigation = useNavigation()
 
   const verifyAuth = async () => {
     setIsLoading(true)

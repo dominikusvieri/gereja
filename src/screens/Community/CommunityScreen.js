@@ -12,8 +12,8 @@ const CommunityScreen = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('  https://5469-103-10-66-1.ngrok-free.app/komunitas')
-      .then(response => response.data.community)
+    axios.get('https://fakestoreapi.com/products')
+      .then(response => response.data)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false))
@@ -57,11 +57,14 @@ const CommunityScreen = () => {
                   />
                   <View style={{ marginLeft: 5 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                      {item.ketua.length > 20 ? `${item.ketua.slice(0, 20)}..` : item.ketua}
+                      {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
                     </Text>
                     <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                      {item.alamat} / {item.komsel_date}
+                      {item.category} / 2023-10-12
                     </Text>
+                    {/* <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
+                      {item.category} / {item.komsel_date}
+                    </Text> */}
                   </View>
                 </TouchableOpacity>
               )}

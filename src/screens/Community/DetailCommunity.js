@@ -7,38 +7,53 @@ const DetailCommunity = ({ route }) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", position: 'relative' }}>
             <ScrollView style={{ paddingHorizontal: 20, paddingTop: 10 }}>
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
-                    {data?.ketua}
+                    {data?.title}
                 </Text>
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
                     Visi dan Misi
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
-                    {data?.visi_misi}
+                    Membangun Gereja Yang Maju
                 </Text>
+                {/* <Text style={{ textAlign: 'justify', marginTop: 10 }}>
+                    {data?.visi_misi}
+                </Text> */}
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
                     Tanggal Komsel
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
-                    {data?.komsel_date}
+                    2023-10-10
                 </Text>
+                {/* <Text style={{ textAlign: 'justify', marginTop: 10 }}>
+                    {data?.komsel_date}
+                </Text> */}
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
                     Alamat Komsel
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
-                    {data?.alamat}
+                    Jl. Padjajaran No. 50
                 </Text>
+                {/* <Text style={{ textAlign: 'justify', marginTop: 10 }}>
+                    {data?.alamat}
+                </Text> */}
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
                     Contact Person Komsel
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
-                    {data?.contact_person}
+                    0891828282
                 </Text>
+                {/* <Text style={{ textAlign: 'justify', marginTop: 10 }}>
+                    {data?.contact_person}
+                </Text> */}
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
                     Nama Contact Person Komsel
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
-                    {data?.name_of_contact_person}
+                    Handika
                 </Text>
+                {/* <Text style={{ textAlign: 'justify', marginTop: 10 }}>
+                    {data?.name_of_contact_person}
+                </Text> */}
             </ScrollView>
         </SafeAreaView>
     )

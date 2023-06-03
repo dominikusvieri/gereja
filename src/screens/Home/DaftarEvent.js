@@ -86,7 +86,7 @@ const DaftarEvent = ({ route }) => {
                 <Text>
                     {data}
                 </Text>
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginBottom: 20, marginTop: 20 }} onPress={() => handleDaftar()} >
+                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginBottom: 20, marginTop: 20 }} onPress={() => navigation.navigate('BottomNavigation')} >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
                 </TouchableOpacity>
             </View>
