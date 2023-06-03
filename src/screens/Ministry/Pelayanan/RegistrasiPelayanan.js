@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store'
 import axios from "axios"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import DropDownPicker from "react-native-dropdown-picker"
+import { LOCAL_DEVICE_IP } from "@env"
 
 export default function RegistrasiPelayanan({ navigation }) {
     const [dataPelayanIbadah, setDataPelayanIbadah] = useState({
@@ -26,7 +27,7 @@ export default function RegistrasiPelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`http://192.168.1.4:3001/jemaat`, header)
+        axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
             .then(function (response) {
                 if (response.data[0]) {
                     setDataPelayanIbadah({
@@ -35,7 +36,7 @@ export default function RegistrasiPelayanan({ navigation }) {
                         namaJemaat: response.data[0].nama
                     })
 
-                    axios.get(`http://192.168.1.4:3001/jenis-pelayanan`, header)
+                    axios.get(`http://${LOCAL_DEVICE_IP}/jenis-pelayanan`, header)
                         .then(function (response) {
                             const cleanedDataPelayanan = []
                             if (response.data) {
@@ -77,7 +78,7 @@ export default function RegistrasiPelayanan({ navigation }) {
             }
             let currentSubmitStatus = false
 
-            await axios.post(`http://192.168.1.4:3001/pelayanan/register`, dataPelayanIbadah, header)
+            await axios.post(`http://${LOCAL_DEVICE_IP}/pelayanan/register`, dataPelayanIbadah, header)
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log("Berhasil daftar pelayanan")

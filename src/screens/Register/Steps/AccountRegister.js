@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TextInput, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { LOCAL_DEVICE_IP } from "@env"
 
 export default function AccountRegister({ nextPage, data, handleInputChange }) {
     const navigation = useNavigation()
@@ -34,7 +35,7 @@ export default function AccountRegister({ nextPage, data, handleInputChange }) {
                 setIsEmailError(true)
             }
 
-            axios.get(`http://192.168.1.4:3001/jemaat/account-validation`, { params: { email: data?.email || '' } })
+            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat/account-validation`, { params: { email: data?.email || '' } })
                 .then(function (response) {
                     setIsEmailAlreadyRegistered(!response.data.isAvailable)
                 })

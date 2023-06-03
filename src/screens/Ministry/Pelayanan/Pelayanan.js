@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
 import TerdaftarPelayanan from "./TerdaftarPelayanan";
+import { LOCAL_DEVICE_IP } from "@env"
 
 export default function Pelayanan({ navigation }) {
     const [isAuthorized, setIsAuthorized] = useState(false)
@@ -31,7 +32,7 @@ export default function Pelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`http://192.168.1.4:3001/pelayanan/verify`, header)
+        axios.get(`http://${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
             .then(function (response) {
                 if (response.data.length > 0) {
                     setIsTerdaftarPelayanan(true)

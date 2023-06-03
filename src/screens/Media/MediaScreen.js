@@ -1,5 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native'
+import { LOCAL_DEVICE_IP } from "@env"
 
 const MediaScreen = () => {
   const [isAuthorized, setIsAuthorized] = useState(false)
@@ -28,7 +30,7 @@ const MediaScreen = () => {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     }
 
-    axios.get(`http://192.168.1.4:3001/pelayanan/verify`, header)
+    axios.get(`http://${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
       .then(function (response) {
         if (response.data.length > 0) {
           setIsTerdaftarPelayanan(true)

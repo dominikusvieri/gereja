@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import * as SecureStore from 'expo-secure-store'
 import axios from 'axios'
+import { LOCAL_DEVICE_IP } from "@env"
 
 const ProfileScreen = ({ route, navigation }) => {
   const [authorized, setAuthorized] = useState(false)
@@ -21,7 +22,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`http://192.168.1.4:3001/jemaat`, header)
+      axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
         .then(function (response) {
           setUser({
             ...user,

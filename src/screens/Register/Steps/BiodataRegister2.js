@@ -8,6 +8,7 @@ import moment from "moment";
 import 'moment/locale/id';
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store'
+import { LOCAL_DEVICE_IP } from "@env"
 
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange, setSubmitStatus }) {
     moment.locale(data.wargaNegara === 'ID' ? 'id' : 'en');
@@ -97,7 +98,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
             }
-            axios.post(`http://192.168.1.4/jemaat/register`, cleanedData)
+            axios.post(`http://${LOCAL_DEVICE_IP}/jemaat/register`, cleanedData)
                 .then(function (response) {
                     if (response.data.accessToken) {
                         SecureStore.setItemAsync("accessToken", response.data.accessToken)

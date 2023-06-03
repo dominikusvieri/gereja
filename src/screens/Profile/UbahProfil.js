@@ -6,6 +6,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { Divider } from '@rneui/base';
 import moment from 'moment';
 import 'moment/locale/id';
+import { LOCAL_DEVICE_IP } from "@env"
 
 export default function UbahProfil({ navigation }) {
     moment.locale('id');
@@ -46,11 +47,11 @@ export default function UbahProfil({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`http://192.168.1.4:3001/jemaat`, header)
+            axios.get(`http://${LOCAL_DEVICE_IP}/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
 
-                    axios.get(`http://192.168.1.4:3001/api/country-details`, { params: { ciso: data.wargaNegara } })
+                    axios.get(`http://${LOCAL_DEVICE_IP}/api/country-details`, { params: { ciso: data.wargaNegara } })
                         .then(function (countryDetail) {
                             setUserData({
                                 ...userData,

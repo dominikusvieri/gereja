@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
+import { LOCAL_DEVICE_IP } from "@env"
 
 const LoginScreen = () => {
     const navigation = useNavigation()
@@ -28,6 +29,10 @@ const LoginScreen = () => {
         return () => clearTimeout(inputDebounce)
     }, [email, password])
 
+    // useEffect(() => {
+    //     console.log(LOCAL_DEVICE_IP)
+    // }, [])
+
     function newAbortSignal(timeoutMs) {
         const abortController = new AbortController();
         setTimeout(() => abortController.abort(), timeoutMs || 0);
@@ -35,12 +40,13 @@ const LoginScreen = () => {
         return abortController.signal;
     }
 
-    function handleLogin() {
+    const handleLogin = () => {
         setIsValidating(true)
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            axios.post(`http://192.168.1.4:3001/jemaat/login`, {
+            const apiUrl = `http://${LOCAL_DEVICE_IP}/jemaat/login`
+            axios.post(apiUrl, {
                 email: email,
                 password: password
             }, { timeout: 10000 })
@@ -53,6 +59,7 @@ const LoginScreen = () => {
                 })
                 .catch(function (error) {
                     setLoginStatus("Login gagal: " + error)
+                    console.log(error)
                 })
                 .finally(function (error) {
                     setIsValidating(false)
