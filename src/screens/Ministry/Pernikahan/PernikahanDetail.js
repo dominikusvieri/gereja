@@ -10,7 +10,7 @@ import moment from 'moment';
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { TextInput as LabeledInput } from "react-native-paper";
 import DropDownPicker from 'react-native-dropdown-picker';
-import FormMempelaiPria from './FormMempelaiPria';
+// import FormMempelaiPria from './FormMempelaiPria';
 import { LOCAL_DEVICE_IP } from "@env"
 
 const PernikahanDetail = () => {
@@ -151,7 +151,7 @@ const PernikahanDetail = () => {
         }
     }
 
-    const getDaftarPelayananAktif = async (selectedJemaat, gender) => {
+    const getDaftarPelayananAktif = async (selectedJemaat) => {
         let storedAccessToken = await SecureStore.getItemAsync('accessToken')
         const header = {
             headers: { 'Authorization': `Bearer ${storedAccessToken}` }
@@ -165,13 +165,26 @@ const PernikahanDetail = () => {
                         const filteredListPelayanan = response.data.filter((el) =>
                             el?.statusApproval === 'approved'
                         )
-                        if (gender === 'pria') {
-                            setIsTerlibatPelayananPria(true)
-                            setIsTerlibatPelayananPria(filteredListPelayanan)
+
+                        if (response.data[0].noJemaat === pernikahanData?.mempelaiPria?.noJemaat) {
+                            if (filteredListPelayanan.length > 0) {
+                                setIsTerlibatPelayananPria(true)
+                                setListPelayananPria(filteredListPelayanan)
+                            }
+                            else {
+                                setIsTerlibatPelayananPria(false)
+                                setListPelayananPria([])
+                            }
                         }
-                        else if (gender === 'wanita') {
-                            setIsTerlibatPelayananWanita(true)
-                            setIsTerlibatPelayananWanita(filteredListPelayanan)
+                        else if (response.data[0].noJemaat === pernikahanData?.mempelaiWanita?.noJemaat) {
+                            if (filteredListPelayanan.length > 0) {
+                                setIsTerlibatPelayananWanita(true)
+                                setIsTerlibatPelayananWanita(filteredListPelayanan)
+                            }
+                            else {
+                                setIsTerlibatPelayananWanita(false)
+                                setListPelayananWanita([])
+                            }
                         }
                     }
                     else {
@@ -191,16 +204,6 @@ const PernikahanDetail = () => {
                 })
         }
     }
-
-    // useEffect(() => {
-    //     getCountryList()
-    //     getProfileData()
-    // }, [])
-
-    // useEffect(() => {
-    //     getDaftarPelayananAktif(pernikahanData.mempelaiPria.noJemaat, 'pria')
-    //     getDaftarPelayananAktif(pernikahanData.mempelaiWanita.noJemaat, 'wanita')
-    // }, [pernikahanData.mempelaiPria.baptis])
 
     useEffect(() => {
         verifyAuth()
@@ -398,8 +401,8 @@ const PernikahanDetail = () => {
                                                             onValueChange={(e) => setIsTerlibatPelayananPria(e)}
                                                             value={isTerlibatPelayananPria}
                                                         >
-                                                            <RadioButton.Item label='Ya' value={true} labelStyle={{ fontSize: 16 }} />
-                                                            <RadioButton.Item label='Tidak' value={false} labelStyle={{ fontSize: 16 }} />
+                                                            <RadioButton.Item disabled label='Ya' value={true} labelStyle={{ fontSize: 16 }} />
+                                                            <RadioButton.Item disabled label='Tidak' value={false} labelStyle={{ fontSize: 16 }} />
                                                         </RadioButton.Group>
                                                     </View>
 
@@ -614,8 +617,8 @@ const PernikahanDetail = () => {
                                                             onValueChange={(e) => setIsTerlibatPelayananWanita(e)}
                                                             value={isTerlibatPelayananWanita}
                                                         >
-                                                            <RadioButton.Item label='Ya' value={true} labelStyle={{ fontSize: 16 }} />
-                                                            <RadioButton.Item label='Tidak' value={false} labelStyle={{ fontSize: 16 }} />
+                                                            <RadioButton.Item disabled label='Ya' value={true} labelStyle={{ fontSize: 16 }} />
+                                                            <RadioButton.Item disabled label='Tidak' value={false} labelStyle={{ fontSize: 16 }} />
                                                         </RadioButton.Group>
                                                     </View>
 

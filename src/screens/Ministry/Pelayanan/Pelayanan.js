@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import UnauthorizedView from "../../../components/UnauthorizedView";
 import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
@@ -65,7 +66,7 @@ export default function Pelayanan({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             {isLoading ?
-                <View style={styles.unauthorizedContainer}>
+                <View style={styles.loadingContainer}>
                     <ActivityIndicator color="#4281A4" style={{ transform: [{ scaleX: 4 }, { scaleY: 4 }] }} />
                 </View>
                 :
@@ -75,10 +76,10 @@ export default function Pelayanan({ navigation }) {
                             listPelayanan={listPelayanan}
                         />
                         :
-                        <View style={styles.unauthorizedContainer}>
-                            <Text style={{ ...styles.unauthorizedTitle, textAlign: 'center' }}>{"Anda belum terdaftar\nsebagai pelayan"}</Text>
+                        <View style={styles.loadingContainer}>
+                            <Text style={{ ...styles.registerTitle, textAlign: 'center' }}>{"Anda belum terdaftar\nsebagai pelayan"}</Text>
                             <TouchableOpacity
-                                style={styles.unauthorizedButton}
+                                style={styles.registerButton}
                                 onPress={() => navigation.navigate('RegistrasiPelayanan')}
                             >
                                 <Text style={styles.loginText}>Registrasi Pelayanan</Text>
@@ -86,20 +87,7 @@ export default function Pelayanan({ navigation }) {
                         </View>
                     )
                     :
-                    <View style={styles.unauthorizedContainer}>
-                        <Text style={styles.unauthorizedTitle}>
-                            Anda belum login
-                        </Text>
-                        <Text style={styles.unauthorizedDesc}>
-                            Silahkan login untuk melanjutkan
-                        </Text>
-                        <TouchableOpacity
-                            style={styles.unauthorizedButton}
-                            onPress={() => navigation.navigate('login')}
-                        >
-                            <Text style={styles.loginText}>Login</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <UnauthorizedView />
                 )
             }
         </SafeAreaView>
@@ -111,22 +99,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         flex: 1
     },
-    unauthorizedContainer: {
+    loadingContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    unauthorizedTitle: {
+    registerTitle: {
         fontSize: 20,
         fontWeight: '500',
         color: '#4281A4'
     },
-    unauthorizedDesc: {
-        fontSize: 16,
-        color: '#4281A4',
-        marginBottom: 12,
-    },
-    unauthorizedButton: {
+    registerButton: {
         paddingVertical: 12,
         paddingHorizontal: 56,
         backgroundColor: '#4281A4',
@@ -135,9 +118,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10
     },
-    loginText: {
-        fontSize: 16,
-        color: '#FFFFFF',
-        fontWeight: '500'
-    }
 })

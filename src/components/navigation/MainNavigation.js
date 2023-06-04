@@ -31,6 +31,7 @@ import StatusRegisterPelayanIbadah from '../../screens/Ministry/Pelayanan/Status
 import DaftarEvent from '../../screens/Home/DaftarEvent'
 import IbadahScreen from '../../screens/Ministry/Ibadah/IbadahScreen'
 import DetailIbadah from '../../screens/Ministry/Ibadah/DetailIbadah'
+import Pernikahan from '../../screens/Ministry/Pernikahan/Pernikahan'
 
 const Stack = createNativeStackNavigator()
 
@@ -49,6 +50,7 @@ const MainNavigation = () => {
                 <Stack.Screen name='DetailNews' component={DetailNewsScreen} options={{ title: 'Berita Terkini' }} />
                 <Stack.Screen name='DetailEvent' component={DetailEventScreen} options={{ title: 'Event Terkini' }} />
                 <Stack.Screen name='DetailComm' component={DetailCommunity} options={{ title: 'Komunitas Gereja' }} />
+                <Stack.Screen name='Pernikahan' component={Pernikahan} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PernikahanDetailWanita' component={PernikahanDetail2} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PembabtisanDetail' component={PembabtisanDetail} options={{ title: 'Pembabtisan' }} />
