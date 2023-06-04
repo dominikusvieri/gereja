@@ -6,7 +6,7 @@ const DetailCommunity = ({ route }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", position: 'relative' }}>
             <ScrollView style={{ paddingHorizontal: 20, paddingTop: 10 }}>
-                <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
+                <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                     {data?.title}
                 </Text>
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>

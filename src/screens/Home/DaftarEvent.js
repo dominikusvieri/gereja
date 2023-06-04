@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -86,12 +86,72 @@ const DaftarEvent = ({ route }) => {
                 <Text>
                     {data}
                 </Text>
-                <TouchableOpacity style={{ backgroundColor: '#0885F8', padding: 15, marginBottom: 20, marginTop: 20 }} onPress={() => navigation.navigate('BottomNavigation')} >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
+                <TouchableOpacity
+                    style={styles.nextButton}
+                    onPress={() => navigation.navigate('BottomNavigation')}
+                >
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Submit</Text>
                 </TouchableOpacity>
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    title: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: '#4281A4'
+    },
+    description: {
+        fontSize: 14,
+        textAlign: 'center',
+        marginBottom: 32
+    },
+    input: {
+        marginBottom: 12,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        color: 'black'
+    },
+    dateInput: {
+        marginBottom: 12,
+        backgroundColor: '#f2f2f2',
+        fontSize: 14,
+        paddingHorizontal: 4
+    },
+    nextButton: {
+        height: 48,
+        backgroundColor: '#4281A4',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10, 
+        marginBottom:30
+    },
+    nextButtonDisable: {
+        height: 48,
+        backgroundColor: '#b1b1b1',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
+    },
+    nextText: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    dateInput: {
+        marginBottom: 12,
+        backgroundColor: 'white',
+        fontSize: 14,
+        paddingHorizontal: 4
+    },
+})
 
 export default DaftarEvent
