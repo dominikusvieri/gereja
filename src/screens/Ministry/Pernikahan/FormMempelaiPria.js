@@ -6,6 +6,10 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import moment from "moment";
 import 'moment/locale/id'
+import { useEffect } from "react";
+import * as SecureStore from 'expo-secure-store'
+import { LOCAL_DEVICE_IP } from '@env'
+import axios from "axios";
 
 export default function FormMempelaiPria({ data, handleInputChange, countryList }) {
     moment.locale('id')
@@ -14,6 +18,35 @@ export default function FormMempelaiPria({ data, handleInputChange, countryList 
     const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate())
     const [wargaNegara, setWargaNegara] = useState('')
     const [countryListOpen, setCountryListOpen] = useState(false)
+    const [kpkWilayah, setKPKWilayah] = useState('Wilayah 1')
+    const [kpkWilayahOpen, setKPKWilayahOpen] = useState(false)
+    const [listKPKWilayah, setListKPKWilayah] = useState([
+        {
+            id: 0,
+            label: 'Wilayah 1',
+            value: 'Wilayah 1'
+        },
+        {
+            id: 1,
+            label: 'Wilayah 2',
+            value: 'Wilayah 2'
+        },
+        {
+            id: 2,
+            label: 'Wilayah 3',
+            value: 'Wilayah 3'
+        },
+    ])
+    const [isTerlibatPelayanan, setIsTerlibatPelayanan] = useState(false)
+    const [listPelayanan, setListPelayanan] = useState([])
+
+    useEffect(() => {
+        const inputDebounce = setTimeout(() => {
+            getDaftarPelayananAktif()
+        }, 500)
+
+        return () => clearTimeout(inputDebounce)
+    }, [data.noJemaat])
 
     const onTanggalLahirChange = (event, selectedDate, genderMempelai) => (dateType) => {
         setTanggalLahir(selectedDate);
@@ -28,6 +61,36 @@ export default function FormMempelaiPria({ data, handleInputChange, countryList 
             is24Hour: true,
             maximumDate: moment().toDate()
         })
+    }
+
+    async function getDaftarPelayananAktif() {
+        let storedAccessToken = await SecureStore.getItemAsync('accessToken')
+        const config = {
+            params: {
+                noJemaat: data?.noJemaat
+            },
+            headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+        }
+
+        if (storedAccessToken) {
+            axios.get(`${LOCAL_DEVICE_IP}/pelayanan/get-terdaftar`, config)
+                .then(function (response) {
+                    if (response.data.length > 0) {
+                        const filteredListPelayanan = response.data.filter((el) => {
+                            return el?.statusApproval === 'approved'
+                        })
+                        setIsTerlibatPelayanan(true)
+                        setListPelayanan(filteredListPelayanan)
+                    }
+                    else {
+                        setIsTerlibatPelayanan(false)
+                        setListPelayanan([])
+                    }
+                })
+                .catch(function (error) {
+                    console.log("Error verifying pelayanan: ", error)
+                })
+        }
     }
 
     return (
@@ -147,7 +210,97 @@ export default function FormMempelaiPria({ data, handleInputChange, countryList 
                             *Anda harus sudah dibaptis untuk mendaftar
                         </Text>
                         :
-                        <></>
+                        <View>
+                            <LabeledInput
+                                label="Nomor Induk Jemaat"
+                                style={styles.labeledInput}
+                                value={data?.noJemaat || ''}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor='#4281A4'
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor='black'
+                                onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'noJemaat')}
+                            // disabled={data.noJemaat ? true : false}
+                            />
+
+                            <Text style={styles.kewarganegaraanText}>
+                                KPK Wilayah
+                            </Text>
+                            <DropDownPicker
+                                placeholder="KPK Wilayah"
+                                value={kpkWilayah}
+                                items={listKPKWilayah}
+                                open={kpkWilayahOpen}
+                                setOpen={setKPKWilayahOpen}
+                                setValue={setKPKWilayah}
+                                style={styles.kewarganegaraanDropdown}
+                                placeholderStyle={{ color: 'grey' }}
+                                listMode="SCROLLVIEW"
+                                itemKey='id'
+                            />
+
+                            <View style={{ marginTop: 16 }}>
+                                <Text style={{ marginBottom: 12, fontSize: 16, color: '#4281A4', fontWeight: '600' }}>
+                                    Keterlibatan Pelayanan
+                                </Text>
+                                <Text style={{ fontSize: 16 }}>Ikut aktif dalam pelayanan?</Text>
+                                <RadioButton.Group
+                                    onValueChange={(e) => setIsTerlibatPelayanan(e)}
+                                    value={isTerlibatPelayanan}
+                                >
+                                    <RadioButton.Item disabled label='Ya' value={true} labelStyle={{ fontSize: 16 }} />
+                                    <RadioButton.Item disabled label='Tidak' value={false} labelStyle={{ fontSize: 16 }} />
+                                </RadioButton.Group>
+                            </View>
+
+                            {
+                                isTerlibatPelayanan && (
+                                    listPelayanan.length > 0 ?
+                                        <View style={{ marginTop: 16 }}>
+                                            <Text style={{ fontSize: 16, marginBottom: 8, fontWeight: '600' }}>Daftar Pelayanan Aktif</Text>
+                                            {
+                                                listPelayanan?.map((pelayanan, i) => {
+                                                    return (
+                                                        <View
+                                                            key={i}
+                                                            style={styles.cardContainer}
+                                                        >
+                                                            <View style={{ flex: 3 }}>
+                                                                <Text style={styles.cardTextDesc}>Kode pelayanan:</Text>
+                                                                <Text style={styles.cardTextTitle}>{pelayanan.kodePelayanan}</Text>
+                                                                <View style={{ marginBottom: 10 }} />
+                                                                <Text style={styles.cardTextDesc}>Jenis pelayanan:</Text>
+                                                                <Text style={styles.cardTextTitle}>{pelayanan.JenisPelayanan.namaPelayanan}</Text>
+                                                            </View>
+                                                            <View style={{
+                                                                flex: 2, justifyContent: 'center', alignItems: 'center',
+                                                                backgroundColor: pelayanan.statusApproval === 'pending' ? '#737373'
+                                                                    : pelayanan.statusApproval === 'denied' ? '#fb7185'
+                                                                        : '#10b981',
+                                                                borderRadius: 8
+                                                            }}>
+                                                                <Text style={styles.cardTextStatus}>{
+                                                                    pelayanan.statusApproval === 'pending' ?
+                                                                        "Menunggu persetujuan"
+                                                                        : pelayanan.statusApproval === 'approved' ?
+                                                                            "Terdaftar"
+                                                                            : pelayanan.statusApproval === 'denied' &&
+                                                                            "Ditolak"
+                                                                }</Text>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                })
+                                            }
+                                        </View>
+                                        :
+                                        <View>
+                                            <Text style={{ color: 'red' }}>*Anda belum terlibat dalam pelayanan</Text>
+                                        </View>
+                                )
+                            }
+                        </View>
                     }
                 </ScrollView>
             }
@@ -203,5 +356,27 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#4281A4',
         fontWeight: '600'
-    }
+    },
+    cardContainer: {
+        backgroundColor: '#059669',
+        marginBottom: 16,
+        borderRadius: 8,
+        padding: 12,
+        flex: 1,
+        flexDirection: 'row'
+    },
+    cardTextTitle: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: '500'
+    },
+    cardTextDesc: {
+        fontSize: 14,
+        color: 'white',
+    },
+    cardTextStatus: {
+        fontSize: 14,
+        color: 'white',
+        textAlign: 'center'
+    },
 })
