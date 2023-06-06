@@ -85,13 +85,13 @@ export default function BiodataRegister({ nextPage, prevPage, data, handleInputC
                     value={data.noKk}
                     onChangeText={(e) => handleInputChange(e, 'noKk')}
                 />
-                <TextInput
+                {/* <TextInput
                     placeholder='Nomor Jemaaat'
                     style={styles.input}
                     keyboardType="numeric"
                     value={data.noJemaat}
                     onChangeText={(e) => handleInputChange(e, 'noJemaat')}
-                />
+                /> */}
                 <TextInput
                     placeholder='Nama'
                     style={styles.input}
