@@ -134,7 +134,7 @@ export default function FormMempelaiPria({
                                 </View>
                             </>) : (<>
                                 <View>
-                                    <LabeledInput
+                                    {/* <LabeledInput
                                         label="Nomor Induk Jemaat"
                                         style={styles.dateInput}
                                         value={pernikahanData?.mempelaiPria?.noJemaat || ''}
@@ -144,7 +144,7 @@ export default function FormMempelaiPria({
                                         theme={{ colors: { onSurfaceVariant: 'grey' } }}
                                         textColor='black'
                                         onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'noJemaat')}
-                                    />
+                                    /> */}
 
                                     <Text style={{ marginBottom: 5, color: 'grey', fontSize: 14 }}>
                                         KPK Wilayah

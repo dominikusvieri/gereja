@@ -9,12 +9,6 @@ const DetailCommunity = ({ route }) => {
                 <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                     {data?.title}
                 </Text>
-                <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
-                    Visi dan Misi
-                </Text>
-                <Text style={{ textAlign: 'justify', marginTop: 10 }}>
-                    Membangun Gereja Yang Maju
-                </Text>
                 {/* <Text style={{ textAlign: 'justify', marginTop: 10 }}>
                     {data?.visi_misi}
                 </Text> */}
@@ -37,7 +31,7 @@ const DetailCommunity = ({ route }) => {
                     {data?.alamat}
                 </Text> */}
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
-                    Contact Person Komsel
+                    Contact Person 
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
                     0891828282
@@ -46,7 +40,7 @@ const DetailCommunity = ({ route }) => {
                     {data?.contact_person}
                 </Text> */}
                 <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginVertical: 10 }}>
-                    Nama Contact Person Komsel
+                    Nama Contact Person 
                 </Text>
                 <Text style={{ textAlign: 'justify', marginTop: 10 }}>
                     Handika

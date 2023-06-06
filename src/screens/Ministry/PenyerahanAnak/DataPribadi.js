@@ -8,7 +8,7 @@ import { TextInput as LabeledInput } from "react-native-paper";
 import axios from 'axios';
 
 
-const DataPribadi = () => {
+const DataPribadi = ({ route }) => {
     const [formCount, setFormCount] = useState(1); // inisialisasi jumlah form awal dengan 1
     const [asuhan, setAsuhan] = useState('')
     const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
@@ -25,6 +25,9 @@ const DataPribadi = () => {
     const [baptisanAyah, setBaptisanAyah] = useState('');
     const [baptisanIbu, setBaptisanIbu] = useState('');
 
+    const data = route.params.param
+
+    console.log(data)
     const onTanggalLahirChange = (event, selectedDate) => (dateType) => {
         setTanggalLahir(selectedDate);
         handleInputChange(selectedDate, dateType);
@@ -154,7 +157,7 @@ const DataPribadi = () => {
     const navigation = useNavigation()
     const renderForms = () => {
         let forms = [];
-        for (let i = 1; i <= formCount; i++) {
+        for (let i = 1; i <= data; i++) {
             forms.push(
                 <View key={i.toString()}>
                     <Text style={{ fontWeight: '500', fontSize: 16, marginTop: 10 }}>
@@ -223,20 +226,7 @@ const DataPribadi = () => {
                 <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                     Form Data Diri Anak
                 </Text>
-                <Text style={{ marginBottom: 5, marginTop: 10 }}>
-                    Jumlah Anak yang Diserahkan:
-                </Text>
-                <LabeledInput
-                    label='Jumlah Anak'
-                    style={styles.dateInput}
-                    mode='outlined'
-                    outlineColor='black'
-                    activeOutlineColor="#4281A4"
-                    theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                    textColor="black"
-                    onChangeText={handleInputChange}
-                    keyboardType='numeric'
-                />
+                
                 {renderForms()}
 
 
@@ -309,6 +299,7 @@ const DataPribadi = () => {
                         <RadioButton.Item label='Wali' value='wali' />
                     </RadioButton.Group>
                 </View> */}
+                
                 <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                     Form Data Diri Orang Tua / Wali
                 </Text>

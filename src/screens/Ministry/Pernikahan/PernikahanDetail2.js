@@ -222,7 +222,7 @@ const PernikahanDetail2 = () => {
                                 </View>
                             </>) : (<>
                                 <View>
-                                    <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                    {/* <Text style={{ marginBottom: 5, marginTop: 10 }}>
                                         Nomor Induk Jemaat
                                     </Text>
                                     <TextInput
@@ -230,7 +230,7 @@ const PernikahanDetail2 = () => {
                                         onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'noJemaat')}
                                         placeholder='Masukkan Nomor Induk Jemaat'
                                         style={{ borderWidth: 1, borderColor: '#000', padding: 10 }}
-                                    />
+                                    /> */}
 
                                     <Text style={{ marginBottom: 5, marginTop: 10 }}>
                                         KPK Wilayah

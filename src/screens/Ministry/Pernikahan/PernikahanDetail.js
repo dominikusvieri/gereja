@@ -360,7 +360,7 @@ const PernikahanDetail = () => {
                                                 </View>
                                             </>) : (<>
                                                 <View>
-                                                    <LabeledInput
+                                                    {/* <LabeledInput
                                                         label="Nomor Induk Jemaat"
                                                         style={styles.dateInput}
                                                         value={pernikahanData?.mempelaiPria?.noJemaat || ''}
@@ -370,7 +370,7 @@ const PernikahanDetail = () => {
                                                         theme={{ colors: { onSurfaceVariant: 'grey' } }}
                                                         textColor='black'
                                                         onChangeText={(e) => handleInputChange(e, 'mempelaiPria', 'noJemaat')}
-                                                    />
+                                                    /> */}
 
                                                     <Text style={{ marginBottom: 5, color: 'grey', fontSize: 14 }}>
                                                         KPK Wilayah

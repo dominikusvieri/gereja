@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet
 import React, { useState, useEffect } from 'react'
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as SecureStore from 'expo-secure-store';
+import { TextInput as LabeledInput } from "react-native-paper";
 
 const PenyerahanAnak = () => {
     const [jumlahAnak, setJumlahAnak] = useState(0)
@@ -12,6 +13,8 @@ const PenyerahanAnak = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
     const [listPelayanan, setListPelayanan] = useState([])
+
+    const [formCount, setFormCount] = useState(1);
 
     const verifyAuth = async () => {
         setIsLoading(true)
@@ -40,6 +43,20 @@ const PenyerahanAnak = () => {
             setJumlahAnak(jumlahAnak - 1);
         }
     };
+
+    const handleInputChange = (text) => {
+        // konversi input menjadi bilangan bulat
+        const count = parseInt(text);
+        if (isNaN(count)) {
+            // jika input bukan angka, set jumlah form menjadi 1
+            setFormCount(1);
+        } else {
+            // jika input angka, set jumlah form sesuai input
+            setFormCount(count);
+        }
+    };
+
+    console.log(formCount)
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
             {isLoading ?
@@ -86,10 +103,25 @@ const PenyerahanAnak = () => {
                                 </Text>
                             </View>
 
+                            <Text style={{ marginBottom: 5, marginTop: 10 }}>
+                                Jumlah Anak yang Diserahkan:
+                            </Text>
+                            <LabeledInput
+                                label='Jumlah Anak'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
+                                onChangeText={handleInputChange}
+                                keyboardType='numeric'
+                            />
+
 
                             <TouchableOpacity
                                 style={styles.nextButton}
-                                onPress={() => navigation.navigate('DataPribadi')}
+                                onPress={() => navigation.navigate('DataPribadi', {param: formCount})}
                             >
                                 <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Selanjutnya</Text>
                             </TouchableOpacity>
