@@ -41,7 +41,8 @@
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "sequelize-cli": "^6.6.0"
   },
   "private": true
 }

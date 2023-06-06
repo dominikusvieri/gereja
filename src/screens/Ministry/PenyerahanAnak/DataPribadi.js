@@ -198,28 +198,7 @@ const DataPribadi = () => {
                         />
                     </TouchableOpacity>
 
-                    <LabeledInput
-                        label='Alamat'
-                        style={styles.dateInput}
-                        mode='outlined'
-                        outlineColor='black'
-                        activeOutlineColor="#4281A4"
-                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                        textColor="black"
-                        onChangeText={handleAlamat}
-                    />
 
-                    <LabeledInput
-                        label='Nomor Telepon'
-                        style={styles.dateInput}
-                        mode='outlined'
-                        outlineColor='black'
-                        activeOutlineColor="#4281A4"
-                        theme={{ colors: { onSurfaceVariant: 'grey' } }}
-                        textColor="black"
-                        onChangeText={handleTelepon}
-                        keyboardType='phone-pad'
-                    />
                 </View>
             );
         }
@@ -380,6 +359,29 @@ const DataPribadi = () => {
                                 textColor="black"
                                 onChangeText={handleBaptisanIbu}
                             />
+
+                            <LabeledInput
+                                label='Alamat'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
+                                onChangeText={handleAlamat}
+                            />
+
+                            <LabeledInput
+                                label='Nomor Telepon'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
+                                onChangeText={handleTelepon}
+                                keyboardType='phone-pad'
+                            />
                         </> :
                         <>
                             <LabeledInput
@@ -394,7 +396,7 @@ const DataPribadi = () => {
                             />
 
                             <LabeledInput
-                                label='Nama Ayah'
+                                label='Nama Baptisan Wali'
                                 style={styles.dateInput}
                                 mode='outlined'
                                 outlineColor='black'
@@ -402,6 +404,29 @@ const DataPribadi = () => {
                                 theme={{ colors: { onSurfaceVariant: 'grey' } }}
                                 textColor="black"
                                 onChangeText={handleBaptisanWali}
+                            />
+
+                            <LabeledInput
+                                label='Alamat'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
+                                onChangeText={handleAlamat}
+                            />
+
+                            <LabeledInput
+                                label='Nomor Telepon'
+                                style={styles.dateInput}
+                                mode='outlined'
+                                outlineColor='black'
+                                activeOutlineColor="#4281A4"
+                                theme={{ colors: { onSurfaceVariant: 'grey' } }}
+                                textColor="black"
+                                onChangeText={handleTelepon}
+                                keyboardType='phone-pad'
                             />
                         </>
                 }
