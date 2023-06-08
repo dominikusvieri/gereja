@@ -13,6 +13,7 @@ import { TextInput as LabeledInput } from "react-native-paper";
 
 
 const PernikahanDetail2 = () => {
+    const ip = LOCAL_DEVICE_IP
     moment.locale('id')
     const [nationalities, setNationalities] = useState([]);
     const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
@@ -65,7 +66,7 @@ const PernikahanDetail2 = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`${ip}/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'

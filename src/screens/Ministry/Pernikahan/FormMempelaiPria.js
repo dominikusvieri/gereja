@@ -12,6 +12,7 @@ import { LOCAL_DEVICE_IP } from '@env'
 import axios from "axios";
 
 export default function FormMempelaiPria({ data, handleInputChange, countryList }) {
+    const ip = LOCAL_DEVICE_IP
     moment.locale('id')
     const [isLoading, setIsLoading] = useState(false)
     const [tanggalLahir, setTanggalLahir] = useState(moment().toDate())
@@ -73,7 +74,7 @@ export default function FormMempelaiPria({ data, handleInputChange, countryList 
         }
 
         if (storedAccessToken) {
-            axios.get(`${LOCAL_DEVICE_IP}/pelayanan/get-terdaftar`, config)
+            axios.get(`${ip}/pelayanan/get-terdaftar`, config)
                 .then(function (response) {
                     if (response.data.length > 0) {
                         const filteredListPelayanan = response.data.filter((el) => {

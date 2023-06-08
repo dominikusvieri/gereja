@@ -11,6 +11,7 @@ import * as SecureStore from 'expo-secure-store'
 import { LOCAL_DEVICE_IP } from "@env"
 
 export default function BiodataRegister2({ nextPage, prevPage, data, handleInputChange, setSubmitStatus }) {
+    const ip = LOCAL_DEVICE_IP
     moment.locale(data.wargaNegara === 'ID' ? 'id' : 'en');
     const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
     const [isValidating, setIsValidating] = useState(false);
@@ -98,7 +99,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
             }
-            axios.post(`${LOCAL_DEVICE_IP}/jemaat/register`, cleanedData)
+            axios.post(`${ip}/jemaat/register`, cleanedData)
                 .then(function (response) {
                     if (response.data.accessToken) {
                         SecureStore.setItemAsync("accessToken", response.data.accessToken)

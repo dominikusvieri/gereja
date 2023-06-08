@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store'
 import { LOCAL_DEVICE_IP } from "@env"
 
 export default function UbahTelepon({ navigation }) {
+    const ip = LOCAL_DEVICE_IP
     const [telepon, setTelepon] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [kodeTeleponOpen, setKodeTeleponOpen] = useState(false)
@@ -23,7 +24,7 @@ export default function UbahTelepon({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
+            axios.get(`${ip}/jemaat`, header)
                 .then(function (response) {
                     setTelepon(response.data[0].telp)
                 })
@@ -102,7 +103,7 @@ export default function UbahTelepon({ navigation }) {
         if (kodeTelepon && numbers) {
             const finalNumbers = kodeTelepon + ' ' + numbers
 
-            axios.put(`${LOCAL_DEVICE_IP}/jemaat/edit-telepon`, {
+            axios.put(`${ip}/jemaat/edit-telepon`, {
                 newNumbers: finalNumbers
             }, header, { timeout: 10000 })
                 .then(function (response) {

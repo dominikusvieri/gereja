@@ -7,6 +7,7 @@ import { LOCAL_DEVICE_IP } from "@env"
 
 const LoginScreen = () => {
     const navigation = useNavigation()
+    const ip = LOCAL_DEVICE_IP
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -45,7 +46,7 @@ const LoginScreen = () => {
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            const apiUrl = `${LOCAL_DEVICE_IP}/jemaat/login`
+            const apiUrl = `${ip}/jemaat/login`
             axios.post(apiUrl, {
                 email: email,
                 password: password

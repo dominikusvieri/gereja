@@ -9,6 +9,7 @@ import { LOCAL_DEVICE_IP } from '@env'
 import FormMempelaiPria from "./FormMempelaiPria";
 
 export default function Pernikahan() {
+    const ip = LOCAL_DEVICE_IP
     const [formPosition, setFormPosition] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [isAuthorized, setIsAuthorized] = useState(false)
@@ -57,7 +58,7 @@ export default function Pernikahan() {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/pernikahan/verify`, header)
+        axios.get(`${ip}/pernikahan/verify`, header)
             .then(function (response) {
                 const data = response?.data
                 if (data) {
@@ -123,7 +124,7 @@ export default function Pernikahan() {
 
     const getCountryList = async () => {
         setIsLoading(true)
-        axios.get(`${LOCAL_DEVICE_IP}/api/countries`)
+        axios.get(`${ip}/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []

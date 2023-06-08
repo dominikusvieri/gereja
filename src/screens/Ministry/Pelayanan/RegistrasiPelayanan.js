@@ -7,6 +7,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 import { LOCAL_DEVICE_IP } from "@env"
 
 export default function RegistrasiPelayanan({ navigation }) {
+    const ip = LOCAL_DEVICE_IP
     const [dataPelayanIbadah, setDataPelayanIbadah] = useState({
         noJemaat: '',
         namaJemaat: '',
@@ -27,7 +28,7 @@ export default function RegistrasiPelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
+        axios.get(`${ip}/jemaat`, header)
             .then(function (response) {
                 if (response.data[0]) {
                     setDataPelayanIbadah({
@@ -36,7 +37,7 @@ export default function RegistrasiPelayanan({ navigation }) {
                         namaJemaat: response.data[0].nama
                     })
 
-                    axios.get(`${LOCAL_DEVICE_IP}/jenis-pelayanan`, header)
+                    axios.get(`${ip}/jenis-pelayanan`, header)
                         .then(function (response) {
                             const cleanedDataPelayanan = []
                             if (response.data) {
@@ -78,7 +79,7 @@ export default function RegistrasiPelayanan({ navigation }) {
             }
             let currentSubmitStatus = false
 
-            await axios.post(`${LOCAL_DEVICE_IP}/pelayanan/register`, dataPelayanIbadah, header)
+            await axios.post(`${ip}/pelayanan/register`, dataPelayanIbadah, header)
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log("Berhasil daftar pelayanan")

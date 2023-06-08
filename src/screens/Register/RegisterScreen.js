@@ -8,7 +8,7 @@ import axios from "axios";
 import { LOCAL_DEVICE_IP } from '@env'
 
 const RegisterScreen = ({ route }) => {
-    const localIp = LOCAL_DEVICE_IP
+    const ip = LOCAL_DEVICE_IP
     const [step, setStep] = useState(route?.params?.stepInto ? route.params.stepInto : 0)
     const [registrationData, setRegistrationData] = useState(
         {
@@ -43,7 +43,7 @@ const RegisterScreen = ({ route }) => {
     const getCountries = async () => {
         setIsLoading(true);
 
-        axios.get(`${LOCAL_DEVICE_IP}/api/countries`)
+        axios.get(`${ip}/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []

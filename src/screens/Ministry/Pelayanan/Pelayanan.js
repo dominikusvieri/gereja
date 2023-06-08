@@ -8,6 +8,7 @@ import TerdaftarPelayanan from "./TerdaftarPelayanan";
 import { LOCAL_DEVICE_IP } from "@env"
 
 export default function Pelayanan({ navigation }) {
+    const ip = LOCAL_DEVICE_IP
     const [isAuthorized, setIsAuthorized] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
@@ -33,7 +34,7 @@ export default function Pelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
+        axios.get(`${ip}/pelayanan/verify`, header)
             .then(function (response) {
                 if (response.data.length > 0) {
                     setIsTerdaftarPelayanan(true)

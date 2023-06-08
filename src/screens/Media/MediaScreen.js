@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
-import { useIsFocused,useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { LOCAL_DEVICE_IP } from "@env"
 
 
 const MediaScreen = () => {
+  const ip = LOCAL_DEVICE_IP
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
@@ -35,7 +36,7 @@ const MediaScreen = () => {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     }
 
-    axios.get(`${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
+    axios.get(`${ip}/pelayanan/verify`, header)
       .then(function (response) {
         if (response.data.length > 0) {
           setIsTerdaftarPelayanan(true)

@@ -6,6 +6,7 @@ import axios from 'axios'
 import { LOCAL_DEVICE_IP } from "@env"
 
 const ProfileScreen = ({ route, navigation }) => {
+  const ip = LOCAL_DEVICE_IP
   const [authorized, setAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState({
@@ -22,7 +23,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`${LOCAL_DEVICE_IP}/jemaat`, header)
+      axios.get(`${ip}/jemaat`, header)
         .then(function (response) {
           setUser({
             ...user,
