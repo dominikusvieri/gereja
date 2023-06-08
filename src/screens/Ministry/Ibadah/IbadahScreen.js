@@ -4,27 +4,8 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as SecureStore from 'expo-secure-store';
 
 const IbadahScreen = () => {
-    const [isAuthorized, setIsAuthorized] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-
-    const verifyAuth = async () => {
-        setIsLoading(true)
-        const accessToken = await SecureStore.getItemAsync('accessToken').finally(function () {
-            setIsLoading(false)
-        })
-        if (accessToken) {
-            setIsAuthorized(true)
-        }
-        else {
-            setIsAuthorized(false)
-        }
-        console.log(accessToken)
-    }
-
-    useEffect(() => {
-        verifyAuth()
-    }, [isAuthorized, useIsFocused()])
-
+    
+    const navigation = useNavigation()
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
             <View>
@@ -33,470 +14,36 @@ const IbadahScreen = () => {
                         Ibadah Gereja Isa Almasih
                     </Text>
 
-                    <Text style={{ fontWeight: '700', fontSize: 20, color: '#fff', marginBottom: 5, backgroundColor: '#4281A4', padding: 10 }}>
-                        Senin, 5-6-2023
-                    </Text>
-                    <View style={{ borderWidth: 1, padding: 10, marginTop: 10, marginBottom: 10 }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Nama Ibadah :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Ibadah Raya Pagi
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Jam :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                07.00
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Pembicara :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Pendeta 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                WL :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                WL 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Singers :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yohanna
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Musik :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Choir :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Doa PRA :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yonathan
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Sound :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Multimedia :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Kolektan :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Majelis Pen :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Usher :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Perjamuan Kudus :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                    </View>
+                    <TouchableOpacity
+                        style={styles.changeButton}
+                    >
+                        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>My Schedule</Text>
+                    </TouchableOpacity>
 
-                    <View style={{ borderWidth: 1, padding: 10, marginTop: 10, marginBottom: 10 }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Nama Ibadah :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Ibadah Raya Pagi
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Jam :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                17.00
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Pembicara :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Pendeta 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                WL :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                WL 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Singers :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yohanna
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Musik :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Choir :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Doa PRA :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yonathan
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Sound :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Multimedia :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Kolektan :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Majelis Pen :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Usher :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Perjamuan Kudus :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                    </View>
-                    <Text style={{ fontWeight: '700', fontSize: 20, color: '#fff', marginBottom: 5, backgroundColor: '#4281A4', padding: 10 }}>
-                        Selasa, 6-6-2023
+                    <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4', marginBottom: 5 }}>
+                        Jadwal Ibadah Per Bulan
                     </Text>
-                    <View style={{ borderWidth: 1, padding: 10, marginTop: 10, marginBottom: 10 }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Nama Ibadah :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Ibadah Raya Pagi
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Jam :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                07.00
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Pembicara :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Pendeta 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                WL :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                WL 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Singers :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yohanna
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Musik :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Choir :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Doa PRA :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yonathan
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Sound :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Multimedia :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Kolektan :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Majelis Pen :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Usher :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Perjamuan Kudus :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                    </View>
 
-                    <View style={{ borderWidth: 1, padding: 10, marginTop: 10, marginBottom: 10 }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Nama Ibadah :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Ibadah Raya Pagi
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Jam :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                17.00
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Pembicara :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Pendeta 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                WL :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                WL 1
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Singers :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yohanna
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Musik :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Choir :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Workshipeer
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Doa PRA :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Yonathan
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Sound :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Multimedia :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Kolektan :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Majelis Pen :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Usher :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 5 }}>
-                                Perjamuan Kudus :
-                            </Text>
-                            <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                Teguh
-                            </Text>
-                        </View>
-                    </View>
+                    <TouchableOpacity
+                        style={styles.nextButton}
+                        onPress={()=> navigation.navigate('DetailIbadah')}
+                    >
+                        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Juni 2023</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.nextButton}
+                    >
+                        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Juli 2023</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.nextButton}
+                    >
+                        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Agustus 2023</Text>
+                    </TouchableOpacity>
+
+                    
 
                 </ScrollView>
             </View>
@@ -515,6 +62,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
         backgroundColor: '#0885F8'
+    },
+    cardTextDesc: {
+        fontSize: 14,
+        color: 'white',
+    },
+    cardTextTitle: {
+        fontSize: 16,
+        color: 'white',
+        fontWeight: '500'
     },
     textHeaderTitle: {
         fontWeight: '600',
@@ -557,6 +113,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10
+    },
+    changeButton: {
+        height: 48,
+        backgroundColor: '#DB4437',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 10
     },
 })
 
