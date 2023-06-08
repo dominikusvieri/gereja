@@ -23,6 +23,17 @@ const NewsView = () => {
 
   }, [])
 
+  const tambahData = () => {
+    {
+      isLoading ?
+        <View className="items-center justify-center">
+          <ActivityIndicator size="large" color="#0885F8" />
+        </View>
+        :
+        null
+    }
+  }
+
   return (
     <View style={styles.main}>
       <Text style={styles.sectionHeader}>
@@ -36,6 +47,7 @@ const NewsView = () => {
           <FlatList
             data={newsData}
             keyExtractor={item => item.id.toString()}
+            onEndReached={() => tambahData}
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => navigation.navigate('DetailNews', { param: item })}
