@@ -1,11 +1,97 @@
-import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
+import axios from 'axios'
+import * as SecureStore from 'expo-secure-store'
+import { LOCAL_DEVICE_IP } from "@env"
 
 const DetailEventScreen = ({ route }) => {
     const data = route.params.param
     const navigation = useNavigation()
+
+    const [authorized, setAuthorized] = useState(false)
+    const [accessToken, setAccessToken] = useState('')
+    const [isValidating, setIsValidating] = useState(false)
+    const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false)
+
+    const handleDaftar = async () => {
+        if (!authorized) {
+            navigation.navigate('login')
+        }
+        else {
+            setIsValidating(true)
+            const header = {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            }
+            const body = {
+                idEvent: data?.id
+            }
+            axios.post(`${LOCAL_DEVICE_IP}/pendaftaran-event/register`, body, header)
+                .then(function (response) {
+                    if (response?.data) {
+                        console.log(response.data)
+                    }
+                })
+                .catch(function (error) {
+                    console.log("Error mendaftar event", error)
+                })
+                .finally(function () {
+                    setIsValidating(false)
+                })
+        }
+    }
+
+    const checkIsAuthorized = async () => {
+        const storedAccessToken = await SecureStore.getItemAsync('accessToken')
+
+        if (storedAccessToken) {
+            setAuthorized(true)
+            setAccessToken(storedAccessToken)
+        }
+        else {
+            setAuthorized(false)
+            setAccessToken('')
+        }
+    }
+
+    const checkIsAlreadyRegistered = async () => {
+        const storedAccessToken = await SecureStore.getItemAsync('accessToken')
+        const config = {
+            params: {
+                idEvent: data?.id
+            },
+            headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+        }
+
+        setIsValidating(true)
+
+        axios.get(`${LOCAL_DEVICE_IP}/pendaftaran-event/verify-registered`, config)
+            .then(function (response) {
+                if (response?.data === null || response?.data.length === 0) {
+                    setIsAlreadyRegistered(false)
+                }
+                else {
+                    setIsAlreadyRegistered(true)
+                }
+            })
+            .catch(function (error) {
+                console.log("Error verifying whether already registered: ", error)
+            })
+            .finally(function () {
+                setIsValidating(false)
+            })
+    }
+
+    useEffect(() => {
+        checkIsAuthorized()
+    }, [])
+
+    useEffect(() => {
+        if (authorized) {
+            checkIsAlreadyRegistered()
+        }
+    }, [authorized])
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", position: 'relative', paddingTop: StatusBar.currentHeight }}>
@@ -114,10 +200,22 @@ const DetailEventScreen = ({ route }) => {
             </ScrollView>
             <View style={{ padding: 24 }}>
                 <TouchableOpacity
-                    style={styles.nextButton}
-                    onPress={() => navigation.navigate('DaftarEvent', { param: data?.id })}
+                    style={!isAlreadyRegistered && !isValidating ? styles.nextButton : { ...styles.nextButton, backgroundColor: '#E4DFDA' }}
+                    // onPress={() => navigation.navigate('DaftarEvent', { param: data?.id })}
+                    onPress={handleDaftar}
+                    disabled={isAlreadyRegistered || isValidating}
                 >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar Event</Text>
+                    {isValidating ?
+                        <ActivityIndicator size="small" color="white" />
+                        :
+                        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>
+                            {authorized ?
+                                (isAlreadyRegistered ? `Anda sudah mendaftar` : `Daftar Event`)
+                                :
+                                `Login untuk mendaftar`
+                            }
+                        </Text>
+                    }
                 </TouchableOpacity>
             </View>
         </SafeAreaView >

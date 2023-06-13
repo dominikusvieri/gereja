@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
@@ -9,35 +9,22 @@ const DaftarEvent = ({ route }) => {
     const navigation = useNavigation()
 
     const [isLoading, setIsLoading] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [currentEvent, setCurrentEvent] = useState({
-        id: '',
-        title: ''
-    })
+    const [isValidating, setIsValidating] = useState(false)
+    const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(true)
+
     const [name, setName] = useState("")
     const [nomorTelepon, setNomorTelepon] = useState("")
     const [email, setEmail] = useState("")
-    const [event, setEvent] = useState("")
-
-    const handleName = (inputName) => {
-        setName(inputName)
-    }
-
-    const handleTelepon = (inputTelepon) => {
-        setNomorTelepon(inputTelepon)
-    }
-
-    const handleEmail = (inputEmail) => {
-        setEmail(inputEmail)
-    }
-
-
+    const [event, setEvent] = useState({
+        id: '',
+        title: ''
+    })
 
     const handleDaftar = async () => {
-        if (currentEvent?.id && name && nomorTelepon && email) {
-            setIsSubmitting(true)
+        if (event?.id && name && nomorTelepon && email) {
+            setIsValidating(true)
             const body = {
-                idEvent: currentEvent.id,
+                idEvent: event.id,
                 namaPendaftar: name,
                 noTelepon: nomorTelepon,
                 email: email
@@ -53,7 +40,7 @@ const DaftarEvent = ({ route }) => {
                     console.log(`Gagal mendaftar event: ${err}`)
                 })
                 .finally(function () {
-                    setIsSubmitting(false)
+                    setIsValidating(false)
                 })
         }
     }
@@ -68,7 +55,7 @@ const DaftarEvent = ({ route }) => {
         axios.get(`${LOCAL_DEVICE_IP}/event/find`, config)
             .then(function (res) {
                 if (res.data) {
-                    setCurrentEvent({
+                    setEvent({
                         id: res.data?.id || '',
                         title: res.data?.title || ''
                     })
@@ -85,6 +72,21 @@ const DaftarEvent = ({ route }) => {
     useEffect(() => {
         getCurrentEvent()
     }, [])
+
+    useEffect(() => {
+        setIsValidating(true)
+        const inputDebounce = setTimeout(() => {
+            if (name && nomorTelepon && email) {
+                setIsLoginButtonDisabled(false)
+            }
+            else {
+                setIsLoginButtonDisabled(true)
+            }
+            setIsValidating(false)
+        }, 500)
+
+        return () => clearTimeout(inputDebounce)
+    }, [name, nomorTelepon, email])
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
@@ -123,13 +125,18 @@ const DaftarEvent = ({ route }) => {
                     Event
                 </Text>
                 <Text>
-                    {currentEvent?.title}
+                    {event?.title}
                 </Text>
                 <TouchableOpacity
                     style={styles.nextButton}
                     onPress={handleDaftar}
+                    disabled={isValidating || isLoginButtonDisabled}
                 >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
+                    {isValidating ?
+                        <ActivityIndicator size="small" color="white" />
+                        :
+                        <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
+                    }
                 </TouchableOpacity>
             </View>
         </View>
