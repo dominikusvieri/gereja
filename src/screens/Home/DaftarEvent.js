@@ -1,13 +1,19 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
+import { LOCAL_DEVICE_IP } from "@env"
 
 const DaftarEvent = ({ route }) => {
     const data = route.params.param
     const navigation = useNavigation()
 
+    const [isLoading, setIsLoading] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [currentEvent, setCurrentEvent] = useState({
+        id: '',
+        title: ''
+    })
     const [name, setName] = useState("")
     const [nomorTelepon, setNomorTelepon] = useState("")
     const [email, setEmail] = useState("")
@@ -27,25 +33,58 @@ const DaftarEvent = ({ route }) => {
 
 
 
-    const handleDaftar = () => {
-        console.log(name, nomorTelepon, email, data)
-        const eventRegister = {
-            name: name,
-            nomor_telepon: nomorTelepon,
-            email: email,
-            event: data
+    const handleDaftar = async () => {
+        if (currentEvent?.id && name && nomorTelepon && email) {
+            setIsSubmitting(true)
+            const body = {
+                idEvent: currentEvent.id,
+                namaPendaftar: name,
+                noTelepon: nomorTelepon,
+                email: email
+            }
+
+            await axios.post(`${LOCAL_DEVICE_IP}/pendaftaran-event/register`, body)
+                .then(function (response) {
+                    if (response.status === 200) {
+                        console.log("Berhasil mendaftar event")
+                    }
+                })
+                .catch(function (err) {
+                    console.log(`Gagal mendaftar event: ${err}`)
+                })
+                .finally(function () {
+                    setIsSubmitting(false)
+                })
         }
-        axios.post('https://5e3d-110-35-80-202.ngrok-free.app/daftarevent', eventRegister)
-            .then(response => {
-                // handle successful response
-                console.log(response.data);
-                navigation.navigate('BottomNavigation')
-            })
-            .catch(error => {
-                // handle error
-                console.error(error);
-            });
     }
+
+    const getCurrentEvent = () => {
+        const config = {
+            params: {
+                id: data
+            }
+        }
+
+        axios.get(`${LOCAL_DEVICE_IP}/event/find`, config)
+            .then(function (res) {
+                if (res.data) {
+                    setCurrentEvent({
+                        id: res.data?.id || '',
+                        title: res.data?.title || ''
+                    })
+                }
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
+            .finally(function () {
+                setIsLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        getCurrentEvent()
+    }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
@@ -84,13 +123,13 @@ const DaftarEvent = ({ route }) => {
                     Event
                 </Text>
                 <Text>
-                    {data}
+                    {currentEvent?.title}
                 </Text>
                 <TouchableOpacity
                     style={styles.nextButton}
-                    onPress={() => navigation.navigate('BottomNavigation')}
+                    onPress={handleDaftar}
                 >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Submit</Text>
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -130,8 +169,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10, 
-        marginBottom:30
+        marginTop: 24,
+        marginBottom: 30
     },
     nextButtonDisable: {
         height: 48,

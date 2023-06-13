@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, ActivityIndicator, RefreshControl, FlatList, TouchableOpacity, Image, Dimensions } from 'react-native'
+import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
-import ItemCardNews from '../../components/HomeScreen/ItemCardNews'
 import { useNavigation } from '@react-navigation/native'
 import { LOCAL_DEVICE_IP } from "@env"
 import { Buffer } from 'buffer'
@@ -11,6 +10,7 @@ const NewsView = () => {
   const ip = LOCAL_DEVICE_IP
   const [newsData, setNewsData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const navigation = useNavigation()
 
   const calculateReadTime = (text) => {
@@ -21,15 +21,17 @@ const NewsView = () => {
   }
 
   const getAllNews = async () => {
-    setIsLoading(true)
     axios.get(`${ip}/news`)
       .then(function (res) {
         const resData = res.data.news
-        const cleanedNewsData = []
+        let cleanedNewsData = []
         resData.map(data => {
-          const base64Image = Buffer.from(data.image).toString('base64')
           const readTime = calculateReadTime(data.desc)
+          const base64Image = data.image ? Buffer.from(data?.image).toString('base64') : null
           cleanedNewsData.push({ ...data, image: base64Image, readTime: readTime })
+        })
+        cleanedNewsData.sort(function (a, b) {
+          return new Date(b.updatedAt) - new Date(a.updatedAt)
         })
         setNewsData(cleanedNewsData)
       })
@@ -38,8 +40,14 @@ const NewsView = () => {
       })
       .finally(function () {
         setIsLoading(false)
+        setRefreshing(false)
       })
   }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    getAllNews()
+  }, [])
 
   useEffect(() => {
     // setIsLoading(true)
@@ -48,6 +56,7 @@ const NewsView = () => {
     //   .then(res => setNewsData(res))
     //   .catch(error => console.error(error))
     //   .finally(() => setIsLoading(false))
+    setIsLoading(true)
     getAllNews()
   }, [])
 
@@ -65,31 +74,53 @@ const NewsView = () => {
   return (
     <View style={styles.main}>
       <Text style={styles.sectionHeader}>
-        Kabar Terkini Gereja
+        Berita Terkini Gereja
       </Text>
       {
         isLoading ?
           <View className="items-center justify-center">
             <ActivityIndicator size="large" color="#0885F8" />
-          </View> :
+          </View>
+          :
           <FlatList
             data={newsData}
             keyExtractor={item => item.id}
+            style={{ paddingBottom: 44, paddingHorizontal: 24 }}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#0885F8"]} />
+            }
             onEndReached={() => tambahData}
+            ListEmptyComponent={
+              <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: Dimensions.get('window').height - 220 }}>
+                <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 96, height: 96, backgroundColor: '#ced4da', borderRadius: 110 / 2 }}>
+                  <Image
+                    source={require('../../../assets/not_found.png')}
+                    style={{ width: 70, height: 70 }}
+                  />
+                </View>
+                <Text style={{ fontSize: 18, fontWeight: '500', color: '#adb5bd', marginTop: 12 }}>Tidak ada berita</Text>
+              </View>
+            }
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => navigation.navigate('DetailNews', { param: item })}
-                style={{ flexDirection: 'row', marginBottom: 10, padding: 5, marginTop: 10 }}
+                style={{ flexDirection: 'row', marginBottom: 10, paddingVertical: 5, marginTop: 10 }}
               >
-
-                <Image
-                  source={{ uri: `data:image/jpeg;base64,${item.image}` }}
-                  style={{ width: 110, height: 110, borderRadius: 8 }}
-                />
+                {item?.image ?
+                  <Image
+                    source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+                    style={{ width: 110, height: 110, borderRadius: 8 }}
+                  />
+                  :
+                  <Image
+                    source={require('../../../assets/noimage_news.png')}
+                    style={{ width: 110, height: 110, borderRadius: 8, resizeMode: 'contain', backgroundColor: '#e9ecef' }}
+                  />
+                }
                 <View style={{ marginLeft: 12, flexWrap: 'wrap', alignItems: 'flex-start', flex: 1, justifyContent: 'space-between' }}>
-                  <Text style={{ fontWeight: 'bold', fontSize: 16 }} numberOfLines={3}>
-                    {/* {testString.length > 150 ? `${item.title.slice(0, 150)}..` : testString} */}
-                    {item.title}
+                  <Text style={{ fontWeight: '500', fontSize: 16 }} numberOfLines={3}>
+                    {item?.title}
                   </Text>
                   <View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -107,7 +138,7 @@ const NewsView = () => {
                         style={{ width: 16, height: 16 }}
                       />
                       <Text style={{ color: 'black', fontSize: 12, marginLeft: 4 }}>
-                        {moment(item.modifiedAt).format('LLL')}
+                        {moment(item.updatedAt).fromNow()}
                       </Text>
                     </View>
                   </View>
@@ -127,19 +158,21 @@ const NewsView = () => {
             }}
           />
       }
-
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   main: {
-    padding: 20,
+    paddingTop: 20,
+    paddingBottom: 44
   },
   sectionHeader: {
+    padding: 5,
     fontWeight: '600',
-    fontSize: 16,
-    marginBottom: 10
+    fontSize: 18,
+    marginBottom: 10,
+    paddingHorizontal: 24
   },
   itemCard: {
     marginTop: 10,

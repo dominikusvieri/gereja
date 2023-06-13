@@ -1,127 +1,126 @@
-import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import moment from 'moment'
 
 const DetailEventScreen = ({ route }) => {
     const data = route.params.param
     const navigation = useNavigation()
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", position: 'relative' }}>
-            <ScrollView style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
-                <Image
-                    source={{
-                        uri: data.image
-                    }}
-                    style={{ width: '100%', height: 290, }}
-                />
-                <Text style={{ textAlign: 'justify', fontWeight: 'bold', marginTop: 10 }}>
-                    {data?.title}
-                </Text>
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Registration :
-                </Text>
-                <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    2023-10-15
-                </Text>
-                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.registration_date}
-                </Text> */}
-                <View
-                    style={{
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#000",
-                    }}
-                />
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Schedule :
-                </Text>
-                <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    2023-11-20
-                </Text>
-                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.schedule}
-                </Text> */}
-                <View
-                    style={{
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#000",
-                    }}
-                />
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Venue :
-                </Text>
-                <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    Purwodadi
-                </Text>
-                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data.venue}
-                </Text> */}
-                <View
-                    style={{
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#000",
-                    }}
-                />
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Description :
-                </Text>
-                <Text style={{ textAlign: 'justify', marginBottom: 5 }}>
-                    {data?.description}
-                </Text>
-                <View
-                    style={{
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#000",
-                    }}
-                />
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Contact Person :
-                </Text>
-                <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    089310100110
-                </Text>
-                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.contact_person}
-                </Text> */}
-                <View
-                    style={{
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#000",
-                    }}
-                />
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Nama Contact Person :
-                </Text>
-                <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    Adi
-                </Text>
-                {/* <Text style={{ textAlign: 'left', marginBottom: 5 }}>
-                    {data?.name_of_contact_person}
-                </Text> */}
-                <View
-                    style={{
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#000",
-                    }}
-                />
-                <Text style={{ textAlign: 'left', marginTop: 10 }}>
-                    Daftar Disini :
-                </Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", position: 'relative', paddingTop: StatusBar.currentHeight }}>
+            <ScrollView style={{ flex: 1, backgroundColor: "#fff", position: 'relative' }} showsVerticalScrollIndicator={false}>
+
+                <TouchableOpacity
+                    style={{ position: 'absolute', zIndex: 15, margin: 16, width: 48, height: 48 }}
+                    onPress={() => navigation.goBack()}
+                >
+                    <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 36, height: 36, backgroundColor: '#e9ecef', borderRadius: 36 }}>
+                        <Image
+                            source={require('../../../assets/back.png')}
+                            style={{ width: 32, height: 32 }}
+                        />
+                    </View>
+                </TouchableOpacity>
+
+                <View style={{ zIndex: 5 }}>
+                    <Image
+                        source={{ uri: `data:image/jpeg;base64,${data?.image}` }}
+                        style={{ width: '100%', height: 260 }}
+                    />
+                </View>
+
+                <View style={{ padding: 24, width: '100%', borderRadius: 24, backgroundColor: 'white', marginTop: -24, zIndex: 10 }}>
+                    <Text style={{ textAlign: 'left', fontSize: 20, fontWeight: 'bold' }}>
+                        {data?.title}
+                    </Text>
+
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 16 }}>
+                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 36, height: 36, backgroundColor: '#e9ecef', borderRadius: 36 }}>
+                            <Image
+                                source={require('../../../assets/form_blue.png')}
+                                style={{ width: 24, height: 24 }}
+                            />
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 12, paddingRight: 32 }}>
+                            <Text style={{ textAlign: 'left', color: 'gray' }}>
+                                Registration date
+                            </Text>
+                            <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 15 }}>
+                                {moment(data?.registration_date).format('LL')}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 16 }}>
+                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 36, height: 36, backgroundColor: '#e9ecef', borderRadius: 36 }}>
+                            <Image
+                                source={require('../../../assets/date_blue.png')}
+                                style={{ width: 24, height: 24 }}
+                            />
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 12, paddingRight: 32 }}>
+                            <Text style={{ textAlign: 'left', color: 'gray' }}>
+                                Scheduled
+                            </Text>
+                            <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 15 }}>
+                                {moment(data?.schedule).format('LL')}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 16 }}>
+                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 36, height: 36, backgroundColor: '#e9ecef', borderRadius: 36 }}>
+                            <Image
+                                source={require('../../../assets/place_blue.png')}
+                                style={{ width: 24, height: 24 }}
+                            />
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 12, paddingRight: 32 }}>
+                            <Text style={{ textAlign: 'left', color: 'gray' }}>
+                                Venue
+                            </Text>
+                            <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 15, }}>
+                                {data?.venue}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 16, marginBottom: 24 }}>
+                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: 36, height: 36, backgroundColor: '#e9ecef', borderRadius: 36 }}>
+                            <Image
+                                source={require('../../../assets/place_blue.png')}
+                                style={{ width: 24, height: 24 }}
+                            />
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 12, paddingRight: 32 }}>
+                            <Text style={{ textAlign: 'left', color: 'gray' }}>
+                                Contact person
+                            </Text>
+                            <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 15, }}>
+                                {data?.contact_person} - {data?.name_of_contact_person}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <Text style={{ textAlign: 'left', fontSize: 20, fontWeight: 'bold' }}>
+                        Description
+                    </Text>
+                    <Text style={{ textAlign: 'left', color: '#495057', fontWeight: '400', fontSize: 15, lineHeight: 20, letterSpacing: 0.5, marginTop: 12 }}>
+                        {data?.desc}
+                    </Text>
+
+                </View>
+            </ScrollView>
+            <View style={{ padding: 24 }}>
                 <TouchableOpacity
                     style={styles.nextButton}
-                    onPress={() => navigation.navigate('DaftarEvent', { param: data?.title })}
+                    onPress={() => navigation.navigate('DaftarEvent', { param: data?.id })}
                 >
-                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar</Text>
+                    <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Daftar Event</Text>
                 </TouchableOpacity>
-            </ScrollView>
-        </SafeAreaView>
+            </View>
+        </SafeAreaView >
     )
 }
 
@@ -154,12 +153,12 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         height: 48,
-        backgroundColor: '#4281A4',
+        backgroundColor: '#0079DE',
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10, 
-        marginBottom:30
+        // marginTop: 10,
+        // marginBottom: 30
     },
     nextButtonDisable: {
         height: 48,
