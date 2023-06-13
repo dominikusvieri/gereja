@@ -42,9 +42,6 @@ const IbadahScreen = () => {
                     >
                         <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Agustus 2023</Text>
                     </TouchableOpacity>
-
-                    
-
                 </ScrollView>
             </View>
 
