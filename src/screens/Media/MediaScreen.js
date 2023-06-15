@@ -1,19 +1,102 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, Platform, Button } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { LOCAL_DEVICE_IP } from "@env"
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 
 
 const MediaScreen = () => {
   const ip = LOCAL_DEVICE_IP
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
-  const [listPelayanan, setListPelayanan] = useState([])
-
   const navigation = useNavigation()
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  // handle jenis notif
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+      priority:true
+    }),
+  });
+
+  // Can use this function below OR use Expo's Push Notification Tool from: https://expo.dev/notifications
+  async function sendPushNotification(expoPushToken) {
+    const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: 'Original Title',
+      body: 'And here is the body!',
+      data: { someData: 'goes here' },
+    };
+
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+  }
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Device.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
+    return token;
+  }
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   const verifyAuth = async () => {
     setIsLoading(true)
@@ -29,32 +112,7 @@ const MediaScreen = () => {
     console.log(accessToken)
   }
 
-  const verifyTerdaftarPelayanan = async () => {
-    setIsLoading(true)
-    const accessToken = await SecureStore.getItemAsync('accessToken')
-    const header = {
-      headers: { 'Authorization': `Bearer ${accessToken}` }
-    }
 
-    axios.get(`${ip}/pelayanan/verify`, header)
-      .then(function (response) {
-        if (response.data.length > 0) {
-          setIsTerdaftarPelayanan(true)
-          setListPelayanan(response.data)
-        }
-        else {
-          setIsTerdaftarPelayanan(false)
-          setListPelayanan([])
-        }
-
-      })
-      .catch(function (error) {
-        console.log("Error verifying pelayanan: ", error)
-      })
-      .finally(function () {
-        setIsLoading(false)
-      })
-  }
 
   useEffect(() => {
     verifyAuth()
@@ -65,21 +123,47 @@ const MediaScreen = () => {
       <View style={styles.headerStyle}>
         <View style={{ marginVertical: 10 }}>
           <Text style={styles.textHeaderTitle}>
-            Pusat Media
+            Pusat Mail
           </Text>
           <Text style={styles.textHeaderTitle}>
             Gereja Isa Almasih Jemaat Purwodadi
           </Text>
         </View>
       </View>
-      {isLoading ?
+
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
+        <Text>Your expo push token: {expoPushToken}</Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Title: {notification && notification.request.content.title} </Text>
+          <Text>Body: {notification && notification.request.content.body}</Text>
+          <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+        </View>
+        <Button
+          title="Press to Send Notification"
+          onPress={async () => {
+            await sendPushNotification(expoPushToken);
+          }}
+        />
+      </View>
+      {/* {isLoading ?
         <View style={styles.unauthorizedContainer}>
           <ActivityIndicator color="#4281A4" style={{ transform: [{ scaleX: 4 }, { scaleY: 4 }] }} />
         </View>
         :
         (isAuthorized ?
-          <View>
-            <Text>Mail</Text>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
+            <Text>Your expo push token: {expoPushToken}</Text>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text>Title: {notification && notification.request.content.title} </Text>
+              <Text>Body: {notification && notification.request.content.body}</Text>
+              <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+            </View>
+            <Button
+              title="Press to Send Notification"
+              onPress={async () => {
+                await sendPushNotification(expoPushToken);
+              }}
+            />
           </View>
           :
           <View style={styles.unauthorizedContainer}>
@@ -97,7 +181,7 @@ const MediaScreen = () => {
             </TouchableOpacity>
           </View>
         )
-      }
+      } */}
     </SafeAreaView>
   )
 }
