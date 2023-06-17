@@ -6,6 +6,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { LOCAL_DEVICE_IP } from "@env"
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import PushNotification from 'react-native-push-notification';
 
 
 const MediaScreen = () => {
@@ -14,109 +15,41 @@ const MediaScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigation = useNavigation()
 
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
-  // handle jenis notif
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: true,
-      priority:true
-    }),
-  });
+  // const scheduleNotification = async () => {
+  //   // Get the current date and time
+  //   const now = 60 * 60 * 1000 * 24 * 7
 
-  // Can use this function below OR use Expo's Push Notification Tool from: https://expo.dev/notifications
-  async function sendPushNotification(expoPushToken) {
-    const message = {
-      to: expoPushToken,
-      sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { someData: 'goes here' },
-    };
+  //   // Set the date for the desired notification
+  //   const desiredDate = new Date('2023-06-23');
 
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
-  }
+  //   // Calculate the time difference between the current date/time and the desired date/time
+  //   const timeDiff = desiredDate.getTime() - now
 
-  async function registerForPushNotificationsAsync() {
-    let token;
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
+  //   if (timeDiff <= 0) {
+  //     console.log('Invalid date or time');
+  //     return;
+  //   }
 
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
+  //   // Schedule the notification
+  //   const notificationId = await Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: 'Notification Title',
+  //       body: 'Notification Body',
+  //       data: { data: 'optionalData' },
+  //     },
+  //     trigger: { seconds: timeDiff / 1000 },
+  //     channelId: 'your-channel-id', // You need to create a notification channel if using Android
+  //   });
 
-    return token;
-  }
+  //   console.log('Notification scheduled:', notificationId);
+  // };
 
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-
-  const verifyAuth = async () => {
-    setIsLoading(true)
-    const accessToken = await SecureStore.getItemAsync('accessToken').finally(function () {
-      setIsLoading(false)
-    })
-    if (accessToken) {
-      setIsAuthorized(true)
-    }
-    else {
-      setIsAuthorized(false)
-    }
-    console.log(accessToken)
-  }
+  // scheduleNotification();
 
 
 
-  useEffect(() => {
-    verifyAuth()
-  }, [isAuthorized, useIsFocused()])
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -132,18 +65,7 @@ const MediaScreen = () => {
       </View>
 
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
-        <Text>Your expo push token: {expoPushToken}</Text>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Title: {notification && notification.request.content.title} </Text>
-          <Text>Body: {notification && notification.request.content.body}</Text>
-          <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-        </View>
-        <Button
-          title="Press to Send Notification"
-          onPress={async () => {
-            await sendPushNotification(expoPushToken);
-          }}
-        />
+        <Text>Mail</Text>
       </View>
       {/* {isLoading ?
         <View style={styles.unauthorizedContainer}>
