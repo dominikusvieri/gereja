@@ -139,7 +139,6 @@ const EventView = () => {
           />
 
       }
-
     </View>
   )
 }

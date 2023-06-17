@@ -81,14 +81,14 @@ const MinistryScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('IbadahScreen')}
+            onPress={() => navigation.navigate('OnboardingJadwal')}
           >
             <Image
               source={require('../../../assets/icon.png')}
               style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
             />
             <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Ibadah
+              Penjadwalan
             </Text>
           </TouchableOpacity>
         </View>

@@ -33,6 +33,9 @@ import IbadahScreen from '../../screens/Ministry/Ibadah/IbadahScreen'
 import DetailIbadah from '../../screens/Ministry/Ibadah/DetailIbadah'
 import Pernikahan from '../../screens/Ministry/Pernikahan/Pernikahan'
 import MySchedule from '../../screens/Ministry/Ibadah/MySchedule'
+import OnboardingJadwal from '../../screens/Ministry/Ibadah/OnboardingJadwal'
+import TukarJadwal from '../../screens/Ministry/Ibadah/TukarJadwal'
+import DetailTukarJadwal from '../../screens/Ministry/Ibadah/DetailTukarJadwal'
 
 const Stack = createNativeStackNavigator()
 
@@ -68,6 +71,9 @@ const MainNavigation = () => {
                 <Stack.Screen name='DetailIbadah' component={DetailIbadah} options={{ title: 'Detail Ibadah' }} />
                 <Stack.Screen name='MySchedule' component={MySchedule} options={{ title: 'Jadwal Saya' }} />
                 <Stack.Screen name='StatusRegisterPelayanIbadah' component={StatusRegisterPelayanIbadah} options={{ headerShown: false }} />
+                <Stack.Screen name='OnboardingJadwal' component={OnboardingJadwal} options={{ headerShown: false }} />
+                <Stack.Screen name='TukarJadwal' component={TukarJadwal} options={{ headerShown: false }} />
+                <Stack.Screen name='DetailTukarJadwal' component={DetailTukarJadwal} options={{ headerShown: false }} />
                 {/* <Stack.Screen name='TTDPria' component={TandaTanganPria} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='TTDWanita' component={TandaTanganWanita} options={{ title: 'Pernikahan' }} /> */}
             </Stack.Navigator>

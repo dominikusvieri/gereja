@@ -6,8 +6,10 @@ import { LOCAL_DEVICE_IP } from "@env"
 import * as SecureStore from 'expo-secure-store'
 import { useEffect } from "react";
 import IbadahCard from "./IbadahCard";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MySchedule() {
+    const navigation = useNavigation()
     const [isLoading, setIsLoading] = useState(false)
     const [listJadwal, setListJadwal] = useState([])
 
@@ -47,7 +49,12 @@ export default function MySchedule() {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item, index }) => {
                     return (
-                        <IbadahCard data={item} index={index} type="mySchedule" />
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => navigation.navigate('TukarJadwal', { param: item })}
+                        >
+                            <IbadahCard data={item} index={index} type="mySchedule" />
+                        </TouchableOpacity>
                     )
                 }}
             />
