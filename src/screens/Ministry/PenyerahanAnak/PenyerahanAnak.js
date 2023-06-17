@@ -5,14 +5,10 @@ import * as SecureStore from 'expo-secure-store';
 import { TextInput as LabeledInput } from "react-native-paper";
 
 const PenyerahanAnak = () => {
-    const [jumlahAnak, setJumlahAnak] = useState(0)
-
     const navigation = useNavigation()
 
     const [isAuthorized, setIsAuthorized] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
-    const [listPelayanan, setListPelayanan] = useState([])
 
     const [formCount, setFormCount] = useState(1);
 
@@ -34,16 +30,6 @@ const PenyerahanAnak = () => {
         verifyAuth()
     }, [isAuthorized, useIsFocused()])
 
-    const handleIncrement = () => {
-        setJumlahAnak(jumlahAnak + 1);
-    };
-
-    const handleDecrement = () => {
-        if (jumlahAnak > 0) {
-            setJumlahAnak(jumlahAnak - 1);
-        }
-    };
-
     const handleInputChange = (text) => {
         // konversi input menjadi bilangan bulat
         const count = parseInt(text);
@@ -56,7 +42,6 @@ const PenyerahanAnak = () => {
         }
     };
 
-    console.log(formCount)
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
             {isLoading ?
@@ -91,7 +76,7 @@ const PenyerahanAnak = () => {
                                     3.
                                 </Text>
                                 <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                    Bersedia datang dan duduk ditempat yang sudah disediakan paling lambat 10 menit sebelum         ibadah dimulai.
+                                    Bersedia datang dan duduk ditempat yang sudah disediakan paling lambat 10 menit sebelum ibadah dimulai.
                                 </Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
@@ -99,7 +84,7 @@ const PenyerahanAnak = () => {
                                     4.
                                 </Text>
                                 <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                    Berjanji akan mendidik anak ini sejak sekarang      dan seterusnya dalam percaya kepada Tuhan Yesus Kristus.
+                                    Berjanji akan mendidik anak ini sejak sekarang dan seterusnya dalam percaya kepada Tuhan Yesus Kristus.
                                 </Text>
                             </View>
 
