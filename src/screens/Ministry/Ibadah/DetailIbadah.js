@@ -6,8 +6,13 @@ import Week2 from './Week2';
 import Week3 from './Week3';
 import Week4 from './Week4';
 import Week5 from './Week5';
+import moment from 'moment';
+import axios from 'axios';
+import { LOCAL_DEVICE_IP } from "@env"
+import * as SecureStore from 'expo-secure-store'
 
-const DetailIbadah = () => {
+const DetailIbadah = ({ route }) => {
+    const data = route.params.param
     const [index, setIndex] = useState(0)
     const [routes] = useState([
         { key: 'week1', title: 'Minggu ke-1' },
@@ -16,26 +21,84 @@ const DetailIbadah = () => {
         { key: 'week4', title: 'Minggu ke-4' },
         { key: 'week5', title: 'Minggu ke-5' },
     ])
+    // const [weekCount] = useState(function () {
+    //     // const year = moment(data?.tanggal).year()
+    //     // const month = moment(data?.tanggal).month() + 1
+    //     // var firstOfMonth = new Date(year, month - 1, 1);
+    //     // var lastOfMonth = new Date(year, month, 0);
 
-    const renderScene = SceneMap({
-        week1: Week1,
-        week2: Week2,
-        week3: Week3,
-        week4: Week4,
-        week5: Week5
-    });
+    //     // var used = firstOfMonth.getDay() + lastOfMonth.getDate();
+
+    //     // console.log(Math.ceil(used / 7))
+    //     // return Math.ceil(used / 7);
+
+    //     console.log(moment(data?.tanggal).week())
+    //     return moment(data?.tanggal).week()
+    // })
+    const [listJadwal, setListJadwal] = useState([])
+
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'week1': return <Week1 week={1} data={listJadwal} />
+            case 'week2': return <Week1 week={2} data={listJadwal} />
+            case 'week3': return <Week1 week={3} data={listJadwal} />
+            case 'week4': return <Week1 week={4} data={listJadwal} />
+            case 'week5': return <Week1 week={5} data={listJadwal} />
+        }
+    };
 
     const layout = useWindowDimensions();
+
+    const getJadwalByMonthYear = async () => {
+        const storedAccessToken = await SecureStore.getItemAsync('accessToken')
+        const month = moment(data?.tanggal).month() + 1
+        const year = moment(data?.tanggal).year()
+        const config = {
+            headers: { 'Authorization': `Bearer ${storedAccessToken}` },
+            params: {
+                month: month,
+                year: year
+            }
+        }
+
+        axios.get(`${LOCAL_DEVICE_IP}/jadwal/bydate`, config)
+            .then(function (response) {
+                if (response?.data) {
+                    let data = response.data
+                    if (response.data.length > 0) {
+                        const newData = data.map(el => {
+                            const firstDayOfMonth = moment(el?.tanggal).clone().startOf('month');
+                            const firstDayOfWeek = firstDayOfMonth.clone().startOf('week');
+
+                            const offset = firstDayOfMonth.diff(firstDayOfWeek, 'days');
+
+                            return {
+                                ...el,
+                                'week': Math.ceil((moment(el?.tanggal).date() + offset) / 7)
+                            }
+                        })
+                        setListJadwal(newData)
+                    }
+                }
+            })
+            .catch(function (error) {
+                console.log("Error getting list of jadwal: ", error)
+            })
+    }
+
+    useEffect(() => {
+        getJadwalByMonthYear()
+    }, [])
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headerStyle}>
                 <View style={{ marginVertical: 10 }}>
                     <Text style={styles.textHeaderTitle}>
-                        Jadwal Ibadah Gereja 
+                        Jadwal Ibadah Gereja
                     </Text>
                     <Text style={styles.textHeaderTitle}>
-                        Juni 2023
+                        {data?.monthYear}
                     </Text>
                 </View>
             </View>
@@ -58,6 +121,10 @@ const DetailIbadah = () => {
                 )}
             />
         </SafeAreaView>
+
+        // <SafeAreaView>
+        //     <Text>Detail ibadah</Text>
+        // </SafeAreaView>
     )
 }
 

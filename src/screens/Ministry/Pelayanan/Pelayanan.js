@@ -119,4 +119,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10
     },
+    loginText: {
+        fontSize: 16,
+        color: '#FFFFFF',
+        fontWeight: '500'
+    }
 })

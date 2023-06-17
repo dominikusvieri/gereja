@@ -31,6 +31,7 @@ const DetailEventScreen = ({ route }) => {
                 .then(function (response) {
                     if (response?.data) {
                         console.log(response.data)
+                        setIsAlreadyRegistered(true)
                     }
                 })
                 .catch(function (error) {
