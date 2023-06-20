@@ -17,6 +17,7 @@ export default function DetailTukarJadwal({ route, navigation }) {
     const [destPetugas, setDestPetugas] = useState('')
     const [destPetugasOpen, setDestPetugasOpen] = useState(false)
     const [destPetugasList, setDestPetugasList] = useState([])
+    const [disabledTukar, setDisabledTukar] = useState(false)
 
     const getDestinationList = async () => {
         setIsLoading(true)
@@ -55,20 +56,22 @@ export default function DetailTukarJadwal({ route, navigation }) {
         const storedAccessToken = await SecureStore.getItemAsync('accessToken')
         const config = {
             params: {
-                kodeJadwal: data?.kodeJadwal
+                // sourceKodeJadwal: data?.DetailJadwals[0]?.kodeJadwal,
+                destKodeJadwal: destination,
+                kodePelayanan: data?.DetailJadwals[0]?.kodePelayanan
             },
             headers: { 'Authorization': `Bearer ${storedAccessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jadwal/by-kode-jadwal`, config)
+        axios.get(`${LOCAL_DEVICE_IP}/jadwal/tukar/dest-petugas`, config)
             .then(function (response) {
                 const cleanedDetailJadwal = []
-                if (response?.data) {
-                    response.data.map(jadwal => {
+                if (response?.data && response?.data?.length > 0) {
+                    response?.data.map(petugas => {
                         cleanedDetailJadwal.push({
-                            id: jadwal.kodePelayanan,
-                            label: `${jadwal?.Jemaat?.nama} - ${jadwal?.JenisPelayanan?.namaPelayanan}`,
-                            value: `${jadwal?.kodePelayanan} - ${jadwal?.noJemaat}`
+                            id: `${petugas.kodeJadwal} ${petugas.kodePelayanan} ${petugas.noJemaat}`,
+                            label: `${petugas.JenisPelayanan.namaPelayanan} - ${petugas.Jemaat.nama}`,
+                            value: `${petugas.kodeJadwal} ${petugas.kodePelayanan} ${petugas.noJemaat}`
                         })
                     })
                 }
@@ -80,6 +83,37 @@ export default function DetailTukarJadwal({ route, navigation }) {
             .finally(function () {
                 setIsLoading(false)
             })
+    }
+
+    const requestTukarJadwal = async () => {
+        if (destPetugas) {
+            setIsLoading(true)
+            const storedAccessToken = await SecureStore.getItemAsync('accessToken')
+            const config = {
+                headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+            }
+            const body = {
+                kodeJadwalSrc: data.DetailJadwals[0].kodeJadwal,
+                jemaatSrc: data.DetailJadwals[0].noJemaat,
+                kodeJadwalDest: destPetugas.split(' ')[0],
+                jemaatDest: destPetugas.split(' ')[2],
+                kodePelayanan: destPetugas.split(' ')[1]
+            }
+
+            axios.post(`${LOCAL_DEVICE_IP}/tukar-jadwal/request`, body, config)
+                .then(function (response) {
+                    if (response?.status == 200) {
+                        console.log(response?.data)
+                        setDisabledTukar(true)
+                    }
+                })
+                .catch(function (error) {
+                    console.log("Error requesting tukar jadwal: ", error)
+                })
+                .finally(function () {
+                    setIsLoading(false)
+                })
+        }
     }
 
     useEffect(() => {
@@ -132,13 +166,26 @@ export default function DetailTukarJadwal({ route, navigation }) {
                         </View>
                     </View>
                 }
-                {destination && destPetugas &&
+                {destination && destPetugas && !disabledTukar &&
                     <View>
                         <TouchableOpacity
                             style={styles.buttonTukarJadwal}
-                        // onPress={() =}
+                            onPress={requestTukarJadwal}
                         >
                             <Text style={styles.textButtonTukarJadwal}>Tukar</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
+                {disabledTukar &&
+                    <View>
+                        <Text style={{ color: '#4281A4', fontWeight: '500', marginTop: 24 }}>
+                            {`* Berhasil request tukar jadwal. \nMenunggu approval petugas yang ditukar`}
+                        </Text>
+                        <TouchableOpacity
+                            style={{ ...styles.buttonTukarJadwal, marginTop: 4 }}
+                            onPress={() => navigation.goBack()}
+                        >
+                            <Text style={styles.textButtonTukarJadwal}>Kembali</Text>
                         </TouchableOpacity>
                     </View>
                 }

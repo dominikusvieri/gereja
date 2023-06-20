@@ -1,10 +1,11 @@
 import { View, Text, ScrollView, Modal, Alert, Pressable, StyleSheet, Image, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'react-native-paper'
 import moment from 'moment';
 
 const Week1 = ({ week, data }) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [jadwals, setJadwals] = useState([])
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
@@ -31,7 +32,7 @@ const Week1 = ({ week, data }) => {
                                                 Jam :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                07.00
+                                                {jadwal?.kodeIbadah === 'IRP-001' ? '07.00' : '17.00'}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>
@@ -55,7 +56,10 @@ const Week1 = ({ week, data }) => {
                                                 Singers :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'SGR')?.Jemaat?.nama}
+                                                {jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'SGR').map((sg, i) => {
+                                                    return i === jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'SGR').length - 1 ? `${sg?.Jemaat?.nama}` :
+                                                        `${sg?.Jemaat?.nama}, `
+                                                })}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>
@@ -63,7 +67,10 @@ const Week1 = ({ week, data }) => {
                                                 Musik :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'MSC')?.Jemaat?.nama}
+                                                {jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'MSC').map((msc, i) => {
+                                                    return i === jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'MSC').length - 1 ? `${msc?.Jemaat?.nama}` :
+                                                        `${msc?.Jemaat?.nama}, `
+                                                })}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>
@@ -71,7 +78,10 @@ const Week1 = ({ week, data }) => {
                                                 Choir :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'CHR')?.Jemaat?.nama}
+                                                {jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'CHR').map((chr, i) => {
+                                                    return i === jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'CHR').length - 1 ? `${chr?.Jemaat?.nama}` :
+                                                        `${chr?.Jemaat?.nama}, `
+                                                })}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>
@@ -95,7 +105,10 @@ const Week1 = ({ week, data }) => {
                                                 Multimedia :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'MMD')?.Jemaat?.nama}
+                                                {jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'MMD').map((mmd, i) => {
+                                                    return i === jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'MMD').length - 1 ? `${mmd?.Jemaat?.nama}` :
+                                                        `${mmd?.Jemaat?.nama}, `
+                                                })}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>
@@ -103,12 +116,15 @@ const Week1 = ({ week, data }) => {
                                                 Kolektan :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'KLT')?.Jemaat?.nama}
+                                                {jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'KLT').map((klt, i) => {
+                                                    return i === jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'KLT').length - 1 ? `${klt?.Jemaat?.nama}` :
+                                                        `${klt?.Jemaat?.nama}, `
+                                                })}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={{ marginRight: 5 }}>
-                                                Majelis Pen :
+                                                Majelis Pendamping :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
                                                 {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'MJP')?.Jemaat?.nama}
@@ -119,7 +135,10 @@ const Week1 = ({ week, data }) => {
                                                 Usher :
                                             </Text>
                                             <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                                {jadwal?.DetailJadwals.find(el => el.kodePelayanan === 'USR')?.Jemaat?.nama}
+                                                {jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'USR').map((usr, i) => {
+                                                    return i === jadwal?.DetailJadwals.filter(el => el.kodePelayanan === 'USR').length - 1 ? `${usr?.Jemaat?.nama}` :
+                                                        `${usr?.Jemaat?.nama}, `
+                                                })}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row' }}>

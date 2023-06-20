@@ -34,7 +34,10 @@ export default function OnboardingJadwal() {
         axios.get(`${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
             .then(function (response) {
                 if (response.data.length > 0) {
-                    setIsTerdaftarPelayanan(true)
+                    const terdaftar = response.data.some(el => el.statusApproval === 'approved')
+                    if (terdaftar) {
+                        setIsTerdaftarPelayanan(true)
+                    }
                 }
                 else {
                     setIsTerdaftarPelayanan(false)

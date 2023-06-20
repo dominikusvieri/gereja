@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, Image, Text, Dimensions } from "react-native";
 import axios from "axios";
 import { LOCAL_DEVICE_IP } from "@env"
 import * as SecureStore from 'expo-secure-store'
@@ -43,21 +43,33 @@ export default function MySchedule() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={listJadwal}
-                keyExtractor={item => item.kodeJadwal}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item, index }) => {
-                    return (
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => navigation.navigate('TukarJadwal', { param: item })}
-                        >
-                            <IbadahCard data={item} index={index} type="mySchedule" />
-                        </TouchableOpacity>
-                    )
-                }}
-            />
+            {listJadwal.length > 0 ?
+                <FlatList
+                    data={listJadwal}
+                    keyExtractor={item => item.kodeJadwal}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={() => navigation.navigate('TukarJadwal', { param: item })}
+                            >
+                                <IbadahCard data={item} index={index} type="mySchedule" />
+                            </TouchableOpacity>
+                        )
+                    }}
+                />
+                :
+                <View style={{ display: 'flex', height: Dimensions.get('window').height - 120, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image
+                        source={require('../../../../assets/not_found.png')}
+                        style={{ width: 70, height: 70 }}
+                    />
+                    <Text style={{ fontSize: 18, fontWeight: '500', color: '#adb5bd', marginTop: 12 }}>
+                        Tidak ada jadwal
+                    </Text>
+                </View>
+            }
         </SafeAreaView>
     )
 }

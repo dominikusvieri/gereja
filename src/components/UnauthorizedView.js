@@ -13,12 +13,12 @@ export default function UnauthorizedView({ type }) {
             <Text style={styles.unauthorizedDesc}>
                 {type && type === 'terdaftarPelayanan' ? 'Anda belum terdaftar sebagai pelayan ibadah' : 'Silahkan login untuk melanjutkan'}
             </Text>
-            {!type || type !== 'terdaftarPelayanan' &&
+            {type !== 'terdaftarPelayanan' &&
                 <TouchableOpacity
                     style={styles.unauthorizedButton}
                     onPress={() => navigation.navigate('login')}
                 >
-                    <Text style={styles.loginText}></Text>
+                    <Text style={styles.loginText}>Login</Text>
                 </TouchableOpacity>
             }
         </View>

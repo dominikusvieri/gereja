@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { useNavigation } from '@react-navigation/native'
+import axios from "axios";
+import { LOCAL_DEVICE_IP } from "@env"
+import * as SecureStore from 'expo-secure-store'
 
 export default function IbadahCard({ data, index, type }) {
     const navigation = useNavigation()
@@ -9,12 +12,46 @@ export default function IbadahCard({ data, index, type }) {
     const [day, setDay] = useState('')
     const [month, setMonth] = useState('')
     const [year, setYear] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+    const [statusPenukaran, setStatusPenukaran] = useState('')
+
+    const getStatusPenukaran = async (detailJadwal) => {
+        if (detailJadwal) {
+            setIsLoading(true)
+            let storedAccessToken = await SecureStore.getItemAsync('accessToken')
+            const config = {
+                params: {
+                    kodeJadwal: detailJadwal.kodeJadwal,
+                    noJemaat: detailJadwal.noJemaat,
+                    kodePelayanan: detailJadwal.kodePelayanan
+                },
+                headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+            }
+
+            axios.get(`${LOCAL_DEVICE_IP}/tukar-jadwal/status-penukaran`, config)
+                .then(function (res) {
+                    if (res.data) {
+                        setStatusPenukaran(res.data.statusApproval)
+                    }
+                    else {
+                        setStatusPenukaran('')
+                    }
+                })
+                .catch(function (err) {
+                    console.log(err)
+                })
+                .finally(function () {
+                    setIsLoading(false)
+                })
+        }
+    }
 
     useEffect(() => {
         if (data) {
             setDay(moment(data?.tanggal).format('D'))
             setMonth(moment(data?.tanggal).format('MMMM'))
             setYear(moment(data?.tanggal).format('YYYY'))
+            getStatusPenukaran(data?.DetailJadwals[0])
         }
     }, [])
 
@@ -46,6 +83,16 @@ export default function IbadahCard({ data, index, type }) {
                             {data?.kodeIbadah && (data.kodeIbadah === 'IRP-001') ? '07.00' : '17.00'}
                             {/* {data?.DetailJadwals[0]?.JenisPelayanan.namaPelayanan} */}
                         </Text>
+                        {statusPenukaran &&
+                            <View>
+                                <Text style={{ ...styles.jadwalTitle, paddingTop: 4 }}>
+                                    Status penukaran
+                                </Text>
+                                <Text style={styles.jadwalDesc}>
+                                    {statusPenukaran.charAt(0).toUpperCase() + statusPenukaran.slice(1)}
+                                </Text>
+                            </View>
+                        }
                     </View>
                     <View style={styles.dateContainer}>
                         <Text style={styles.dateText}>{day}</Text>
@@ -94,7 +141,7 @@ const styles = StyleSheet.create({
     cardContainer: {
         backgroundColor: '#fff',
         borderRadius: 24,
-        height: 200,
+        height: 260,
         elevation: 10,
         overflow: 'hidden',
         alignItems: 'flex-end'
