@@ -56,7 +56,7 @@ export default function DetailTukarJadwal({ route, navigation }) {
         const storedAccessToken = await SecureStore.getItemAsync('accessToken')
         const config = {
             params: {
-                // sourceKodeJadwal: data?.DetailJadwals[0]?.kodeJadwal,
+                sourceKodeJadwal: data?.DetailJadwals[0]?.kodeJadwal,
                 destKodeJadwal: destination,
                 kodePelayanan: data?.DetailJadwals[0]?.kodePelayanan
             },

@@ -34,7 +34,6 @@ export default function TukarJadwal({ route, navigation }) {
                         setStatusPenukaran(status ? 'pending' : '')
                         const isRequest = res.data.some(el => el.jemaatSrc === data?.DetailJadwals[0]?.noJemaat && el.statusApproval === 'pending')
                         setIsRequestTukar(isRequest)
-                        console.log("request tukar", isRequest)
                         setListPenukaran(res.data)
                     }
                     else {
@@ -177,26 +176,28 @@ export default function TukarJadwal({ route, navigation }) {
                         <Text style={styles.textRed}>Tidak ada pengajuan tukar jadwal</Text>
                         :
                         listPenukaran.map(tukarJadwal => {
-                            return (
-                                <View key={tukarJadwal.id}>
-                                    <Text style={{ ...styles.riwayatCardAttribute, marginTop: 0 }}>Jenis pelayanan:</Text>
-                                    <Text>{tukarJadwal?.JenisPelayanan?.namaPelayanan}</Text>
-                                    <Text style={styles.riwayatCardAttribute}>Jadwal asal:</Text>
-                                    <Text>
-                                        Ibadah: {tukarJadwal?.KodeJadwalSrc?.Ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
-                                    </Text>
-                                    <Text>Nama petugas: {tukarJadwal.JemaatSrc.nama} - {tukarJadwal.jemaatSrc}</Text>
-                                    <Text style={styles.riwayatCardAttribute}>Jadwal tujuan:</Text>
-                                    <Text>
-                                        Ibadah: {tukarJadwal?.KodeJadwalDest?.Ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
-                                    </Text>
-                                    <Text>Nama petugas: {tukarJadwal.JemaatDest.nama} - {tukarJadwal.jemaatDest}</Text>
-                                    <Text style={styles.riwayatCardAttribute}>Status:</Text>
-                                    <Text>{tukarJadwal.statusApproval.toString().charAt(0).toUpperCase()}{tukarJadwal.statusApproval.slice(1)}</Text>
-                                    <Text style={styles.riwayatCardAttribute}>Diajukan pada:</Text>
-                                    <Text>{moment(tukarJadwal.createdAt).format('LLL')}</Text>
-                                </View>
-                            )
+                            if (tukarJadwal.statusApproval === 'pending') {
+                                return (
+                                    <View key={tukarJadwal.id}>
+                                        <Text style={{ ...styles.riwayatCardAttribute, marginTop: 0 }}>Jenis pelayanan:</Text>
+                                        <Text>{tukarJadwal?.JenisPelayanan?.namaPelayanan}</Text>
+                                        <Text style={styles.riwayatCardAttribute}>Jadwal asal:</Text>
+                                        <Text>
+                                            Ibadah: {tukarJadwal?.KodeJadwalSrc?.Ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
+                                        </Text>
+                                        <Text>Nama petugas: {tukarJadwal.JemaatSrc.nama} - {tukarJadwal.jemaatSrc}</Text>
+                                        <Text style={styles.riwayatCardAttribute}>Jadwal tujuan:</Text>
+                                        <Text>
+                                            Ibadah: {tukarJadwal?.KodeJadwalDest?.Ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
+                                        </Text>
+                                        <Text>Nama petugas: {tukarJadwal.JemaatDest.nama} - {tukarJadwal.jemaatDest}</Text>
+                                        <Text style={styles.riwayatCardAttribute}>Status:</Text>
+                                        <Text>{tukarJadwal.statusApproval.toString().charAt(0).toUpperCase()}{tukarJadwal.statusApproval.slice(1)}</Text>
+                                        <Text style={styles.riwayatCardAttribute}>Diajukan pada:</Text>
+                                        <Text>{moment(tukarJadwal.createdAt).format('LLL')}</Text>
+                                    </View>
+                                )
+                            }
                         })
                     }
                 </View>
