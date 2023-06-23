@@ -80,7 +80,6 @@ const CommunityScreen = () => {
                 );
               }}
             />
-
         }
 
       </View>

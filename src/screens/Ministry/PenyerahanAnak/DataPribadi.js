@@ -84,7 +84,6 @@ const DataPribadi = ({ route }) => {
     };
 
 
-
     const handleTempatLahir = (i, value) => {
         const updatedData = [...tempatLahir]
         updatedData[i - 1] = value

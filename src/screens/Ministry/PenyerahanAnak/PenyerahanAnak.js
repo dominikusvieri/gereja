@@ -56,6 +56,7 @@ const PenyerahanAnak = () => {
                     <ActivityIndicator color="#4281A4" style={{ transform: [{ scaleX: 4 }, { scaleY: 4 }] }} />
                 </View>
                 :
+
                 (isAuthorized ?
                     <View>
                         <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>

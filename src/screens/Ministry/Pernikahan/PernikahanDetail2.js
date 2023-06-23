@@ -759,7 +759,7 @@ const PernikahanDetail2 = () => {
                         </TouchableOpacity>
                     </View>
                 )
-                
+
 
             }
 
