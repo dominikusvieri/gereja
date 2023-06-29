@@ -36,6 +36,7 @@ import MySchedule from '../../screens/Ministry/Ibadah/MySchedule'
 import OnboardingJadwal from '../../screens/Ministry/Ibadah/OnboardingJadwal'
 import TukarJadwal from '../../screens/Ministry/Ibadah/TukarJadwal'
 import DetailTukarJadwal from '../../screens/Ministry/Ibadah/DetailTukarJadwal'
+// import PernikahanDetail2 from '../../screens/Ministry/Pernikahan/PernikahanDetail2'
 
 const Stack = createNativeStackNavigator()
 
@@ -54,9 +55,9 @@ const MainNavigation = () => {
                 <Stack.Screen name='DetailNews' component={DetailNewsScreen} options={{ title: '' }} />
                 <Stack.Screen name='DetailEvent' component={DetailEventScreen} options={{ title: 'Event Terkini', headerShown: false }} />
                 <Stack.Screen name='DetailComm' component={DetailCommunity} options={{ title: 'Komunitas Gereja' }} />
-                <Stack.Screen name='Pernikahan' component={Pernikahan} options={{ title: 'Pernikahan' }} />
-                <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} />
-                <Stack.Screen name='PernikahanDetailWanita' component={PernikahanDetail2} options={{ title: 'Pernikahan' }} />
+                {/* <Stack.Screen name='Pernikahan' component={Pernikahan} options={{ title: 'Pernikahan' }} />
+                <Stack.Screen name='PernikahanDetail' component={PernikahanDetail} options={{ title: 'Pernikahan' }} /> */}
+                <Stack.Screen name='PernikahanDetail' component={PernikahanDetail2} options={{ title: 'Pernikahan' }} />
                 <Stack.Screen name='PembabtisanDetail' component={PembabtisanDetail} options={{ title: 'Pembabtisan' }} />
                 {/* <Stack.Screen name='TTDPembabtisan' component={TandaTanganPembabtisan} options={{ title: 'Pembabtisan' }} /> */}
                 <Stack.Screen name='PenyerahanAnak' component={PenyerahanAnak} options={{ title: 'Penyerahan Anak' }} />

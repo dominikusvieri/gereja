@@ -34,15 +34,7 @@ const PenyerahanAnak = () => {
         verifyAuth()
     }, [isAuthorized, useIsFocused()])
 
-    const handleIncrement = () => {
-        setJumlahAnak(jumlahAnak + 1);
-    };
 
-    const handleDecrement = () => {
-        if (jumlahAnak > 0) {
-            setJumlahAnak(jumlahAnak - 1);
-        }
-    };
 
     const handleInputChange = (text) => {
         // konversi input menjadi bilangan bulat
@@ -56,7 +48,7 @@ const PenyerahanAnak = () => {
         }
     };
 
-    console.log(formCount)
+
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
             {isLoading ?
@@ -74,7 +66,7 @@ const PenyerahanAnak = () => {
                                 <Text style={{ marginRight: 5 }}>
                                     1.
                                 </Text>
-                                <Text style={{ marginBottom: 5, textAlign: 'left' }}>
+                                <Text style={{ marginBottom: 5 }}>
                                     Orang tua sudah menjadi anggota GIA Jemaat Purwodadi.
                                 </Text>
                             </View>
@@ -82,7 +74,7 @@ const PenyerahanAnak = () => {
                                 <Text style={{ marginRight: 5 }}>
                                     2.
                                 </Text>
-                                <Text style={{ marginBottom: 5, textAlign: 'left' }}>
+                                <Text style={{ marginBottom: 5 }}>
                                     Bersedia dengan hati yang tulus iklas dan iman menyerahkan anak kepada Tuhan dalam ibadah penyerahan anak di GIA Purwodadi.
                                 </Text>
                             </View>
@@ -90,16 +82,16 @@ const PenyerahanAnak = () => {
                                 <Text style={{ marginRight: 5 }}>
                                     3.
                                 </Text>
-                                <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                    Bersedia datang dan duduk ditempat yang sudah disediakan paling lambat 10 menit sebelum         ibadah dimulai.
+                                <Text style={{ marginBottom: 5 }}>
+                                    Bersedia datang dan duduk ditempat yang sudah disediakan paling lambat 10 menit sebelum ibadah dimulai.
                                 </Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ marginRight: 5 }}>
                                     4.
                                 </Text>
-                                <Text style={{ marginBottom: 5, textAlign: 'left' }}>
-                                    Berjanji akan mendidik anak ini sejak sekarang      dan seterusnya dalam percaya kepada Tuhan Yesus Kristus.
+                                <Text style={{ marginBottom: 5 }}>
+                                    Berjanji akan mendidik anak ini sejak sekarang dan seterusnya dalam percaya kepada Tuhan Yesus Kristus.
                                 </Text>
                             </View>
 
@@ -121,7 +113,7 @@ const PenyerahanAnak = () => {
 
                             <TouchableOpacity
                                 style={styles.nextButton}
-                                onPress={() => navigation.navigate('DataPribadi', {param: formCount})}
+                                onPress={() => navigation.navigate('DataPribadi', { param: formCount })}
                             >
                                 <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Selanjutnya</Text>
                             </TouchableOpacity>

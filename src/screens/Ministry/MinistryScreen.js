@@ -21,7 +21,7 @@ const MinistryScreen = () => {
           style={{ marginVertical: 20, paddingHorizontal: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate('Pernikahan')}
+            onPress={() => navigation.navigate('PernikahanDetail')}
           >
             <Image
               source={require('../../../assets/pernikahan.png')}
