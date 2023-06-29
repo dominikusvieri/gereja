@@ -24,72 +24,54 @@ const MinistryScreen = () => {
             onPress={() => navigation.navigate('Pernikahan')}
           >
             <Image
-              source={require('../../../assets/icon.png')}
-              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+              source={require('../../../assets/pernikahan.png')}
+              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
             />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Pernikahan
-            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('PembabtisanDetail')}
           >
             <Image
-              source={require('../../../assets/icon.png')}
-              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+              source={require('../../../assets/pembaptisan.png')}
+              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
             />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Baptis
-            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('PenyerahanAnak')}
           >
             <Image
-              source={require('../../../assets/icon.png')}
-              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+              source={require('../../../assets/penyerahananak.png')}
+              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
             />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Penyerahan Anak
-            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('AbsensiMain')}
           >
             <Image
-              source={require('../../../assets/icon.png')}
-              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+              source={require('../../../assets/katekisasi.png')}
+              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
             />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Absensi
-            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('Pelayanan')}
           >
             <Image
-              source={require('../../../assets/icon.png')}
-              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+              source={require('../../../assets/pelayanan.png')}
+              style={{ width: 150, height: 150, borderRadius: 10, borderColor: '#0885F8', marginBottom: 20 }}
             />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Pelayanan
-            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate('OnboardingJadwal')}
           >
             <Image
-              source={require('../../../assets/icon.png')}
-              style={{ width: 150, height: 150, borderRadius: 5, borderWidth: 2, borderColor: '#0885F8' }}
+              source={require('../../../assets/jadwal.png')}
+              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
             />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, textAlign: 'center', marginBottom: 20, marginTop: 5 }}>
-              Penjadwalan
-            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
