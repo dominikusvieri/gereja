@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Text, TouchableOpacity, View, Image, ScrollView, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, View, Image, ScrollView, TextInput, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker'
 import { useNavigation, useIsFocused } from '@react-navigation/native'
@@ -8,20 +8,27 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { TextInput as LabeledInput } from "react-native-paper";
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
+
 
 
 const PembabtisanDetail = () => {
   const [fotoKTP, setFotoKTP] = useState(null);
   const [ktpPreview, setKtpPreview] = useState(null);
   const [fileTypeKtp, setFileTypeKtp] = useState(null);
+  const [byteKTP, setByteKTP] = useState(null)
 
   const [fotoBerwarna, setFotoBerwarna] = useState(null);
   const [fotoBerwarnaPreview, setFotoBerwarnaPreview] = useState(null);
+  const [byteFotoBerwarna, setByteFotoBerwarna] = useState(null)
   const [fileTypeFotoBerwarna, setFileTypeFotoBerwarna] = useState(null);
+
+  const [image, setImage] = useState(null);
 
   const [pendidikan, setPendidikan] = useState('Tidak Sekolah')
 
-  const [statusPerkawinan, setStatusPerkawinan] = useState(null)
+  const [statusPerkawinan, setStatusPerkawinan] = useState('Belum Menikah')
 
   const [tanggalLahir, setTanggalLahir] = useState(moment().toDate());
   const [tanggalBaptis, setTanggalBaptis] = useState(moment().toDate());
@@ -37,6 +44,8 @@ const PembabtisanDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
   const [listPelayanan, setListPelayanan] = useState([])
+
+
 
   const verifyAuth = async () => {
     setIsLoading(true)
@@ -55,6 +64,18 @@ const PembabtisanDetail = () => {
   useEffect(() => {
     verifyAuth()
   }, [isAuthorized, useIsFocused()])
+
+  // handle jenis notif
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true
+    }),
+  });
+
+
+
 
 
   const navigation = useNavigation()
@@ -114,7 +135,7 @@ const PembabtisanDetail = () => {
       return (
         <TouchableOpacity
           style={styles.nextButton}
-          onPress={() => navigation.navigate('BottomNavigation')}
+          onPress={() => handleDaftar()}
         >
           <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Submit</Text>
         </TouchableOpacity>
@@ -130,11 +151,77 @@ const PembabtisanDetail = () => {
     );
   };
 
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+  async function schedulePushNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "You've got mail! 📬",
+        body: 'Here is the notification body',
+        data: { data: 'goes here' },
+      },
+      trigger: { seconds: 2 },
+    });
+  }
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
+    if (Device.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+
+    return token;
+  }
+
   const handleDaftar = () => {
 
+
     const baptisanRegister = {
-      foto_ktp: fotoKTP,
-      foto_pribadi: fotoBerwarna,
+      foto_ktp: byteKTP,
+      foto_pribadi: byteFotoBerwarna,
       nama: nama,
       tempat_lahir: tempatLahir,
       tanggal_lahir: tanggalLahir,
@@ -145,7 +232,7 @@ const PembabtisanDetail = () => {
       nama_ibu_or_wali: namaIbuorWali,
       alamat_ortu_or_wali: alamatOrtuorWali
     }
-    axios.post(' https://e0ed-2001-448a-2020-8c4a-38b3-3995-dbe3-8d0e.ngrok-free.app/baptisan', baptisanRegister)
+    axios.post('https://da60-2001-448a-2020-6cab-fcb2-8f92-4d2e-9886.ngrok-free.app/baptisan', baptisanRegister)
       .then(response => {
         // handle successful response
         console.log(response.data);
@@ -155,15 +242,50 @@ const PembabtisanDetail = () => {
         // handle error
         console.error(error);
       });
+
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Anda Telah Berhasil Mendaftar di Pendaftaran Baptisan',
+        body: "Silahkan menunggu konfirmasi admin",
+      },
+      trigger: null,
+    })
   }
 
   async function pickDocumentKTP() {
     let result = await DocumentPicker.getDocumentAsync({});
+    console.log(result)
+
+    const blobToBase64 = (blob) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result;
+          resolve(base64String);
+        };
+        reader.onerror = (err) => {
+          reject(err);
+        };
+        reader.readAsDataURL(blob);
+      });
+    };
+
+
+
+
 
     if (!result.cancelled) {
       setFotoKTP(result.name);
       setKtpPreview(result.uri);
+      const respones = await fetch(result.uri)
+      const blob = await respones.blob()
+      const byteData = await blobToBase64(blob)
+      setByteKTP(byteData)
+      console.log((byteData + '').length)
+
     }
+
+    console.log(fotoKTP)
   }
 
   function clearDocumentKTP() {
@@ -175,9 +297,29 @@ const PembabtisanDetail = () => {
   async function pickDocumentFotoBerwarna() {
     let result = await DocumentPicker.getDocumentAsync({});
 
+    const blobToBase64 = (blob) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result;
+          resolve(base64String);
+        };
+        reader.onerror = (err) => {
+          reject(err);
+        };
+        reader.readAsDataURL(blob);
+      });
+    };
+
+    console.log(result)
+
     if (!result.cancelled) {
       setFotoBerwarna(result.name);
       setFotoBerwarnaPreview(result.uri);
+      const respones = await fetch(result.uri)
+      const blob = await respones.blob()
+      const byteData = await blobToBase64(blob)
+      setByteFotoBerwarna(byteData)
     }
   }
 
@@ -201,6 +343,8 @@ const PembabtisanDetail = () => {
       maximumDate: moment().toDate()
     })
   }
+  console.log(statusPerkawinan)
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 20 }}>
       {isLoading ?
@@ -214,6 +358,8 @@ const PembabtisanDetail = () => {
               <Text style={{ fontWeight: '700', fontSize: 20, color: '#4281A4' }}>
                 Form Pembaptisan
               </Text>
+
+
               <Text style={{ marginBottom: 5, marginTop: 10 }}>
                 Upload Foto KTP
               </Text>
@@ -223,6 +369,7 @@ const PembabtisanDetail = () => {
               {fotoKTP &&
                 <Text>{fotoKTP}</Text>
               }
+
               {!ktpPreview && (
                 <TouchableOpacity
                   style={styles.nextButton}
@@ -266,9 +413,11 @@ const PembabtisanDetail = () => {
                 </TouchableOpacity>
               )}
 
+
               <LabeledInput
                 label='Nama'
                 style={styles.dateInput}
+                // value={byteKTP}
                 mode='outlined'
                 outlineColor='black'
                 activeOutlineColor="#4281A4"
@@ -276,6 +425,12 @@ const PembabtisanDetail = () => {
                 textColor="black"
                 onChangeText={handleNama}
               />
+
+              {/* <Text>
+              {byteKTP}
+            </Text> */}
+
+
 
               <LabeledInput
                 label='Tempat Lahir'

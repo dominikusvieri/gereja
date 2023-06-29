@@ -25,7 +25,7 @@ const MinistryScreen = () => {
           >
             <Image
               source={require('../../../assets/pernikahan.png')}
-              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
+              style={{ width: 150, height: 150, borderRadius: 10, borderColor: '#0885F8', marginBottom: 20 }}
             />
           </TouchableOpacity>
 
@@ -34,7 +34,7 @@ const MinistryScreen = () => {
           >
             <Image
               source={require('../../../assets/pembaptisan.png')}
-              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
+              style={{ width: 150, height: 150, borderRadius: 10, borderColor: '#0885F8', marginBottom: 20 }}
             />
           </TouchableOpacity>
 
@@ -43,7 +43,7 @@ const MinistryScreen = () => {
           >
             <Image
               source={require('../../../assets/penyerahananak.png')}
-              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
+              style={{ width: 150, height: 150, borderRadius: 10, borderColor: '#0885F8', marginBottom: 20 }}
             />
           </TouchableOpacity>
 
@@ -52,7 +52,7 @@ const MinistryScreen = () => {
           >
             <Image
               source={require('../../../assets/katekisasi.png')}
-              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
+              style={{ width: 150, height: 150, borderRadius: 10, borderColor: '#0885F8', marginBottom: 20 }}
             />
           </TouchableOpacity>
 
@@ -70,7 +70,7 @@ const MinistryScreen = () => {
           >
             <Image
               source={require('../../../assets/jadwal.png')}
-              style={{ width: 150, height: 150, borderRadius: 10,  borderColor: '#0885F8', marginBottom: 20 }}
+              style={{ width: 150, height: 150, borderRadius: 10, borderColor: '#0885F8', marginBottom: 20 }}
             />
           </TouchableOpacity>
         </View>
