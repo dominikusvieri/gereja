@@ -232,7 +232,7 @@ const PembabtisanDetail = () => {
       nama_ibu_or_wali: namaIbuorWali,
       alamat_ortu_or_wali: alamatOrtuorWali
     }
-    axios.post('https://da60-2001-448a-2020-6cab-fcb2-8f92-4d2e-9886.ngrok-free.app/baptisan', baptisanRegister)
+    axios.post('https://giapurwodadi.org/apiV1/baptisan', baptisanRegister)
       .then(response => {
         // handle successful response
         console.log(response.data);
