@@ -152,7 +152,8 @@ const DataPribadi = ({ route }) => {
             return (
                 <TouchableOpacity
                     style={styles.nextButton}
-                    onPress={() => handleDaftar()}
+                    // onPress={() => handleDaftar()}
+                    onPress={() => handleDummy()}
                 >
                     <Text style={{ textAlign: 'center', color: '#fff', fontWeight: '500' }}>Selanjutnya</Text>
                 </TouchableOpacity>
@@ -281,6 +282,17 @@ const DataPribadi = ({ route }) => {
             setFormCount(count);
         }
     };
+
+    const handleDummy = () => {
+        navigation.navigate('BottomNavigation')
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: 'Anda Telah Berhasil Mendaftar di Pendaftaran Penyerahan Anak',
+                body: "Silahkan menunggu konfirmasi admin",
+            },
+            trigger: null,
+        })
+    }
 
     // handle jenis notif
     Notifications.setNotificationHandler({
