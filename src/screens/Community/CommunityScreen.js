@@ -50,11 +50,6 @@ const CommunityScreen = () => {
                   onPress={() => navigation.navigate('DetailComm', { param: item })}
                   style={{ flexDirection: 'row', marginBottom: 5, padding: 5, marginTop: 10 }}
                 >
-
-                  <Image
-                    source={require('../../../assets/icon.png')}
-                    style={{ width: 50, height: 50 }}
-                  />
                   <View style={{ marginLeft: 5 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
                       {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}

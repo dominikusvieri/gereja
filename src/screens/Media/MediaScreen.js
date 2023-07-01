@@ -1,23 +1,126 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { StyleSheet, SafeAreaView, FlatList, TouchableOpacity, View, Image, Text, Dimensions, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { LOCAL_DEVICE_IP } from "@env"
+import IbadahCard from "../Ministry/Ibadah/IbadahCard";
+
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
 
 
 const MediaScreen = () => {
   const ip = LOCAL_DEVICE_IP
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
   const [listPelayanan, setListPelayanan] = useState([])
   const [isRequestTukar, setIsRequestTukar] = useState('')
   const [statusPenukaran, setStatusPenukaran] = useState('')
   const [listPenukaran, setListPenukaran] = useState([])
 
+  // handle jenis notif
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true
+    }),
+  });
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
+    if (Device.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+
+    return token;
+  }
+
 
   const navigation = useNavigation()
+  const [isLoading, setIsLoading] = useState(false)
+  const [listJadwal, setListJadwal] = useState([])
+
+  const getMyJadwal = async () => {
+    setIsLoading(true)
+    const storedAccessToken = await SecureStore.getItemAsync('accessToken')
+    const config = {
+      headers: { 'Authorization': `Bearer ${storedAccessToken}` }
+    }
+
+    axios.get(`https://giapurwodadi.org/apiV1/jadwal/jadwal-user`, config)
+      .then(function (response) {
+        if (response?.data) {
+          const sortedData = response.data.sort(function (a, b) {
+            return new Date(a?.tanggal) - new Date(b?.tanggal)
+          })
+          setListJadwal(sortedData)
+        }
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: 'Anda Memiliki Jadwal Pelayanan',
+            body: "Silahkan Cek MySchedule Pelayanan Anda",
+          },
+          trigger: null,
+        })
+      })
+      .catch(function (error) {
+        console.log("Error getting list of jadwal: ", error)
+      })
+      .finally(function () {
+        setIsLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    getMyJadwal()
+  }, [])
 
   const verifyAuth = async () => {
     setIsLoading(true)
@@ -111,7 +214,34 @@ const MediaScreen = () => {
         :
         (isAuthorized ?
           <View>
-            <Text>Notification</Text>
+            {listJadwal.length > 0 ?
+              <View style={{ paddingHorizontal: 20 }}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('MySchedule')}
+                  style={{backgroundColor:'#fff', borderWidth: 1, flexDirection: 'row', marginBottom: 5, padding: 5, marginTop: 10, borderRadius: 10 }}
+                >
+                  <View style={{ marginLeft: 5, paddingTop: 10 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                      Anda Memiliki Jadwal Pelayanan
+                    </Text>
+                    <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10, paddingBottom: 10 }}>
+                      Silahkan klik pesan ini untuk melihat jadwal pelayanan
+                    </Text>
+                    {/* <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
+                      {item.category} / {item.komsel_date}
+                    </Text> */}
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+
+              :
+              <View style={{ display: 'flex', height: Dimensions.get('window').height - 120, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: '500', color: '#adb5bd', marginTop: 12 }}>
+                  Tidak Pesan
+                </Text>
+              </View>
+            }
           </View>
           :
           <View style={styles.unauthorizedContainer}>
@@ -130,13 +260,13 @@ const MediaScreen = () => {
           </View>
         )
       }
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F2F2',
     flex: 1,
   },
   headerStyle: {
