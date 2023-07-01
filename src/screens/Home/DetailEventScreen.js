@@ -110,12 +110,17 @@ const DetailEventScreen = ({ route }) => {
                     </View>
                 </TouchableOpacity>
 
-                <View style={{ zIndex: 5 }}>
+                {data?.image ?
                     <Image
                         source={{ uri: `data:image/jpeg;base64,${data?.image}` }}
-                        style={{ width: '100%', height: 260 }}
+                        style={{ width: '100%', height: 190, borderRadius: 12, marginVertical: 16 }}
                     />
-                </View>
+                    :
+                    <Image
+                        source={require('../../../assets/noimage_news.png')}
+                        style={{ width: '100%', height: 190, borderRadius: 12, marginVertical: 16, resizeMode: 'contain', backgroundColor: '#e9ecef' }}
+                    />
+                }
 
                 <View style={{ padding: 24, width: '100%', borderRadius: 24, backgroundColor: 'white', marginTop: -24, zIndex: 10 }}>
                     <Text style={{ textAlign: 'left', fontSize: 20, fontWeight: 'bold' }}>

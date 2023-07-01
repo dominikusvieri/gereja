@@ -12,7 +12,7 @@ const CommunityScreen = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    axios.get('https://fakestoreapi.com/products')
+    axios.get('https://giapurwodadi.org/apiV1/community')
       .then(response => response.data)
       .then(res => setNewsData(res))
       .catch(error => console.error(error))
@@ -52,10 +52,10 @@ const CommunityScreen = () => {
                 >
                   <View style={{ marginLeft: 5 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                      {item.title.length > 20 ? `${item.title.slice(0, 20)}..` : item.title}
+                      {item.ketua.length > 20 ? `${item.ketua.slice(0, 20)}..` : item.ketua}
                     </Text>
                     <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
-                      {item.category} / 2023-10-12
+                      {item.komsel_date} 
                     </Text>
                     {/* <Text style={{ fontWeight: '500', color: '#b1b1b1', fontSize: 10 }}>
                       {item.category} / {item.komsel_date}
