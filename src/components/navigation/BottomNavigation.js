@@ -69,7 +69,7 @@ const BottomNavigation = () => {
       />
 
       <Tab.Screen
-        name='Mail'
+        name='Notification'
         component={MediaScreen}
         options={{
           tabBarIcon: ({ focused }) => {

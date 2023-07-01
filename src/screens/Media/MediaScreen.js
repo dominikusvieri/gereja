@@ -12,6 +12,10 @@ const MediaScreen = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isTerdaftarPelayanan, setIsTerdaftarPelayanan] = useState(false)
   const [listPelayanan, setListPelayanan] = useState([])
+  const [isRequestTukar, setIsRequestTukar] = useState('')
+  const [statusPenukaran, setStatusPenukaran] = useState('')
+  const [listPenukaran, setListPenukaran] = useState([])
+
 
   const navigation = useNavigation()
 
@@ -36,7 +40,7 @@ const MediaScreen = () => {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     }
 
-    axios.get(`${ip}/pelayanan/verify`, header)
+    axios.get(`https://giapurwodadi.org/apiV1/pelayanan/verify`, header)
       .then(function (response) {
         if (response.data.length > 0) {
           setIsTerdaftarPelayanan(true)
@@ -50,6 +54,34 @@ const MediaScreen = () => {
       })
       .catch(function (error) {
         console.log("Error verifying pelayanan: ", error)
+      })
+      .finally(function () {
+        setIsLoading(false)
+      })
+  }
+
+  const getNotifikasiJemaat = async () => {
+    setIsLoading(true)
+    const accessToken = await SecureStore.getItemAsync('accessToken')
+    const header = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+
+    axios.get(`https://giapurwodadi.org/apiV1/tukar-jadwal/status-penukaran`, config)
+      .then(function (res) {
+        if (res?.data) {
+          const status = res.data.some(el => el.statusApproval === 'pending')
+          setStatusPenukaran(status ? 'pending' : '')
+          const isRequest = res.data.some(el => el.jemaatSrc === data?.detailjadwals[0]?.noJemaat && el.statusApproval === 'pending')
+          setIsRequestTukar(isRequest)
+          setListPenukaran(res.data)
+        }
+        else {
+          setStatusPenukaran('')
+        }
+      })
+      .catch(function (err) {
+        console.log(err)
       })
       .finally(function () {
         setIsLoading(false)
@@ -79,7 +111,7 @@ const MediaScreen = () => {
         :
         (isAuthorized ?
           <View>
-            <Text>Mail</Text>
+            <Text>Notification</Text>
           </View>
           :
           <View style={styles.unauthorizedContainer}>

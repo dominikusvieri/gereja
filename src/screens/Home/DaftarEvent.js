@@ -30,7 +30,7 @@ const DaftarEvent = ({ route }) => {
                 email: email
             }
 
-            await axios.post(`${LOCAL_DEVICE_IP}/pendaftaran-event/register`, body)
+            await axios.post(`https://giapurwodadi.org/apiV1/pendaftaran-event/register`, body)
                 .then(function (response) {
                     if (response.status === 200) {
                         console.log("Berhasil mendaftar event")
@@ -52,7 +52,7 @@ const DaftarEvent = ({ route }) => {
             }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/event/find`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/event/find`, config)
             .then(function (res) {
                 if (res.data) {
                     setEvent({

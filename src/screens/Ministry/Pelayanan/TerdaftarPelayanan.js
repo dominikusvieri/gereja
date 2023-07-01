@@ -24,7 +24,7 @@ export default function TerdaftarPelayanan({ listPelayanan }) {
                                 <Text style={styles.cardTextTitle}>{pelayanan.kodePelayanan}</Text>
                                 <View style={{ marginBottom: 10 }} />
                                 <Text style={styles.cardTextDesc}>Jenis Pelayanan:</Text>
-                                <Text style={styles.cardTextTitle}>{pelayanan.JenisPelayanan.namaPelayanan}</Text>
+                                <Text style={styles.cardTextTitle}>{pelayanan.jenispelayanan.namaPelayanan}</Text>
                             </View>
                             <View style={{
                                 flex: 2, justifyContent: 'center', alignItems: 'center',

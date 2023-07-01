@@ -34,7 +34,7 @@ export default function Pelayanan({ navigation }) {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`${ip}/pelayanan/verify`, header)
+        axios.get(`https://giapurwodadi.org/apiV1/pelayanan/verify`, header)
             .then(function (response) {
                 if (response.data.length > 0) {
                     setIsTerdaftarPelayanan(true)

@@ -14,7 +14,7 @@ export default function TukarJadwal({ route, navigation }) {
     const [listPenukaran, setListPenukaran] = useState([])
 
     const getStatusPenukaran = async () => {
-        const detailJadwal = data?.DetailJadwals[0]
+        const detailJadwal = data?.detailjadwals[0]
         if (detailJadwal) {
             setIsLoading(true)
             let storedAccessToken = await SecureStore.getItemAsync('accessToken')
@@ -27,12 +27,12 @@ export default function TukarJadwal({ route, navigation }) {
                 headers: { 'Authorization': `Bearer ${storedAccessToken}` }
             }
 
-            axios.get(`${LOCAL_DEVICE_IP}/tukar-jadwal/status-penukaran`, config)
+            axios.get(`https://giapurwodadi.org/apiV1/tukar-jadwal/status-penukaran`, config)
                 .then(function (res) {
                     if (res?.data) {
                         const status = res.data.some(el => el.statusApproval === 'pending')
                         setStatusPenukaran(status ? 'pending' : '')
-                        const isRequest = res.data.some(el => el.jemaatSrc === data?.DetailJadwals[0]?.noJemaat && el.statusApproval === 'pending')
+                        const isRequest = res.data.some(el => el.jemaatSrc === data?.detailjadwals[0]?.noJemaat && el.statusApproval === 'pending')
                         setIsRequestTukar(isRequest)
                         setListPenukaran(res.data)
                     }
@@ -50,7 +50,7 @@ export default function TukarJadwal({ route, navigation }) {
     }
 
     const cancelTukarJadwal = async () => {
-        const detailJadwal = data?.DetailJadwals[0]
+        const detailJadwal = data?.detailjadwals[0]
         if (detailJadwal) {
             setIsLoading(true)
             let storedAccessToken = await SecureStore.getItemAsync('accessToken')
@@ -63,7 +63,7 @@ export default function TukarJadwal({ route, navigation }) {
                 headers: { 'Authorization': `Bearer ${storedAccessToken}` }
             }
 
-            axios.delete(`${LOCAL_DEVICE_IP}/tukar-jadwal/delete`, config)
+            axios.delete(`https://giapurwodadi.org/apiV1/tukar-jadwal/delete`, config)
                 .then(function (res) {
                     if (res?.data) {
                         console.log(res?.data)
@@ -81,7 +81,7 @@ export default function TukarJadwal({ route, navigation }) {
     }
 
     const confirmTukarJadwal = async (confirmStatus) => {
-        const detailJadwal = data?.DetailJadwals[0]
+        const detailJadwal = data?.detailjadwals[0]
         if (confirmStatus && detailJadwal) {
             setIsLoading(true)
             let storedAccessToken = await SecureStore.getItemAsync('accessToken')
@@ -95,7 +95,7 @@ export default function TukarJadwal({ route, navigation }) {
                 confirmStatus: confirmStatus
             }
 
-            axios.put(`${LOCAL_DEVICE_IP}/tukar-jadwal/update-status`, body, config)
+            axios.put(`https://giapurwodadi.org/apiV1/tukar-jadwal/update-status`, body, config)
                 .then(function (res) {
                     if (res?.data) {
                         console.log(res?.data)
@@ -114,7 +114,7 @@ export default function TukarJadwal({ route, navigation }) {
 
     useEffect(() => {
         getStatusPenukaran()
-    }, [useIsFocused()])
+    }, [useIsFocused(), statusPenukaran])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -127,7 +127,7 @@ export default function TukarJadwal({ route, navigation }) {
                 </View>
                 <View>
                     <Text style={styles.descTitle}>Nama ibadah</Text>
-                    <Text>{data?.Ibadah?.namaIbadah}</Text>
+                    <Text>{data?.ibadah?.namaIbadah}</Text>
                 </View>
                 <View>
                     <Text style={styles.descTitle}>Tanggal</Text>
@@ -180,15 +180,15 @@ export default function TukarJadwal({ route, navigation }) {
                                 return (
                                     <View key={tukarJadwal.id}>
                                         <Text style={{ ...styles.riwayatCardAttribute, marginTop: 0 }}>Jenis pelayanan:</Text>
-                                        <Text>{tukarJadwal?.JenisPelayanan?.namaPelayanan}</Text>
+                                        <Text>{tukarJadwal?.jenispelayanan?.namaPelayanan}</Text>
                                         <Text style={styles.riwayatCardAttribute}>Jadwal asal:</Text>
                                         <Text>
-                                            Ibadah: {tukarJadwal?.KodeJadwalSrc?.Ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
+                                            Ibadah: {tukarJadwal?.KodeJadwalSrc?.ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
                                         </Text>
                                         <Text>Nama petugas: {tukarJadwal.JemaatSrc.nama} - {tukarJadwal.jemaatSrc}</Text>
                                         <Text style={styles.riwayatCardAttribute}>Jadwal tujuan:</Text>
                                         <Text>
-                                            Ibadah: {tukarJadwal?.KodeJadwalDest?.Ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
+                                            Ibadah: {tukarJadwal?.KodeJadwalDest?.ibadah?.namaIbadah} - {moment(tukarJadwal?.KodeJadwalSrc?.tanggal).format('LL')}
                                         </Text>
                                         <Text>Nama petugas: {tukarJadwal.JemaatDest.nama} - {tukarJadwal.jemaatDest}</Text>
                                         <Text style={styles.riwayatCardAttribute}>Status:</Text>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         paddingHorizontal: 24,
-        paddingTop: 24
+        paddingTop: 24,
     },
     headerText: {
         fontSize: 24,

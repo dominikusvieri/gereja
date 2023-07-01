@@ -20,7 +20,7 @@ export default function Upcoming() {
             headers: { 'Authorization': `Bearer ${storedAccessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jadwal`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/jadwal`, config)
             .then(function (response) {
                 console.log(JSON.stringify(response.data, null, 2))
                 if (response?.data) {

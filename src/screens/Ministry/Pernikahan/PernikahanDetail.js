@@ -92,7 +92,7 @@ const PernikahanDetail = () => {
 
     const getCountryList = async () => {
         setIsLoading(true)
-        axios.get(`${ip}/api/countries`)
+        axios.get(`https://giapurwodadi.org/apiV1/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []
@@ -124,7 +124,7 @@ const PernikahanDetail = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${ip}/jemaat`, header)
+            axios.get(`https://giapurwodadi.org/apiV1/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
@@ -160,7 +160,7 @@ const PernikahanDetail = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${ip}/pelayanan/get-terdaftar`, { noJemaat: selectedJemaat }, header)
+            axios.get(`https://giapurwodadi.org/apiV1/pelayanan/get-terdaftar`, { noJemaat: selectedJemaat }, header)
                 .then(function (response) {
                     if (response.data.length > 0) {
                         const filteredListPelayanan = response.data.filter((el) =>
@@ -424,7 +424,7 @@ const PernikahanDetail = () => {
                                                                                     <Text style={styles.cardTextTitle}>{pelayanan.kodePelayanan}</Text>
                                                                                     <View style={{ marginBottom: 10 }} />
                                                                                     <Text style={styles.cardTextDesc}>Jenis pelayanan:</Text>
-                                                                                    <Text style={styles.cardTextTitle}>{pelayanan.JenisPelayanan.namaPelayanan}</Text>
+                                                                                    <Text style={styles.cardTextTitle}>{pelayanan.jenispelayanan.namaPelayanan}</Text>
                                                                                 </View>
                                                                                 <View style={{
                                                                                     flex: 2, justifyContent: 'center', alignItems: 'center',
@@ -640,7 +640,7 @@ const PernikahanDetail = () => {
                                                                                     <Text style={styles.cardTextTitle}>{pelayanan.kodePelayanan}</Text>
                                                                                     <View style={{ marginBottom: 10 }} />
                                                                                     <Text style={styles.cardTextDesc}>Jenis pelayanan:</Text>
-                                                                                    <Text style={styles.cardTextTitle}>{pelayanan.JenisPelayanan.namaPelayanan}</Text>
+                                                                                    <Text style={styles.cardTextTitle}>{pelayanan.jenispelayanan.namaPelayanan}</Text>
                                                                                 </View>
                                                                                 <View style={{
                                                                                     flex: 2, justifyContent: 'center', alignItems: 'center',

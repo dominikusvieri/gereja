@@ -58,7 +58,7 @@ export default function Pernikahan() {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`${ip}/pernikahan/verify`, header)
+        axios.get(`https://giapurwodadi.org/apiV1/pernikahan/verify`, header)
             .then(function (response) {
                 const data = response?.data
                 if (data) {
@@ -124,7 +124,7 @@ export default function Pernikahan() {
 
     const getCountryList = async () => {
         setIsLoading(true)
-        axios.get(`${ip}/api/countries`)
+        axios.get(`https://giapurwodadi.org/apiV1/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []

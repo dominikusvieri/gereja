@@ -61,7 +61,7 @@ const DetailIbadah = ({ route }) => {
             }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jadwal/bydate`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/jadwal/bydate`, config)
             .then(function (response) {
                 if (response?.data) {
                     let data = response.data

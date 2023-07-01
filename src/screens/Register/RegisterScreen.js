@@ -43,7 +43,7 @@ const RegisterScreen = ({ route }) => {
     const getCountries = async () => {
         setIsLoading(true);
 
-        axios.get(`${ip}/api/countries`)
+        axios.get(`https://giapurwodadi.org/apiV1/api/countries`)
             .then(function (response) {
                 const countries = response.data;
                 const cleanedCountries = []

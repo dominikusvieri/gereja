@@ -20,7 +20,7 @@ export default function MySchedule() {
             headers: { 'Authorization': `Bearer ${storedAccessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jadwal/jadwal-user`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/jadwal/jadwal-user`, config)
             .then(function (response) {
                 if (response?.data) {
                     const sortedData = response.data.sort(function (a, b) {
@@ -51,7 +51,6 @@ export default function MySchedule() {
                     renderItem={({ item, index }) => {
                         return (
                             <TouchableOpacity
-                                activeOpacity={0.8}
                                 onPress={() => navigation.navigate('TukarJadwal', { param: item })}
                             >
                                 <IbadahCard data={item} index={index} type="mySchedule" />
@@ -76,7 +75,7 @@ export default function MySchedule() {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#F2F2F2',
         flex: 1,
         paddingTop: StatusBar.currentHeight
     },

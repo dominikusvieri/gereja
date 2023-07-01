@@ -29,14 +29,14 @@ export default function DetailTukarJadwal({ route, navigation }) {
             headers: { 'Authorization': `Bearer ${storedAccessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jadwal/tukar-jadwal/dest`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/jadwal/tukar-jadwal/dest`, config)
             .then(function (response) {
                 const cleanedDataDestination = []
                 if (response?.data) {
                     response.data.map((jadwal) => {
                         cleanedDataDestination.push({
                             id: jadwal.kodeJadwal,
-                            label: `${jadwal?.Ibadah?.namaIbadah} - ${moment(jadwal?.tanggal).format('LL')}`,
+                            label: `${jadwal?.ibadah?.namaIbadah} - ${moment(jadwal?.tanggal).format('LL')}`,
                             value: jadwal?.kodeJadwal
                         })
                     })
@@ -56,21 +56,21 @@ export default function DetailTukarJadwal({ route, navigation }) {
         const storedAccessToken = await SecureStore.getItemAsync('accessToken')
         const config = {
             params: {
-                sourceKodeJadwal: data?.DetailJadwals[0]?.kodeJadwal,
+                sourceKodeJadwal: data?.detailjadwals[0]?.kodeJadwal,
                 destKodeJadwal: destination,
-                kodePelayanan: data?.DetailJadwals[0]?.kodePelayanan
+                kodePelayanan: data?.detailjadwals[0]?.kodePelayanan
             },
             headers: { 'Authorization': `Bearer ${storedAccessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/jadwal/tukar/dest-petugas`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/jadwal/tukar/dest-petugas`, config)
             .then(function (response) {
                 const cleanedDetailJadwal = []
                 if (response?.data && response?.data?.length > 0) {
                     response?.data.map(petugas => {
                         cleanedDetailJadwal.push({
                             id: `${petugas.kodeJadwal} ${petugas.kodePelayanan} ${petugas.noJemaat}`,
-                            label: `${petugas.JenisPelayanan.namaPelayanan} - ${petugas.Jemaat.nama}`,
+                            label: `${petugas.jenispelayanan.namaPelayanan} - ${petugas.jemaat.nama}`,
                             value: `${petugas.kodeJadwal} ${petugas.kodePelayanan} ${petugas.noJemaat}`
                         })
                     })
@@ -93,14 +93,14 @@ export default function DetailTukarJadwal({ route, navigation }) {
                 headers: { 'Authorization': `Bearer ${storedAccessToken}` }
             }
             const body = {
-                kodeJadwalSrc: data.DetailJadwals[0].kodeJadwal,
-                jemaatSrc: data.DetailJadwals[0].noJemaat,
+                kodeJadwalSrc: data.detailjadwals[0].kodeJadwal,
+                jemaatSrc: data.detailjadwals[0].noJemaat,
                 kodeJadwalDest: destPetugas.split(' ')[0],
                 jemaatDest: destPetugas.split(' ')[2],
                 kodePelayanan: destPetugas.split(' ')[1]
             }
 
-            axios.post(`${LOCAL_DEVICE_IP}/tukar-jadwal/request`, body, config)
+            axios.post(`https://giapurwodadi.org/apiV1/tukar-jadwal/request`, body, config)
                 .then(function (response) {
                     if (response?.status == 200) {
                         console.log(response?.data)

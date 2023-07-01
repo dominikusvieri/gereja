@@ -21,9 +21,9 @@ const NewsView = () => {
   }
 
   const getAllNews = async () => {
-    axios.get(`${ip}/news`)
+    axios.get(`https://giapurwodadi.org/apiV1/news`)
       .then(function (res) {
-        const resData = res.data.news
+        const resData = res.data.news_data
         let cleanedNewsData = []
         resData.map(data => {
           const readTime = calculateReadTime(data.desc)

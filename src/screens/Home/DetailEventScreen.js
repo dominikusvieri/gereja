@@ -27,7 +27,7 @@ const DetailEventScreen = ({ route }) => {
             const body = {
                 idEvent: data?.id
             }
-            axios.post(`${LOCAL_DEVICE_IP}/pendaftaran-event/register`, body, header)
+            axios.post(`https://giapurwodadi.org/apiV1/pendaftaran-event/register`, body, header)
                 .then(function (response) {
                     if (response?.data) {
                         console.log(response.data)
@@ -67,7 +67,7 @@ const DetailEventScreen = ({ route }) => {
 
         setIsValidating(true)
 
-        axios.get(`${LOCAL_DEVICE_IP}/pendaftaran-event/verify-registered`, config)
+        axios.get(`https://giapurwodadi.org/apiV1/pendaftaran-event/verify-registered`, config)
             .then(function (response) {
                 if (response?.data === null || response?.data.length === 0) {
                     setIsAlreadyRegistered(false)

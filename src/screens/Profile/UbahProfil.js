@@ -48,11 +48,11 @@ export default function UbahProfil({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${ip}/jemaat`, header)
+            axios.get(`https://giapurwodadi.org/apiV1/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
 
-                    axios.get(`${ip}/api/country-details`, { params: { ciso: data.wargaNegara } })
+                    axios.get(`https://giapurwodadi.org/apiV1/api/country-details`, { params: { ciso: data.wargaNegara } })
                         .then(function (countryDetail) {
                             setUserData({
                                 ...userData,

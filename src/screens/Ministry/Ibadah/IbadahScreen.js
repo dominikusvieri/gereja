@@ -30,7 +30,7 @@ const IbadahScreen = () => {
       headers: { 'Authorization': `Bearer ${storedAccessToken}` }
     }
 
-    axios.get(`${LOCAL_DEVICE_IP}/jadwal/groupby-monthyear`, config)
+    axios.get(`https://giapurwodadi.org/apiV1/jadwal/groupby-monthyear`, config)
       .then(function (response) {
         if (response?.data) {
           setListBulan(response.data)

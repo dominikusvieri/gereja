@@ -14,7 +14,7 @@ const EventView = () => {
   const navigation = useNavigation()
 
   const getAllEvents = async () => {
-    axios.get(`${LOCAL_DEVICE_IP}/event`)
+    axios.get(`https://giapurwodadi.org/apiV1/event`)
       .then(function (res) {
         const resData = res.data.event
         let cleanedEventData = []

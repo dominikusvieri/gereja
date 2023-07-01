@@ -46,7 +46,7 @@ const LoginScreen = () => {
         if (email && password) {
             setLoginStatus("Email dan password terisi")
             const controller = new AbortController()
-            const apiUrl = `${ip}/jemaat/login`
+            const apiUrl = `https://giapurwodadi.org/apiV1/jemaat/login`
             axios.post(apiUrl, {
                 email: email,
                 password: password

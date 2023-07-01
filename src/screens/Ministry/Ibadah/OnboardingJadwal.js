@@ -31,7 +31,7 @@ export default function OnboardingJadwal() {
             headers: { 'Authorization': `Bearer ${accessToken}` }
         }
 
-        axios.get(`${LOCAL_DEVICE_IP}/pelayanan/verify`, header)
+        axios.get(`https://giapurwodadi.org/apiV1/pelayanan/verify`, header)
             .then(function (response) {
                 if (response.data.length > 0) {
                     const terdaftar = response.data.some(el => el.statusApproval === 'approved')

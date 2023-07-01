@@ -119,7 +119,7 @@ const PernikahanDetail2 = () => {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${ip}/jemaat`, header)
+            axios.get(`https://giapurwodadi.org/apiV1/jemaat`, header)
                 .then(function (response) {
                     const data = response.data[0]
                     const genderMempelai = data.gender === 'lakiLaki' ? 'mempelaiPria' : 'mempelaiWanita'
@@ -759,7 +759,7 @@ const PernikahanDetail2 = () => {
                         </TouchableOpacity>
                     </View>
                 )
-                
+
 
             }
 

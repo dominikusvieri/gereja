@@ -23,7 +23,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
     if (header) {
       setIsLoading(true)
-      axios.get(`${ip}/jemaat`, header)
+      axios.get(`https://giapurwodadi.org/apiV1/jemaat`, header)
         .then(function (response) {
           setUser({
             ...user,

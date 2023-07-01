@@ -24,7 +24,7 @@ export default function UbahTelepon({ navigation }) {
 
         if (header) {
             setIsLoading(true)
-            axios.get(`${ip}/jemaat`, header)
+            axios.get(`https://giapurwodadi.org/apiV1/jemaat`, header)
                 .then(function (response) {
                     setTelepon(response.data[0].telp)
                 })
@@ -103,7 +103,7 @@ export default function UbahTelepon({ navigation }) {
         if (kodeTelepon && numbers) {
             const finalNumbers = kodeTelepon + ' ' + numbers
 
-            axios.put(`${ip}/jemaat/edit-telepon`, {
+            axios.put(`https://giapurwodadi.org/apiV1/jemaat/edit-telepon`, {
                 newNumbers: finalNumbers
             }, header, { timeout: 10000 })
                 .then(function (response) {

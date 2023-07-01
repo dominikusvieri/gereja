@@ -74,7 +74,7 @@ export default function FormMempelaiPria({ data, handleInputChange, countryList 
         }
 
         if (storedAccessToken) {
-            axios.get(`${ip}/pelayanan/get-terdaftar`, config)
+            axios.get(`https://giapurwodadi.org/apiV1/pelayanan/get-terdaftar`, config)
                 .then(function (response) {
                     if (response.data.length > 0) {
                         const filteredListPelayanan = response.data.filter((el) => {
@@ -272,7 +272,7 @@ export default function FormMempelaiPria({ data, handleInputChange, countryList 
                                                                 <Text style={styles.cardTextTitle}>{pelayanan.kodePelayanan}</Text>
                                                                 <View style={{ marginBottom: 10 }} />
                                                                 <Text style={styles.cardTextDesc}>Jenis pelayanan:</Text>
-                                                                <Text style={styles.cardTextTitle}>{pelayanan.JenisPelayanan.namaPelayanan}</Text>
+                                                                <Text style={styles.cardTextTitle}>{pelayanan.jenispelayanan.namaPelayanan}</Text>
                                                             </View>
                                                             <View style={{
                                                                 flex: 2, justifyContent: 'center', alignItems: 'center',

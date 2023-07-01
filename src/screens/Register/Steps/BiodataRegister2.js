@@ -99,7 +99,7 @@ export default function BiodataRegister2({ nextPage, prevPage, data, handleInput
                 ...data,
                 telp: data.kodeTelepon + ' ' + data.telepon
             }
-            axios.post(`${ip}/jemaat/register`, cleanedData)
+            axios.post(`https://giapurwodadi.org/apiV1/jemaat/register`, cleanedData)
                 .then(function (response) {
                     if (response.data.accessToken) {
                         SecureStore.setItemAsync("accessToken", response.data.accessToken)
